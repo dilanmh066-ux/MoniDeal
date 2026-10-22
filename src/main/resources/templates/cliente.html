@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#FFF159">
+    <title>Monideal | Haz tu pedido</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<header class="ml-header">
+    <div class="ml-header__contenido">
+        <a class="ml-logo" th:href="@{/pedido}">
+            <span class="ml-logo__icono" aria-hidden="true">🐾</span>
+            Monideal
+        </a>
+        <span class="ml-header__titulo">Concentrados a domicilio</span>
+    </div>
+</header>
+
+<main class="contenedor contenedor--angosto">
+
+    <!-- ================= FORMULARIO ================= -->
+    <section class="card" id="panelFormulario">
+        <h1 class="card__titulo">Haz tu pedido</h1>
+        <p class="subtitulo">Llena tus datos y te llevamos el bulto a la puerta de tu casa.</p>
+
+        <form id="formPedido" novalidate>
+
+            <!-- Producto -->
+            <div class="campo" data-campo="producto">
+                <label for="producto">Concentrado</label>
+                <select class="input" id="producto" name="producto" required>
+                    <option value="" selected disabled>Selecciona un concentrado</option>
+                    <option th:each="c : ${concentrados}" th:value="${c}" th:text="${c}">Concentrado</option>
+                </select>
+                <p class="campo__error"></p>
+            </div>
+
+            <div class="campo" data-campo="cantidad">
+                <label for="cantidad">Cantidad de bultos</label>
+                <div class="cantidad">
+                    <button type="button" data-paso="-1" aria-label="Restar un bulto">−</button>
+                    <input type="number" id="cantidad" name="cantidad" value="1" min="1" max="50" inputmode="numeric">
+                    <button type="button" data-paso="1" aria-label="Sumar un bulto">+</button>
+                </div>
+                <p class="campo__error"></p>
+            </div>
+
+            <!-- Datos del cliente -->
+            <div class="fila-campos">
+                <div class="campo" data-campo="clienteNombre">
+                    <label for="clienteNombre">Nombre completo</label>
+                    <input class="input" type="text" id="clienteNombre" name="clienteNombre"
+                           maxlength="120" autocomplete="name" required>
+                    <p class="campo__error"></p>
+                </div>
+
+                <div class="campo" data-campo="clienteTelefono">
+                    <label for="clienteTelefono">Teléfono / WhatsApp</label>
+                    <input class="input" type="tel" id="clienteTelefono" name="clienteTelefono"
+                           maxlength="15" inputmode="numeric" autocomplete="tel" placeholder="3001234567" required>
+                    <p class="campo__error"></p>
+                </div>
+            </div>
+
+            <div class="campo" data-campo="direccion">
+                <label for="direccion">Dirección</label>
+                <input class="input" type="text" id="direccion" name="direccion"
+                       maxlength="200" autocomplete="street-address" placeholder="Calle 45 # 18-22" required>
+                <p class="campo__error"></p>
+            </div>
+
+            <div class="campo" data-campo="barrio">
+                <label for="barrio">Barrio</label>
+                <input class="input" type="text" id="barrio" name="barrio" maxlength="100" required>
+                <p class="campo__error"></p>
+            </div>
+
+            <div class="campo" data-campo="indicaciones">
+                <label for="indicaciones">Indicaciones <span class="opcional">(opcional)</span></label>
+                <textarea class="input" id="indicaciones" name="indicaciones" maxlength="300"
+                          placeholder="Ej: casa de rejas blancas, timbrar en el segundo piso"></textarea>
+                <p class="campo__error"></p>
+            </div>
+
+            <div class="campo">
+                <button type="submit" class="btn btn--primario btn--bloque btn--grande" id="btnConfirmar">
+                    Confirmar pedido
+                </button>
+            </div>
+        </form>
+    </section>
+
+    <!-- ================= CONFIRMACIÓN ================= -->
+    <section class="card exito" id="panelExito" hidden>
+        <div class="exito__icono" aria-hidden="true">✓</div>
+        <h2>¡Recibimos tu pedido!</h2>
+        <p>Ya está en caja. Te avisaremos por WhatsApp cuando salga el domiciliario.</p>
+
+        <dl class="resumen">
+            <div><dt>Pedido</dt><dd id="resNumero"></dd></div>
+            <div><dt>Concentrado</dt><dd id="resProducto"></dd></div>
+            <div><dt>Cantidad</dt><dd id="resCantidad"></dd></div>
+            <div><dt>Entrega en</dt><dd id="resDireccion"></dd></div>
+        </dl>
+
+        <button type="button" class="btn btn--secundario btn--bloque" id="btnNuevoPedido">
+            Hacer otro pedido
+        </button>
+    </section>
+</main>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<script>
+(() => {
+    "use strict";
+
+    const API_URL = "/api/pedidos";
+    const CLAVE_DATOS = "monideal.datosCliente";
+    const CAMPOS_GUARDADOS = ["clienteNombre", "clienteTelefono", "direccion", "barrio"];
+
+    const form = document.getElementById("formPedido");
+    const btnConfirmar = document.getElementById("btnConfirmar");
+    const panelFormulario = document.getElementById("panelFormulario");
+    const panelExito = document.getElementById("panelExito");
+    const inputCantidad = document.getElementById("cantidad");
+
+    // ---------- Notificaciones ----------
+    function toast(mensaje, tipo = "info") {
+        const el = document.createElement("div");
+        el.className = `toast toast--${tipo}`;
+        el.textContent = mensaje;
+        document.getElementById("toasts").appendChild(el);
+        setTimeout(() => el.remove(), 4000);
+    }
+
+    // ---------- Datos guardados del cliente (para que no escriba todo otra vez) ----------
+    function cargarDatosGuardados() {
+        try {
+            const datos = JSON.parse(localStorage.getItem(CLAVE_DATOS) || "{}");
+            CAMPOS_GUARDADOS.forEach(c => { if (datos[c]) form.elements[c].value = datos[c]; });
+        } catch (_) { /* si falla, el cliente escribe sus datos */ }
+    }
+
+    function guardarDatos(pedido) {
+        const datos = {};
+        CAMPOS_GUARDADOS.forEach(c => datos[c] = pedido[c]);
+        localStorage.setItem(CLAVE_DATOS, JSON.stringify(datos));
+    }
+
+    // ---------- Selector de cantidad ----------
+    function ajustarCantidad(valor) {
+        const n = Math.min(50, Math.max(1, parseInt(valor, 10) || 1));
+        inputCantidad.value = n;
+    }
+
+    document.querySelectorAll(".cantidad button").forEach(btn => {
+        btn.addEventListener("click", () => {
+            ajustarCantidad(Number(inputCantidad.value) + Number(btn.dataset.paso));
+        });
+    });
+    inputCantidad.addEventListener("change", () => ajustarCantidad(inputCantidad.value));
+
+    // ---------- Errores en el formulario ----------
+    function limpiarErrores() {
+        form.querySelectorAll(".campo.con-error").forEach(c => c.classList.remove("con-error"));
+    }
+
+    function mostrarError(campo, mensaje) {
+        const contenedor = form.querySelector(`[data-campo="${campo}"]`);
+        if (!contenedor) return;
+        contenedor.classList.add("con-error");
+        contenedor.querySelector(".campo__error").textContent = mensaje;
+    }
+
+    form.addEventListener("input", e => {
+        const contenedor = e.target.closest(".campo");
+        if (contenedor) contenedor.classList.remove("con-error");
+    });
+
+    // Validación rápida antes de llamar al servidor (el servidor valida de nuevo)
+    function validar(pedido) {
+        const errores = {};
+        if (!pedido.producto) errores.producto = "Selecciona un concentrado";
+        if (!pedido.clienteNombre) errores.clienteNombre = "Escribe tu nombre";
+        if (!/^[0-9]{7,15}$/.test(pedido.clienteTelefono)) errores.clienteTelefono = "Escribe un teléfono válido (solo números)";
+        if (!pedido.direccion) errores.direccion = "Escribe la dirección";
+        if (!pedido.barrio) errores.barrio = "Escribe el barrio";
+        return errores;
+    }
+
+    function leerFormulario() {
+        const v = nombre => (form.elements[nombre].value || "").trim();
+        return {
+            producto: v("producto"),
+            cantidad: parseInt(v("cantidad"), 10) || 1,
+            clienteNombre: v("clienteNombre"),
+            clienteTelefono: v("clienteTelefono").replace(/\D/g, ""),
+            direccion: v("direccion"),
+            barrio: v("barrio"),
+            indicaciones: v("indicaciones") || null
+        };
+    }
+
+    function setCargando(cargando) {
+        btnConfirmar.disabled = cargando;
+        btnConfirmar.innerHTML = cargando
+            ? '<span class="spinner" aria-hidden="true"></span> Enviando...'
+            : "Confirmar pedido";
+    }
+
+    // ---------- Enviar pedido ----------
+    form.addEventListener("submit", async e => {
+        e.preventDefault();
+        limpiarErrores();
+
+        const pedido = leerFormulario();
+        const errores = validar(pedido);
+        if (Object.keys(errores).length) {
+            Object.entries(errores).forEach(([c, m]) => mostrarError(c, m));
+            form.querySelector(".con-error .input")?.focus();
+            return;
+        }
+
+        setCargando(true);
+        try {
+            const resp = await fetch(API_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json", "Accept": "application/json" },
+                body: JSON.stringify(pedido)
+            });
+            const data = await resp.json().catch(() => ({}));
+
+            if (!resp.ok) {
+                if (data.errores) Object.entries(data.errores).forEach(([c, m]) => mostrarError(c, m));
+                toast(data.mensaje || "No pudimos registrar el pedido.", "error");
+                return;
+            }
+
+            guardarDatos(pedido);
+            mostrarExito(data);
+        } catch (_) {
+            toast("Sin conexión. Revisa tu internet e intenta de nuevo.", "error");
+        } finally {
+            setCargando(false);
+        }
+    });
+
+    function mostrarExito(p) {
+        document.getElementById("resNumero").textContent = `#${p.idPedido}`;
+        document.getElementById("resProducto").textContent = p.producto;
+        document.getElementById("resCantidad").textContent = `${p.cantidad} bulto(s)`;
+        document.getElementById("resDireccion").textContent = `${p.direccion}, ${p.barrio}`;
+        panelFormulario.hidden = true;
+        panelExito.hidden = false;
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    document.getElementById("btnNuevoPedido").addEventListener("click", () => {
+        form.elements.producto.value = "";
+        form.elements.indicaciones.value = "";
+        inputCantidad.value = 1;
+        panelExito.hidden = true;
+        panelFormulario.hidden = false;
+        form.elements.producto.focus();
+    });
+
+    cargarDatosGuardados();
+})();
+</script>
+</body>
+</html>

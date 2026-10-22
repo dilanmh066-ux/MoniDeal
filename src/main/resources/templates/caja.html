@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#FFF159">
+    <title>Caja | Monideal</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<header class="ml-header">
+    <div class="ml-header__contenido">
+        <a class="ml-logo" th:href="@{/caja}">
+            <span class="ml-logo__icono" aria-hidden="true">🐾</span>
+            Monideal
+        </a>
+
+        <label class="ml-buscador">
+            <input type="search" id="buscador" placeholder="Buscar por nombre, teléfono, barrio o # de pedido"
+                   aria-label="Buscar pedidos" autocomplete="off">
+            <span class="ml-buscador__icono" aria-hidden="true">🔍</span>
+        </label>
+
+        <span class="ml-header__titulo">Caja</span>
+    </div>
+</header>
+
+<main class="contenedor">
+
+    <div class="encabezado-seccion">
+        <div>
+            <h1>Pedidos pendientes <span class="contador" id="contador" th:text="${#lists.size(pedidos)}">0</span></h1>
+            <p class="subtitulo">Revisa los datos y asigna el pedido al domiciliario.</p>
+        </div>
+        <span class="en-vivo" id="estadoConexion">En vivo</span>
+    </div>
+
+    <section class="grid-pedidos" id="listaPedidos" aria-live="polite">
+        <th:block th:each="p : ${pedidos}">
+            <article th:replace="~{this :: tarjetaPedido(${p})}"></article>
+        </th:block>
+    </section>
+
+    <div class="vacio" id="vacio" th:hidden="${!#lists.isEmpty(pedidos)}">
+        <div class="vacio__icono" aria-hidden="true">📭</div>
+        <h2>No hay pedidos pendientes</h2>
+        <p>Los pedidos nuevos aparecerán aquí automáticamente.</p>
+    </div>
+
+    <div class="vacio" id="sinResultados" hidden>
+        <div class="vacio__icono" aria-hidden="true">🔍</div>
+        <h2>Sin resultados</h2>
+        <p>Ningún pedido coincide con tu búsqueda.</p>
+    </div>
+</main>
+
+<!--
+    Plantilla de UNA tarjeta de pedido.
+    - Thymeleaf la usa para pintar los pedidos iniciales (th:replace de arriba).
+    - JavaScript la clona para pintar los pedidos que llegan después.
+    Así el HTML de la tarjeta está escrito una sola vez.
+-->
+<template id="tplPedido">
+    <article class="pedido" th:fragment="tarjetaPedido(p)"
+             th:data-id="${p?.idPedido}" th:data-fecha="${p?.fechaCreacion}">
+        <div class="pedido__cabecera">
+            <span class="pedido__numero">Pedido #<span data-f="idPedido" th:text="${p?.idPedido}"></span></span>
+            <span class="badge badge--pendiente">Pendiente</span>
+        </div>
+
+        <div class="pedido__cuerpo">
+            <div class="pedido__producto">
+                <span data-f="producto" th:text="${p?.producto}"></span>
+                <small><span data-f="cantidad" th:text="${p?.cantidad}"></span> bulto(s)</small>
+            </div>
+
+            <div class="dato">
+                <span class="dato__icono" aria-hidden="true">👤</span>
+                <div class="dato__valor">
+                    <strong data-f="clienteNombre" th:text="${p?.clienteNombre}"></strong>
+                    <span data-f="clienteTelefono" th:text="${p?.clienteTelefono}"></span>
+                </div>
+            </div>
+
+            <div class="dato">
+                <span class="dato__icono" aria-hidden="true">📍</span>
+                <div class="dato__valor">
+                    <strong data-f="direccion" th:text="${p?.direccion}"></strong>
+                    <span>Barrio <span data-f="barrio" th:text="${p?.barrio}"></span></span>
+                </div>
+            </div>
+
+            <p class="pedido__indicaciones" data-f="indicaciones"
+               th:text="${p?.indicaciones}" th:hidden="${p == null or p.indicaciones == null}"></p>
+
+            <span class="pedido__tiempo" data-f="tiempo"></span>
+        </div>
+
+        <div class="pedido__acciones">
+            <button type="button" class="btn btn--primario btn--bloque" data-accion="asignar">
+                🛵 Avisar / Asignar a domicilio
+            </button>
+        </div>
+    </article>
+</template>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<script>
+(() => {
+    "use strict";
+
+    const API_LISTAR = "/api/pedidos?estado=PENDIENTE";
+    const API_ASIGNAR = id => `/api/pedidos/${id}/en-ruta`;
+    const INTERVALO_MS = 5000;
+
+    const lista = document.getElementById("listaPedidos");
+    const plantilla = document.getElementById("tplPedido");
+    const contador = document.getElementById("contador");
+    const vacio = document.getElementById("vacio");
+    const sinResultados = document.getElementById("sinResultados");
+    const buscador = document.getElementById("buscador");
+    const estadoConexion = document.getElementById("estadoConexion");
+    const tituloBase = document.title;
+
+    let temporizador = null;
+    const enProceso = new Set(); // ids que se están asignando ahora
+
+    // ---------- Utilidades ----------
+    function toast(mensaje, tipo = "info") {
+        const el = document.createElement("div");
+        el.className = `toast toast--${tipo}`;
+        el.textContent = mensaje;
+        document.getElementById("toasts").appendChild(el);
+        setTimeout(() => el.remove(), 4000);
+    }
+
+    // "2026-10-22T11:25:30.123456" -> Date (hora local)
+    function parsearFecha(iso) {
+        return iso ? new Date(String(iso).slice(0, 19)) : null;
+    }
+
+    function tiempoTranscurrido(iso) {
+        const fecha = parsearFecha(iso);
+        if (!fecha || isNaN(fecha)) return "";
+        const min = Math.max(0, Math.floor((Date.now() - fecha.getTime()) / 60000));
+        if (min < 1) return "Llegó hace un momento";
+        if (min < 60) return `Llegó hace ${min} min`;
+        const h = Math.floor(min / 60);
+        return `Llegó hace ${h} h ${min % 60} min`;
+    }
+
+    function tarjetas() {
+        return Array.from(lista.querySelectorAll(".pedido"));
+    }
+
+    // Sonido corto para avisar de un pedido nuevo (si el navegador lo permite)
+    function sonar() {
+        try {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.frequency.value = 880;
+            gain.gain.setValueAtTime(0.15, ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+            osc.connect(gain).connect(ctx.destination);
+            osc.start();
+            osc.stop(ctx.currentTime + 0.4);
+        } catch (_) { /* sin sonido */ }
+    }
+
+    // ---------- Pintar tarjetas ----------
+    function crearTarjeta(p) {
+        const card = plantilla.content.firstElementChild.cloneNode(true);
+        card.dataset.id = p.idPedido;
+        card.dataset.fecha = p.fechaCreacion || "";
+        card.querySelectorAll("[data-f]").forEach(el => {
+            const campo = el.dataset.f;
+            if (campo === "tiempo") return;
+            el.textContent = p[campo] ?? "";
+        });
+        card.querySelector('[data-f="indicaciones"]').hidden = !p.indicaciones;
+        card.classList.add("pedido--nuevo");
+        return card;
+    }
+
+    function textoBusqueda(card) {
+        return (card.dataset.id + " " + card.textContent).toLowerCase();
+    }
+
+    function refrescarVista() {
+        const todas = tarjetas().filter(c => !c.classList.contains("pedido--saliendo"));
+        const filtro = buscador.value.trim().toLowerCase().replace(/^#/, "");
+        let visibles = 0;
+
+        todas.forEach(card => {
+            const tiempo = card.querySelector('[data-f="tiempo"]');
+            tiempo.textContent = tiempoTranscurrido(card.dataset.fecha);
+            const coincide = !filtro || textoBusqueda(card).includes(filtro);
+            card.hidden = !coincide;
+            if (coincide) visibles++;
+        });
+
+        contador.textContent = todas.length;
+        document.title = todas.length ? `(${todas.length}) ${tituloBase}` : tituloBase;
+        vacio.hidden = todas.length > 0;
+        sinResultados.hidden = todas.length === 0 || visibles > 0;
+    }
+
+    function quitarTarjeta(card) {
+        // Si el foco estaba en esta tarjeta, pasarlo a la siguiente para no perderlo
+        if (card.contains(document.activeElement)) {
+            const siguiente = card.nextElementSibling || card.previousElementSibling;
+            siguiente?.querySelector("button")?.focus();
+        }
+        card.classList.add("pedido--saliendo");
+        setTimeout(() => { card.remove(); refrescarVista(); }, 300);
+    }
+
+    /**
+     * Compara lo que hay en pantalla con lo que dice el servidor.
+     * Solo agrega o quita las tarjetas que cambiaron; no repinta todo,
+     * así la cajera no pierde el foco ni lo que escribió en el buscador.
+     */
+    function sincronizar(pedidos) {
+        const idsServidor = new Set(pedidos.map(p => String(p.idPedido)));
+        const enPantalla = new Map(tarjetas().map(c => [c.dataset.id, c]));
+        let nuevos = 0;
+
+        enPantalla.forEach((card, id) => {
+            if (!idsServidor.has(id) && !enProceso.has(id) && !card.classList.contains("pedido--saliendo")) {
+                quitarTarjeta(card); // ya lo asignaron desde otro equipo
+            }
+        });
+
+        pedidos.forEach(p => {
+            if (!enPantalla.has(String(p.idPedido))) {
+                lista.appendChild(crearTarjeta(p));
+                nuevos++;
+            }
+        });
+
+        if (nuevos > 0) {
+            sonar();
+            toast(nuevos === 1 ? "Llegó un pedido nuevo" : `Llegaron ${nuevos} pedidos nuevos`, "info");
+        }
+        refrescarVista();
+    }
+
+    // ---------- Consultar pedidos cada pocos segundos ----------
+    async function consultar() {
+        clearTimeout(temporizador);
+        try {
+            const resp = await fetch(API_LISTAR, { headers: { "Accept": "application/json" }, cache: "no-store" });
+            if (!resp.ok) throw new Error(resp.status);
+            sincronizar(await resp.json());
+            estadoConexion.classList.remove("sin-conexion");
+            estadoConexion.textContent = "En vivo";
+        } catch (_) {
+            estadoConexion.classList.add("sin-conexion");
+            estadoConexion.textContent = "Sin conexión";
+        } finally {
+            if (!document.hidden) temporizador = setTimeout(consultar, INTERVALO_MS);
+        }
+    }
+
+    document.addEventListener("visibilitychange", () => {
+        if (!document.hidden) consultar();
+        else clearTimeout(temporizador);
+    });
+
+    // ---------- Asignar a domicilio ----------
+    lista.addEventListener("click", async e => {
+        const btn = e.target.closest('[data-accion="asignar"]');
+        if (!btn) return;
+
+        const card = btn.closest(".pedido");
+        const id = card.dataset.id;
+        if (enProceso.has(id)) return;
+
+        enProceso.add(id);
+        btn.disabled = true;
+        const textoOriginal = btn.innerHTML;
+        btn.innerHTML = '<span class="spinner" aria-hidden="true"></span> Asignando...';
+
+        try {
+            const resp = await fetch(API_ASIGNAR(id), { method: "PUT", headers: { "Accept": "application/json" } });
+            const data = await resp.json().catch(() => ({}));
+
+            if (resp.ok) {
+                toast(`Pedido #${id} enviado a rutas`, "exito");
+                quitarTarjeta(card);
+            } else if (resp.status === 409 || resp.status === 404) {
+                toast(data.mensaje || `El pedido #${id} ya no está pendiente`, "info");
+                quitarTarjeta(card);
+            } else {
+                throw new Error(data.mensaje);
+            }
+        } catch (err) {
+            toast(err.message || "No se pudo asignar el pedido. Intenta de nuevo.", "error");
+            btn.disabled = false;
+            btn.innerHTML = textoOriginal;
+        } finally {
+            enProceso.delete(id);
+        }
+    });
+
+    buscador.addEventListener("input", refrescarVista);
+
+    // Inicio: las tarjetas iniciales vienen de Thymeleaf; se quita la animación de "nuevo"
+    tarjetas().forEach(c => c.classList.remove("pedido--nuevo"));
+    refrescarVista();
+    temporizador = setTimeout(consultar, INTERVALO_MS);
+    setInterval(refrescarVista, 60000); // actualiza el "Llegó hace X min"
+})();
+</script>
+</body>
+</html>

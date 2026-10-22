@@ -1,0 +1,49 @@
+package com.monideal.monideal.dto;
+
+import com.monideal.monideal.model.EstadoPedido;
+import com.monideal.monideal.model.Pedido;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+
+/**
+ * Datos del pedido que se envían a las pantallas (JSON y Thymeleaf).
+ * Nunca se expone la entidad directamente.
+ */
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+public class PedidoResponse {
+
+    private Long idPedido;
+    private String clienteNombre;
+    private String clienteTelefono;
+    private String direccion;
+    private String barrio;
+    private String indicaciones;
+    private String producto;
+    private Integer cantidad;
+    private EstadoPedido estado;
+    private LocalDateTime fechaCreacion;
+    private LocalDateTime fechaAsignacion;
+    private LocalDateTime fechaEntrega;
+
+    public static PedidoResponse desde(Pedido p) {
+        return new PedidoResponse(
+                p.getIdPedido(),
+                p.getClienteNombre(),
+                p.getClienteTelefono(),
+                p.getDireccion(),
+                p.getBarrio(),
+                p.getIndicaciones(),
+                p.getProducto(),
+                p.getCantidad(),
+                p.getEstado(),
+                p.getFechaCreacion(),
+                p.getFechaAsignacion(),
+                p.getFechaEntrega()
+        );
+    }
+}
