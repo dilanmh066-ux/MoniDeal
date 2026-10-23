@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#FFF159">
     <title>Caja | Monideal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap">
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
@@ -22,19 +25,48 @@
             <span class="ml-buscador__icono" aria-hidden="true">🔍</span>
         </label>
 
-        <span class="ml-header__titulo">Caja</span>
+        <nav class="ml-nav" aria-label="Pantallas del personal">
+            <a th:href="@{/caja}" class="activo">Caja</a>
+            <a th:href="@{/rutas}">Rutas</a>
+        </nav>
     </div>
 </header>
 
 <main class="contenedor">
 
-    <div class="encabezado-seccion">
-        <div>
-            <h1>Pedidos pendientes <span class="contador" id="contador" th:text="${#lists.size(pedidos)}">0</span></h1>
-            <p class="subtitulo">Revisa los datos y asigna el pedido al domiciliario.</p>
-        </div>
-        <span class="en-vivo" id="estadoConexion">En vivo</span>
+    <nav class="migas" aria-label="Ruta de navegación">
+        <a th:href="@{/caja}">Inicio</a><span>/</span><span class="migas__actual">Caja</span>
+    </nav>
+
+    <div class="titulo-pagina">
+        <h1>Pedidos pendientes</h1>
+        <p class="subtitulo">Revisa los datos de entrega y asigna cada pedido a un domiciliario.</p>
     </div>
+
+    <!-- Tarjeta de cifras (estilo Mercado Libre) -->
+    <section class="cifras" aria-label="Resumen">
+        <div class="cifra">
+            <span class="cifra__icono" aria-hidden="true">📦</span>
+            <div>
+                <div class="cifra__valor" id="contador" th:text="${#lists.size(pedidos)}">0</div>
+                <div class="cifra__texto">por asignar</div>
+            </div>
+        </div>
+        <div class="cifra">
+            <span class="cifra__icono" aria-hidden="true">📡</span>
+            <div>
+                <div class="cifra__valor"><span class="en-vivo" id="estadoConexion">En vivo</span></div>
+                <div class="cifra__texto">se actualiza solo</div>
+            </div>
+        </div>
+        <div class="cifra">
+            <span class="cifra__icono" aria-hidden="true">⏱️</span>
+            <div>
+                <div class="cifra__valor">FIFO</div>
+                <div class="cifra__texto">el primero en llegar sale primero</div>
+            </div>
+        </div>
+    </section>
 
     <section class="grid-pedidos" id="listaPedidos" aria-live="polite">
         <th:block th:each="p : ${pedidos}">
@@ -70,24 +102,27 @@
         </div>
 
         <div class="pedido__cuerpo">
-            <div class="pedido__producto">
-                <span data-f="producto" th:text="${p?.producto}"></span>
-                <small><span data-f="cantidad" th:text="${p?.cantidad}"></span> bulto(s)</small>
-            </div>
+            <h3 class="pedido__titulo" data-f="producto" th:text="${p?.producto}"></h3>
 
-            <div class="dato">
-                <span class="dato__icono" aria-hidden="true">👤</span>
-                <div class="dato__valor">
-                    <strong data-f="clienteNombre" th:text="${p?.clienteNombre}"></strong>
-                    <span data-f="clienteTelefono" th:text="${p?.clienteTelefono}"></span>
+            <p class="pedido__cantidad">
+                <span data-f="cantidad" th:text="${p?.cantidad}"></span><small>bulto(s)</small>
+            </p>
+
+            <div class="pedido__datos">
+                <div class="dato">
+                    <span class="dato__icono" aria-hidden="true">👤</span>
+                    <div class="dato__valor">
+                        <strong data-f="clienteNombre" th:text="${p?.clienteNombre}"></strong>
+                        <span data-f="clienteTelefono" th:text="${p?.clienteTelefono}"></span>
+                    </div>
                 </div>
-            </div>
 
-            <div class="dato">
-                <span class="dato__icono" aria-hidden="true">📍</span>
-                <div class="dato__valor">
-                    <strong data-f="direccion" th:text="${p?.direccion}"></strong>
-                    <span>Barrio <span data-f="barrio" th:text="${p?.barrio}"></span></span>
+                <div class="dato">
+                    <span class="dato__icono" aria-hidden="true">📍</span>
+                    <div class="dato__valor">
+                        <strong data-f="direccion" th:text="${p?.direccion}"></strong>
+                        <span>Barrio <span data-f="barrio" th:text="${p?.barrio}"></span></span>
+                    </div>
                 </div>
             </div>
 
