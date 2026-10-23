@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "pedidos")
@@ -46,18 +48,32 @@ public class Pedido {
     @Column(name = "indicaciones", length = 300)
     private String indicaciones;
 
-    // ---------- Producto ----------
+    // ---------- Producto y Carrito ----------
 
-    @NotBlank(message = "Debe seleccionar un concentrado")
-    @Size(max = 150)
-    @Column(name = "producto", nullable = false, length = 150)
+    @NotBlank(message = "Debe haber al menos un producto en el pedido")
+    @Size(max = 500)
+    @Column(name = "producto", nullable = false, length = 500)
     private String producto;
 
     @NotNull
     @Min(1)
-    @Max(50)
+    @Max(100)
     @Column(name = "cantidad", nullable = false)
     private Integer cantidad = 1;
+
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<PedidoItem> items = new ArrayList<>();
+
+    // ---------- Pago y trazabilidad ----------
+
+    @Column(name = "metodo_pago", length = 30)
+    private String metodoPago = "EFECTIVO"; // EFECTIVO, TRANSFERENCIA
+
+    @Column(name = "pago_confirmado")
+    private Boolean pagoConfirmado = true; // true para efectivo, false para transferencia hasta confirmar
+
+    @Column(name = "paga_con", length = 50)
+    private String pagaCon; // Ej: "Con billete de $50.000" para cambio
 
     // ---------- Estado y trazabilidad ----------
 
@@ -76,6 +92,14 @@ public class Pedido {
     @Column(name = "fecha_entrega")
     private LocalDateTime fechaEntrega;
 
+    public void agregarItem(PedidoItem item) {
+        if (this.items == null) {
+            this.items = new ArrayList<>();
+        }
+        this.items.add(item);
+        item.setPedido(this);
+    }
+
     @PrePersist
     void alCrear() {
         if (fechaCreacion == null) {
@@ -83,6 +107,12 @@ public class Pedido {
         }
         if (estado == null) {
             estado = EstadoPedido.PENDIENTE;
+        }
+        if (metodoPago == null || metodoPago.isBlank()) {
+            metodoPago = "EFECTIVO";
+        }
+        if (pagoConfirmado == null) {
+            pagoConfirmado = "EFECTIVO".equalsIgnoreCase(metodoPago);
         }
     }
 }

@@ -39,11 +39,17 @@ public class HistorialVenta {
     @Column(name = "barrio", nullable = false, length = 100)
     private String barrio;
 
-    @Column(name = "producto", nullable = false, length = 150)
+    @Column(name = "producto", nullable = false, length = 500)
     private String producto;
 
     @Column(name = "cantidad", nullable = false)
     private Integer cantidad;
+
+    @Column(name = "metodo_pago", length = 30)
+    private String metodoPago;
+
+    @Column(name = "paga_con", length = 50)
+    private String pagaCon;
 
     @Column(name = "fecha_pedido", nullable = false)
     private LocalDateTime fechaPedido;
@@ -61,6 +67,8 @@ public class HistorialVenta {
         h.setBarrio(p.getBarrio());
         h.setProducto(p.getProducto());
         h.setCantidad(p.getCantidad());
+        h.setMetodoPago(p.getMetodoPago());
+        h.setPagaCon(p.getPagaCon());
         h.setFechaPedido(p.getFechaCreacion());
         h.setFechaEntrega(p.getFechaEntrega());
         return h;

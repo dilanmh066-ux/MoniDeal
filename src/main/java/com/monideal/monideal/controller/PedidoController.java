@@ -1,5 +1,6 @@
 package com.monideal.monideal.controller;
 
+import com.monideal.monideal.dto.HistorialVentaResponse;
 import com.monideal.monideal.dto.PedidoRequest;
 import com.monideal.monideal.dto.PedidoResponse;
 import com.monideal.monideal.model.EstadoPedido;
@@ -15,8 +16,8 @@ import java.util.List;
 
 /**
  * Controlador de Monideal.
- * - Rutas de vistas (devuelven HTML de Thymeleaf): /pedido, /caja, /rutas
- * - Rutas de API (devuelven JSON, se llaman con Fetch): /api/pedidos/**
+ * - Rutas de vistas (devuelven HTML de Thymeleaf): /pedido, /caja, /rutas, /historial
+ * - Rutas de API (devuelven JSON, se llaman con Fetch): /api/pedidos/**, /api/historial
  */
 @Controller
 public class PedidoController {
@@ -40,10 +41,11 @@ public class PedidoController {
     @GetMapping("/pedido")
     public String vistaCliente(Model model) {
         model.addAttribute("concentrados", pedidoService.listarConcentrados());
+        model.addAttribute("granel", pedidoService.listarGranel());
         return "cliente";
     }
 
-    /** Pantalla de la cajera. */
+    /** Pantalla de la cajera y punto de venta. */
     @GetMapping("/caja")
     public String vistaCaja(Model model) {
         model.addAttribute("pedidos", pedidoService.listarPorEstado(EstadoPedido.PENDIENTE));
@@ -57,6 +59,13 @@ public class PedidoController {
         return "rutas";
     }
 
+    /** Pantalla de historial de ventas y rutas completadas. */
+    @GetMapping("/historial")
+    public String vistaHistorial(Model model) {
+        model.addAttribute("historial", pedidoService.listarHistorial());
+        return "historial";
+    }
+
     // =====================================================================
     // API JSON (Fetch API)
     // =====================================================================
@@ -68,11 +77,28 @@ public class PedidoController {
         return pedidoService.listarPorEstado(estado);
     }
 
+    /** Lista de ventas entregadas para la pantalla de historial o reportes. */
+    @GetMapping("/api/historial")
+    @ResponseBody
+    public List<HistorialVentaResponse> apiHistorial() {
+        return pedidoService.listarHistorial()
+                .stream()
+                .map(HistorialVentaResponse::desde)
+                .toList();
+    }
+
     /** Cliente: crea un pedido (queda PENDIENTE). */
     @PostMapping("/api/pedidos")
     @ResponseBody
     public ResponseEntity<PedidoResponse> crear(@Valid @RequestBody PedidoRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(pedidoService.crear(request));
+    }
+
+    /** Oficina / Cajera: confirma el pago de una transferencia bancaria. */
+    @PutMapping("/api/pedidos/{id}/confirmar-pago")
+    @ResponseBody
+    public PedidoResponse confirmarPago(@PathVariable Long id) {
+        return pedidoService.confirmarPago(id);
     }
 
     /** Cajera: asigna a domicilio (PENDIENTE -> EN_RUTA). */

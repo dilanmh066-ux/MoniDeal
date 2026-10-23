@@ -1,6 +1,7 @@
 package com.monideal.monideal.dto;
 
 import jakarta.validation.constraints.*;
+import java.util.List;
 
 /** JSON que envía el cliente al confirmar su pedido. */
 public record PedidoRequest(
@@ -24,12 +25,17 @@ public record PedidoRequest(
         @Size(max = 300, message = "Las indicaciones son muy largas")
         String indicaciones,
 
-        @NotBlank(message = "Debe seleccionar un concentrado")
+        // Si se envía desde formulario antiguo:
         String producto,
+        Integer cantidad,
 
-        @NotNull(message = "La cantidad es obligatoria")
-        @Min(value = 1, message = "La cantidad mínima es 1")
-        @Max(value = 50, message = "La cantidad máxima es 50")
-        Integer cantidad
+        // Método de pago: "EFECTIVO" o "TRANSFERENCIA"
+        String metodoPago,
+
+        // Opcional: "Con billete de $50.000" para cambio
+        String pagaCon,
+
+        // Lista de productos seleccionados (carrito)
+        List<PedidoItemDto> items
 ) {
 }

@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Datos del pedido que se envían a las pantallas (JSON y Thymeleaf).
@@ -26,11 +28,19 @@ public class PedidoResponse {
     private String producto;
     private Integer cantidad;
     private EstadoPedido estado;
+    private String metodoPago;
+    private Boolean pagoConfirmado;
+    private String pagaCon;
+    private List<PedidoItemDto> items;
     private LocalDateTime fechaCreacion;
     private LocalDateTime fechaAsignacion;
     private LocalDateTime fechaEntrega;
 
     public static PedidoResponse desde(Pedido p) {
+        List<PedidoItemDto> itemDtos = (p.getItems() != null && !p.getItems().isEmpty())
+                ? p.getItems().stream().map(PedidoItemDto::desde).toList()
+                : Collections.emptyList();
+
         return new PedidoResponse(
                 p.getIdPedido(),
                 p.getClienteNombre(),
@@ -41,6 +51,10 @@ public class PedidoResponse {
                 p.getProducto(),
                 p.getCantidad(),
                 p.getEstado(),
+                p.getMetodoPago(),
+                p.getPagoConfirmado() != null ? p.getPagoConfirmado() : true,
+                p.getPagaCon(),
+                itemDtos,
                 p.getFechaCreacion(),
                 p.getFechaAsignacion(),
                 p.getFechaEntrega()

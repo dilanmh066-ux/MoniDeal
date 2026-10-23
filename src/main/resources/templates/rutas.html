@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="theme-color" content="#FFF159">
+    <meta name="theme-color" content="#0F3826">
     <title>Rutas | Monideal</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,12 +15,13 @@
 <header class="ml-header">
     <div class="ml-header__contenido">
         <a class="ml-logo" th:href="@{/rutas}">
-            <span class="ml-logo__icono" aria-hidden="true">🐾</span>
+            <span class="ml-logo__icono" aria-hidden="true">🌿</span>
             Monideal
         </a>
         <nav class="ml-nav" aria-label="Pantallas del personal">
             <a th:href="@{/caja}">Caja</a>
             <a th:href="@{/rutas}" class="activo">Rutas</a>
+            <a th:href="@{/historial}">Historial</a>
         </nav>
     </div>
 </header>
@@ -28,7 +29,7 @@
 <main class="contenedor">
 
     <nav class="migas" aria-label="Ruta de navegación">
-        <a th:href="@{/rutas}">Inicio</a><span>/</span><span class="migas__actual">Mis rutas</span>
+        <a th:href="@{/rutas}">Inicio</a><span>/</span><span class="migas__actual">Mis rutas (Buga)</span>
     </nav>
 
     <div class="titulo-pagina">
@@ -36,6 +37,7 @@
             <h1>Por entregar <span class="contador" id="contador" th:text="${#lists.size(pedidos)}">0</span></h1>
             <span class="en-vivo" id="estadoConexion">En vivo</span>
         </div>
+        <p class="subtitulo">Entregas activas en Guadalajara de Buga. Revisa si debes cobrar efectivo o si ya está transferido.</p>
     </div>
 
     <section class="grid-pedidos" id="listaPedidos" aria-live="polite">
@@ -47,23 +49,40 @@
     <div class="vacio" id="vacio" th:hidden="${!#lists.isEmpty(pedidos)}">
         <div class="vacio__icono" aria-hidden="true">🛵</div>
         <h2>No tienes entregas pendientes</h2>
-        <p>Cuando caja asigne un pedido, aparecerá aquí.</p>
+        <p>Cuando caja despache un pedido, aparecerá aquí inmediatamente con su mapa y datos.</p>
     </div>
 </main>
 
-<!-- Plantilla de UNA tarjeta de ruta (la usan Thymeleaf y JavaScript) -->
+<!-- Plantilla de UNA tarjeta de ruta -->
 <template id="tplRuta">
     <article class="pedido" th:fragment="tarjetaRuta(p)" th:data-id="${p?.idPedido}">
         <div class="pedido__cabecera">
             <span class="pedido__numero">Pedido #<span data-f="idPedido" th:text="${p?.idPedido}"></span></span>
-            <span class="badge badge--ruta">En ruta</span>
+            <div class="badges-cabecera">
+                <span class="badge" data-f="badgeCobro"
+                      th:classappend="${p?.metodoPago == 'TRANSFERENCIA' ? 'badge--pago-confirmado' : 'badge--efectivo'}"
+                      th:text="${p?.metodoPago == 'TRANSFERENCIA' ? '🟢 Ya pagó (Transferencia)' : '💵 Cobrar en efectivo'}">
+                </span>
+                <span class="badge badge--ruta">En ruta</span>
+            </div>
         </div>
 
         <div class="pedido__cuerpo">
-            <!-- Lo más importante para el domiciliario: a dónde va -->
+            <!-- Dirección prioritaria para el domiciliario -->
             <div>
                 <h3 class="pedido__direccion" data-f="direccion" th:text="${p?.direccion}"></h3>
-                <p class="pedido__barrio">Barrio <span data-f="barrio" th:text="${p?.barrio}"></span></p>
+                <p class="pedido__barrio">Barrio <span data-f="barrio" th:text="${p?.barrio}"></span> · Guadalajara de Buga</p>
+            </div>
+
+            <!-- Instrucción de cobro clara -->
+            <div class="cobro-domiciliario" data-f="cobroAviso">
+                <span th:if="${p?.metodoPago == 'TRANSFERENCIA'}" class="alerta-pago-verde">
+                    ✅ <strong>NO COBRAR:</strong> Pagado previamente por transferencia.
+                </span>
+                <span th:if="${p?.metodoPago != 'TRANSFERENCIA'}" class="alerta-cobro-efectivo">
+                    💵 <strong>COBRAR EN EFECTIVO AL ENTREGAR</strong>
+                    <span th:if="${p?.pagaCon != null and !p?.pagaCon.isEmpty()}" th:text="'— Cliente tiene: ' + ${p.pagaCon}"></span>
+                </span>
             </div>
 
             <div class="dato">
@@ -75,8 +94,8 @@
             </div>
 
             <div class="pedido__resumen-carga">
+                <span class="carga-icono">📦</span>
                 <span data-f="producto" th:text="${p?.producto}"></span>
-                <strong><span data-f="cantidad" th:text="${p?.cantidad}"></span> bulto(s)</strong>
             </div>
 
             <p class="pedido__indicaciones" data-f="indicaciones"
@@ -85,9 +104,10 @@
 
         <div class="pedido__acciones">
             <div class="acciones-secundarias">
+                <!-- Enlace forzado a Guadalajara de Buga -->
                 <a class="btn btn--secundario" data-enlace="mapa" target="_blank" rel="noopener"
-                   th:href="${p != null ? 'https://www.google.com/maps/search/?api=1&query=' + #uris.escapeQueryParam(p.direccion + ', ' + p.barrio) : '#'}">
-                    🗺️ Cómo llegar
+                   th:href="${p != null ? 'https://www.google.com/maps/search/?api=1&query=' + #uris.escapeQueryParam(p.direccion + ', Barrio ' + p.barrio + ', Guadalajara de Buga, Valle del Cauca, Colombia') : '#'}">
+                    🗺️ Cómo llegar (Buga)
                 </a>
                 <a class="btn btn--secundario" data-enlace="llamar"
                    th:href="${p != null ? 'tel:' + p.clienteTelefono : '#'}">
@@ -120,7 +140,6 @@
     let temporizador = null;
     const enProceso = new Set();
 
-    // ---------- Utilidades ----------
     function toast(mensaje, tipo = "info") {
         const el = document.createElement("div");
         el.className = `toast toast--${tipo}`;
@@ -137,18 +156,41 @@
         return Array.from(lista.querySelectorAll(".pedido"));
     }
 
-    // ---------- Pintar tarjetas ----------
+    // Configurar enlace Google Maps asegurando Buga
+    function urlMapaBuga(direccion, barrio) {
+        const query = encodeURIComponent(`${direccion}, Barrio ${barrio}, Guadalajara de Buga, Valle del Cauca, Colombia`);
+        return `https://www.google.com/maps/search/?api=1&query=${query}`;
+    }
+
     function crearTarjeta(p) {
         const card = plantilla.content.firstElementChild.cloneNode(true);
         card.dataset.id = p.idPedido;
+
         card.querySelectorAll("[data-f]").forEach(el => {
-            el.textContent = p[el.dataset.f] ?? "";
+            const campo = el.dataset.f;
+            if (campo === "badgeCobro" || campo === "cobroAviso") return;
+            el.textContent = p[campo] ?? "";
         });
+
+        // Configurar Cobro
+        const badgeCobro = card.querySelector('[data-f="badgeCobro"]');
+        const cobroAviso = card.querySelector('[data-f="cobroAviso"]');
+        const esTransf = p.metodoPago === "TRANSFERENCIA";
+
+        if (esTransf) {
+            badgeCobro.className = "badge badge--pago-confirmado";
+            badgeCobro.textContent = "🟢 Ya pagó (Transferencia)";
+            cobroAviso.innerHTML = '<span class="alerta-pago-verde">✅ <strong>NO COBRAR:</strong> Pagado previamente por transferencia.</span>';
+        } else {
+            badgeCobro.className = "badge badge--efectivo";
+            badgeCobro.textContent = "💵 Cobrar en efectivo";
+            const cambio = p.pagaCon ? ` — Cliente tiene: ${p.pagaCon}` : "";
+            cobroAviso.innerHTML = `<span class="alerta-cobro-efectivo">💵 <strong>COBRAR EN EFECTIVO AL ENTREGAR</strong>${cambio}</span>`;
+        }
+
         card.querySelector('[data-f="indicaciones"]').hidden = !p.indicaciones;
 
-        const destino = encodeURIComponent(`${p.direccion}, ${p.barrio}`);
-        card.querySelector('[data-enlace="mapa"]').href =
-            `https://www.google.com/maps/search/?api=1&query=${destino}`;
+        card.querySelector('[data-enlace="mapa"]').href = urlMapaBuga(p.direccion, p.barrio);
         card.querySelector('[data-enlace="llamar"]').href = `tel:${p.clienteTelefono}`;
 
         card.classList.add("pedido--nuevo");
@@ -156,9 +198,9 @@
     }
 
     function refrescarVista() {
-        const total = tarjetas().filter(c => !c.classList.contains("pedido--saliendo")).length;
-        contador.textContent = total;
-        vacio.hidden = total > 0;
+        const todas = tarjetas().filter(c => !c.classList.contains("pedido--saliendo"));
+        contador.textContent = todas.length;
+        vacio.hidden = todas.length > 0;
     }
 
     function quitarTarjeta(card) {
@@ -166,7 +208,6 @@
         setTimeout(() => { card.remove(); refrescarVista(); }, 300);
     }
 
-    /** Agrega pedidos nuevos y quita los que ya no están EN_RUTA, sin repintar toda la lista. */
     function sincronizar(pedidos) {
         const idsServidor = new Set(pedidos.map(p => String(p.idPedido)));
         const enPantalla = new Map(tarjetas().map(c => [c.dataset.id, c]));
@@ -187,12 +228,11 @@
 
         if (nuevos > 0) {
             vibrar();
-            toast(nuevos === 1 ? "Tienes una entrega nueva" : `Tienes ${nuevos} entregas nuevas`, "info");
+            toast(nuevos === 1 ? "🛵 Nueva ruta asignada" : `🛵 ${nuevos} nuevas rutas asignadas`, "info");
         }
         refrescarVista();
     }
 
-    // ---------- Consultar rutas cada pocos segundos ----------
     async function consultar() {
         clearTimeout(temporizador);
         try {
@@ -214,7 +254,6 @@
         else clearTimeout(temporizador);
     });
 
-    // ---------- Confirmar entrega ----------
     lista.addEventListener("click", async e => {
         const btn = e.target.closest('[data-accion="entregar"]');
         if (!btn) return;
@@ -223,37 +262,34 @@
         const id = card.dataset.id;
         if (enProceso.has(id)) return;
 
-        const direccion = card.querySelector('[data-f="direccion"]').textContent;
-        if (!confirm(`¿Confirmas que entregaste el pedido #${id} en ${direccion}?`)) return;
+        const confirmar = confirm(`¿Confirmar que el Pedido #${id} ya fue entregado al cliente?`);
+        if (!confirmar) return;
 
         enProceso.add(id);
         btn.disabled = true;
-        const textoOriginal = btn.innerHTML;
-        btn.innerHTML = '<span class="spinner" aria-hidden="true"></span> Confirmando...';
+        btn.innerHTML = '<span class="spinner" aria-hidden="true"></span> Guardando...';
 
         try {
             const resp = await fetch(API_ENTREGAR(id), { method: "PUT", headers: { "Accept": "application/json" } });
             const data = await resp.json().catch(() => ({}));
 
             if (resp.ok) {
+                toast(`Pedido #${id} marcado como ENTREGADO y guardado en Historial`, "exito");
                 vibrar();
-                toast(`Pedido #${id} entregado`, "exito");
-                quitarTarjeta(card);
-            } else if (resp.status === 409 || resp.status === 404) {
-                toast(data.mensaje || `El pedido #${id} ya no está en ruta`, "info");
                 quitarTarjeta(card);
             } else {
                 throw new Error(data.mensaje);
             }
         } catch (err) {
-            toast(err.message || "No se pudo confirmar. Revisa tu señal e intenta de nuevo.", "error");
+            toast(err.message || "No se pudo confirmar la entrega.", "error");
             btn.disabled = false;
-            btn.innerHTML = textoOriginal;
+            btn.textContent = "✓ Confirmar Entrega";
         } finally {
             enProceso.delete(id);
         }
     });
 
+    tarjetas().forEach(c => c.classList.remove("pedido--nuevo"));
     refrescarVista();
     temporizador = setTimeout(consultar, INTERVALO_MS);
 })();

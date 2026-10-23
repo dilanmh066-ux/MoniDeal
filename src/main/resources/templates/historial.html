@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0F3826">
+    <title>Historial de Ventas | Monideal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="vista-historial">
+
+<header class="ml-header">
+    <div class="ml-header__contenido">
+        <a class="ml-logo" th:href="@{/caja}">
+            <span class="ml-logo__icono" aria-hidden="true">🌿</span>
+            Monideal
+        </a>
+
+        <label class="ml-buscador">
+            <input type="search" id="buscadorHistorial" placeholder="Buscar por cliente, barrio, teléfono o producto"
+                   aria-label="Buscar en historial" autocomplete="off">
+            <span class="ml-buscador__icono" aria-hidden="true">🔍</span>
+        </label>
+
+        <nav class="ml-nav" aria-label="Pantallas del personal">
+            <a th:href="@{/caja}">Caja</a>
+            <a th:href="@{/rutas}">Rutas</a>
+            <a th:href="@{/historial}" class="activo">Historial</a>
+        </nav>
+    </div>
+</header>
+
+<main class="contenedor">
+
+    <nav class="migas" aria-label="Ruta de navegación">
+        <a th:href="@{/caja}">Inicio</a><span>/</span><span class="migas__actual">Historial de Ventas</span>
+    </nav>
+
+    <div class="titulo-pagina">
+        <h1>Historial de ventas y rutas entregadas</h1>
+        <p class="subtitulo">Registro completo de todos los pedidos confirmados por los domiciliarios en Guadalajara de Buga.</p>
+    </div>
+
+    <!-- Cifras de ventas -->
+    <section class="cifras" aria-label="Resumen de historial">
+        <div class="cifra">
+            <span class="cifra__icono" aria-hidden="true">🎉</span>
+            <div>
+                <div class="cifra__valor" id="totalEntregados" th:text="${#lists.size(historial)}">0</div>
+                <div class="cifra__texto">entregas registradas</div>
+            </div>
+        </div>
+        <div class="cifra">
+            <span class="cifra__icono" aria-hidden="true">📊</span>
+            <div>
+                <div class="cifra__valor">100%</div>
+                <div class="cifra__texto">trazabilidad en BD</div>
+            </div>
+        </div>
+        <div class="cifra">
+            <span class="cifra__icono" aria-hidden="true">📍</span>
+            <div>
+                <div class="cifra__valor">Buga</div>
+                <div class="cifra__texto">cobertura local</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lista de ventas históricas -->
+    <section class="grid-historial" id="listaHistorial">
+        <article class="card card-historial" th:each="h : ${historial}"
+                 th:data-busqueda="${(h.pedido != null ? h.pedido.idPedido : '') + ' ' + h.clienteNombre + ' ' + h.clienteTelefono + ' ' + h.barrio + ' ' + h.direccion + ' ' + h.producto}">
+            <div class="card-historial__cabecera">
+                <div>
+                    <span class="pedido__numero">Pedido #<span th:text="${h.pedido != null ? h.pedido.idPedido : h.idHistorial}"></span></span>
+                    <span class="badge badge--pago-confirmado">✓ Entregado</span>
+                </div>
+                <span class="badge"
+                      th:classappend="${h.metodoPago == 'TRANSFERENCIA' ? 'badge--pago-confirmado' : 'badge--efectivo'}"
+                      th:text="${h.metodoPago == 'TRANSFERENCIA' ? '📱 Transferencia' : '💵 Efectivo'}">
+                </span>
+            </div>
+
+            <div class="card-historial__cuerpo">
+                <h3 class="card-historial__producto" th:text="${h.producto}"></h3>
+
+                <div class="pedido__datos">
+                    <div class="dato">
+                        <span class="dato__icono">👤</span>
+                        <div class="dato__valor">
+                            <strong th:text="${h.clienteNombre}"></strong>
+                            <span th:text="${h.clienteTelefono}"></span>
+                        </div>
+                    </div>
+
+                    <div class="dato">
+                        <span class="dato__icono">📍</span>
+                        <div class="dato__valor">
+                            <strong th:text="${h.direccion}"></strong>
+                            <span>Barrio <span th:text="${h.barrio}"></span> · Buga</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tiempos-entrega">
+                    <div>
+                        <small>Fecha pedido:</small>
+                        <span th:text="${h.fechaPedido != null ? #temporals.format(h.fechaPedido, 'dd/MM/yyyy hh:mm a') : 'N/A'}"></span>
+                    </div>
+                    <div>
+                        <small>Fecha entrega:</small>
+                        <strong th:text="${h.fechaEntrega != null ? #temporals.format(h.fechaEntrega, 'dd/MM/yyyy hh:mm a') : 'N/A'}"></strong>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <div class="vacio" id="vacioHistorial" th:hidden="${!#lists.isEmpty(historial)}">
+        <div class="vacio__icono" aria-hidden="true">📜</div>
+        <h2>Aún no hay ventas en el historial</h2>
+        <p>Cuando los domiciliarios confirmen entregas en la pantalla de Rutas, se guardarán aquí automáticamente.</p>
+    </div>
+
+    <div class="vacio" id="sinResultadosHistorial" hidden>
+        <div class="vacio__icono" aria-hidden="true">🔍</div>
+        <h2>Sin resultados</h2>
+        <p>Ningún registro del historial coincide con tu búsqueda.</p>
+    </div>
+</main>
+
+<script>
+(() => {
+    "use strict";
+
+    const buscador = document.getElementById("buscadorHistorial");
+    const cards = Array.from(document.querySelectorAll(".card-historial"));
+    const vacio = document.getElementById("vacioHistorial");
+    const sinResultados = document.getElementById("sinResultadosHistorial");
+    const totalEntregados = document.getElementById("totalEntregados");
+
+    function filtrar() {
+        const query = buscador.value.trim().toLowerCase().replace(/^#/, "");
+        let visibles = 0;
+
+        cards.forEach(card => {
+            const texto = (card.dataset.busqueda || card.textContent).toLowerCase();
+            const coincide = !query || texto.includes(query);
+            card.hidden = !coincide;
+            if (coincide) visibles++;
+        });
+
+        if (cards.length > 0) {
+            sinResultados.hidden = visibles > 0;
+        }
+    }
+
+    buscador.addEventListener("input", filtrar);
+})();
+</script>
+</body>
+</html>
