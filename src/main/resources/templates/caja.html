@@ -24,7 +24,7 @@
         <form id="formPin">
             <div class="campo">
                 <input class="input" type="password" id="inputPin" maxlength="6" inputmode="numeric"
-                       placeholder="Ingresa PIN (ej: 1234)" autofocus required>
+                       placeholder="Ingresa PIN (ej: 0690)" autofocus required>
                 <p class="campo__error" id="errorPin" style="display:none;">PIN incorrecto. Intenta de nuevo.</p>
             </div>
             <button type="submit" class="btn btn--primario btn--bloque">Desbloquear Caja</button>
@@ -260,11 +260,11 @@
         </div>
 
         <div class="pedido__acciones">
-            <!-- Acciones secundarias rápidas: Imprimir comanda y Notificar por WhatsApp -->
+            <!-- Acciones secundarias rápidas: Imprimir recibo y Notificar por WhatsApp -->
             <div style="display: flex; gap: 8px; margin-bottom: 8px; width: 100%;">
-                <button type="button" class="btn--outline-sm" data-accion="imprimir" title="Imprimir comanda térmica de despacho" style="flex: 1;">
+                <button type="button" class="btn--outline-sm" data-accion="imprimir" title="Imprimir recibo térmico de venta" style="flex: 1;">
                     <svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg>
-                    Imprimir comanda
+                    Imprimir recibo
                 </button>
                 <a class="btn--outline-sm btn--wp" data-accion="whatsapp-cliente" target="_blank" rel="noopener" title="Notificar despacho por WhatsApp al cliente"
                    th:href="${p != null ? 'https://wa.me/57' + #strings.replace(#strings.replace(p.clienteTelefono, ' ', ''), '-', '') + '?text=' + #uris.escapeQueryParam('¡Hola ' + p.clienteNombre + '! Tu pedido #' + p.idPedido + ' de MoniDeal ya va en camino con el domiciliario a ' + p.direccion + '. Total a cobrar: ' + (p.totalFormateado ?: '$68.000') + '. ¡Gracias por tu compra!') : '#'}"
@@ -290,7 +290,7 @@
     </article>
 </template>
 
-<!-- Elemento para impresión de comanda térmica (58mm / 80mm) -->
+<!-- Elemento para impresión de recibo térmico (58mm / 80mm) -->
 <div id="ticketImpresion" aria-hidden="true"></div>
 
 <div class="toasts" id="toasts" aria-live="polite"></div>
@@ -299,7 +299,7 @@
 (() => {
     "use strict";
 
-    const PIN_CORRECTO = "1234";
+    const PIN_CORRECTO = "0690";
     const API_LISTAR = "/api/pedidos?estado=PENDIENTE";
     const API_ASIGNAR = id => `/api/pedidos/${id}/en-ruta`;
     const API_CONFIRMAR_PAGO = id => `/api/pedidos/${id}/confirmar-pago`;
@@ -656,7 +656,7 @@
         else clearTimeout(temporizador);
     });
 
-    function imprimirComandaDesdeCard(card) {
+    function imprimirReciboDesdeCard(card) {
         const id = card.dataset.id;
         const cliente = card.querySelector('[data-f="clienteNombre"]')?.textContent.trim() || "Cliente Mostrador";
         const telefono = card.querySelector('[data-f="clienteTelefono"]')?.textContent.trim() || "";
@@ -679,7 +679,7 @@
                 <div class="ticket__empresa">MONIDEAL</div>
                 <div class="ticket__sub">CONCENTRADOS & GRANOS A DOMICILIO</div>
                 <div class="ticket__sub">Guadalajara de Buga, Valle del Cauca</div>
-                <div class="ticket__num">COMANDA DE DESPACHO #${id}</div>
+                <div class="ticket__num">RECIBO DE VENTA #${id}</div>
                 <div class="ticket__sub">${fechaHora}</div>
             </div>
 
@@ -718,7 +718,7 @@
             </div>
 
             <div class="ticket__footer">
-                <div>Documento Interno de Control de Bodega</div>
+                <div>Comprobante de Entrega y Control de Bodega</div>
                 <div>¡Gracias por su compra en Monideal!</div>
             </div>
         `;
@@ -731,7 +731,7 @@
         const btnImprimir = e.target.closest('[data-accion="imprimir"]');
         if (btnImprimir) {
             const card = btnImprimir.closest(".pedido");
-            imprimirComandaDesdeCard(card);
+            imprimirReciboDesdeCard(card);
             return;
         }
 
