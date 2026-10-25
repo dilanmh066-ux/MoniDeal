@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Agent tools & graphs
+.agents/
+graphify-out/
+temp_graphify/

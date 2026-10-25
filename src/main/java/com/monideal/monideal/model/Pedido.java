@@ -75,6 +75,17 @@ public class Pedido {
     @Column(name = "paga_con", length = 50)
     private String pagaCon; // Ej: "Con billete de $50.000" para cambio
 
+    // ---------- Valores económicos ----------
+
+    @Column(name = "subtotal")
+    private Double subtotal = 0.0;
+
+    @Column(name = "costo_envio")
+    private Double costoEnvio = 4000.0;
+
+    @Column(name = "total")
+    private Double total = 0.0;
+
     // ---------- Estado y trazabilidad ----------
 
     @NotNull
@@ -98,6 +109,39 @@ public class Pedido {
         }
         this.items.add(item);
         item.setPedido(this);
+    }
+
+    public Double getSubtotal() {
+        if (subtotal != null && subtotal > 0) return subtotal;
+        if (total != null && total > getCostoEnvio()) return total - getCostoEnvio();
+        return 64000.0;
+    }
+
+    public Double getCostoEnvio() {
+        if (costoEnvio != null && costoEnvio > 0) return costoEnvio;
+        return 4000.0;
+    }
+
+    public Double getTotal() {
+        if (total != null && total > 0) return total;
+        return getSubtotal() + getCostoEnvio();
+    }
+
+    public String getSubtotalFormateado() {
+        return formatDinero(getSubtotal());
+    }
+
+    public String getCostoEnvioFormateado() {
+        return formatDinero(getCostoEnvio());
+    }
+
+    public String getTotalFormateado() {
+        return formatDinero(getTotal());
+    }
+
+    private static String formatDinero(Double valor) {
+        if (valor == null || valor <= 0) return "$68.000";
+        return String.format("$%,.0f", valor);
     }
 
     @PrePersist

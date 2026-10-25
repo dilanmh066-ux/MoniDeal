@@ -3,6 +3,7 @@ package com.monideal.monideal.controller;
 import com.monideal.monideal.dto.HistorialVentaResponse;
 import com.monideal.monideal.dto.PedidoRequest;
 import com.monideal.monideal.dto.PedidoResponse;
+import com.monideal.monideal.dto.ResumenCierreDto;
 import com.monideal.monideal.model.EstadoPedido;
 import com.monideal.monideal.service.PedidoService;
 import jakarta.validation.Valid;
@@ -37,32 +38,52 @@ public class PedidoController {
         return "redirect:/pedido";
     }
 
-    /** Pantalla del cliente: este es el link que se envía por WhatsApp. */
-    @GetMapping("/pedido")
+    /** Pantalla del cliente: este es el link que se envía por WhatsApp (soporta /pedido y /cliente). */
+    @GetMapping({"/pedido", "/cliente"})
     public String vistaCliente(Model model) {
         model.addAttribute("concentrados", pedidoService.listarConcentrados());
         model.addAttribute("granel", pedidoService.listarGranel());
+        model.addAttribute("catalogoBultos", pedidoService.listarConcentradosDetallados());
+        model.addAttribute("catalogoGranel", pedidoService.listarGranelDetallados());
+        model.addAttribute("costoDomicilio", pedidoService.getCostoDomicilioFijo());
         return "cliente";
     }
 
     /** Pantalla de la cajera y punto de venta. */
     @GetMapping("/caja")
     public String vistaCaja(Model model) {
-        model.addAttribute("pedidos", pedidoService.listarPorEstado(EstadoPedido.PENDIENTE));
+        List<PedidoResponse> pendientes = pedidoService.listarPorEstado(EstadoPedido.PENDIENTE);
+        List<PedidoResponse> enRuta = pedidoService.listarPorEstado(EstadoPedido.EN_RUTA);
+        ResumenCierreDto cierre = pedidoService.calcularCierre(null);
+
+        model.addAttribute("pedidos", pendientes);
+        model.addAttribute("totalPendientes", pendientes.size());
+        model.addAttribute("totalEnRuta", enRuta.size());
+        model.addAttribute("cierreHoy", cierre);
         return "caja";
     }
 
     /** Pantalla de rutas para los domiciliarios. */
     @GetMapping("/rutas")
     public String vistaRutas(Model model) {
-        model.addAttribute("pedidos", pedidoService.listarPorEstado(EstadoPedido.EN_RUTA));
+        List<PedidoResponse> enRuta = pedidoService.listarPorEstado(EstadoPedido.EN_RUTA);
+        model.addAttribute("pedidos", enRuta);
+        model.addAttribute("totalEnRuta", enRuta.size());
+
+        double efectivoRutas = enRuta.stream()
+                .filter(p -> !"TRANSFERENCIA".equalsIgnoreCase(p.getMetodoPago()))
+                .mapToDouble(p -> p.getTotal() != null ? p.getTotal() : 0.0)
+                .sum();
+        model.addAttribute("efectivoRutasTotal", efectivoRutas);
+        model.addAttribute("efectivoRutasFormateado", String.format("$%,.0f", efectivoRutas));
         return "rutas";
     }
 
-    /** Pantalla de historial de ventas y rutas completadas. */
+    /** Pantalla de historial de ventas, cierre de caja y rutas completadas. */
     @GetMapping("/historial")
     public String vistaHistorial(Model model) {
         model.addAttribute("historial", pedidoService.listarHistorial());
+        model.addAttribute("cierreHoy", pedidoService.calcularCierre(null));
         return "historial";
     }
 
@@ -85,6 +106,13 @@ public class PedidoController {
                 .stream()
                 .map(HistorialVentaResponse::desde)
                 .toList();
+    }
+
+    /** Cierre de caja en vivo para reportes de administración. */
+    @GetMapping("/api/cierre")
+    @ResponseBody
+    public ResumenCierreDto apiCierre() {
+        return pedidoService.calcularCierre(null);
     }
 
     /** Cliente: crea un pedido (queda PENDIENTE). */

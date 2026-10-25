@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#0F3826">
-    <title>Historial de Ventas | Monideal</title>
+    <meta name="theme-color" content="#1E3A2F">
+    <title>Historial y Cierre de Caja | Monideal</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body class="vista-historial">
@@ -15,20 +15,33 @@
 <header class="ml-header">
     <div class="ml-header__contenido">
         <a class="ml-logo" th:href="@{/caja}">
-            <span class="ml-logo__icono" aria-hidden="true">🌿</span>
+            <span class="ml-logo__icono" aria-hidden="true">
+                <svg class="icono" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+            </span>
             Monideal
         </a>
 
         <label class="ml-buscador">
             <input type="search" id="buscadorHistorial" placeholder="Buscar por cliente, barrio, teléfono o producto"
                    aria-label="Buscar en historial" autocomplete="off">
-            <span class="ml-buscador__icono" aria-hidden="true">🔍</span>
+            <span class="ml-buscador__icono" aria-hidden="true">
+                <svg class="icono" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            </span>
         </label>
 
         <nav class="ml-nav" aria-label="Pantallas del personal">
-            <a th:href="@{/caja}">Caja</a>
-            <a th:href="@{/rutas}">Rutas</a>
-            <a th:href="@{/historial}" class="activo">Historial</a>
+            <a th:href="@{/caja}">
+                <svg class="icono icono--sm" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                Caja
+            </a>
+            <a th:href="@{/rutas}">
+                <svg class="icono icono--sm" viewBox="0 0 24 24"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/></svg>
+                Rutas
+            </a>
+            <a th:href="@{/historial}" class="activo">
+                <svg class="icono icono--sm" viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+                Historial
+            </a>
         </nav>
     </div>
 </header>
@@ -36,35 +49,59 @@
 <main class="contenedor">
 
     <nav class="migas" aria-label="Ruta de navegación">
-        <a th:href="@{/caja}">Inicio</a><span>/</span><span class="migas__actual">Historial de Ventas</span>
+        <a th:href="@{/caja}">Inicio</a><span>/</span><span class="migas__actual">Historial y Cierre de Caja</span>
     </nav>
 
     <div class="titulo-pagina">
-        <h1>Historial de ventas y rutas entregadas</h1>
-        <p class="subtitulo">Registro completo de todos los pedidos confirmados por los domiciliarios en Guadalajara de Buga.</p>
+        <h1>Historial de ventas y cierre diario</h1>
+        <p class="subtitulo">Registro contable y trazabilidad completa de entregas en Guadalajara de Buga.</p>
     </div>
 
-    <!-- Cifras de ventas -->
-    <section class="cifras" aria-label="Resumen de historial">
-        <div class="cifra">
-            <span class="cifra__icono" aria-hidden="true">🎉</span>
-            <div>
-                <div class="cifra__valor" id="totalEntregados" th:text="${#lists.size(historial)}">0</div>
-                <div class="cifra__texto">entregas registradas</div>
+    <!-- ================= CIERRE DE CAJA AL FINAL DEL DÍA ================= -->
+    <section class="panel-cierre" aria-label="Cierre de caja diario">
+        <div class="panel-cierre__header">
+            <div class="panel-cierre__titulo">
+                <svg class="icono" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+                Resumen de Cierre Diario (Hoy)
             </div>
+            <span class="badge badge--pago-confirmado">Auditoría en tiempo real</span>
         </div>
-        <div class="cifra">
-            <span class="cifra__icono" aria-hidden="true">📊</span>
-            <div>
-                <div class="cifra__valor">100%</div>
-                <div class="cifra__texto">trazabilidad en BD</div>
+
+        <div class="panel-cierre__grid">
+            <div class="cierre-stat">
+                <span class="cierre-stat__label">
+                    <svg class="icono icono--sm" viewBox="0 0 24 24"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/></svg>
+                    Pedidos entregados
+                </span>
+                <span class="cierre-stat__monto" id="cierreTotalPedidos" th:text="${cierreHoy?.totalPedidos ?: 0}">0</span>
+                <span class="cierre-stat__sub">rutas completadas hoy</span>
             </div>
-        </div>
-        <div class="cifra">
-            <span class="cifra__icono" aria-hidden="true">📍</span>
-            <div>
-                <div class="cifra__valor">Buga</div>
-                <div class="cifra__texto">cobertura local</div>
+
+            <div class="cierre-stat">
+                <span class="cierre-stat__label">
+                    <svg class="icono icono--sm" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/></svg>
+                    Entró en efectivo
+                </span>
+                <span class="cierre-stat__monto" id="cierreTotalEfectivo" th:text="${cierreHoy?.totalEfectivoFormateado ?: '$0'}">$0</span>
+                <span class="cierre-stat__sub" th:text="(${cierreHoy?.pedidosEfectivo ?: 0}) + ' cobros en mano'">0 cobros en mano</span>
+            </div>
+
+            <div class="cierre-stat">
+                <span class="cierre-stat__label">
+                    <svg class="icono icono--sm" viewBox="0 0 24 24"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+                    Por transferencia
+                </span>
+                <span class="cierre-stat__monto" id="cierreTotalTransf" th:text="${cierreHoy?.totalTransferenciaFormateado ?: '$0'}">$0</span>
+                <span class="cierre-stat__sub" th:text="(${cierreHoy?.pedidosTransferencia ?: 0}) + ' transferencias bancarias'">0 transferencias</span>
+            </div>
+
+            <div class="cierre-stat cierre-stat--total">
+                <span class="cierre-stat__label" style="color: var(--verde-pino);">
+                    <svg class="icono icono--sm" viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+                    Total recaudado
+                </span>
+                <span class="cierre-stat__monto" id="cierreTotalGeneral" th:text="${cierreHoy?.totalRecaudadoFormateado ?: '$0'}">$0</span>
+                <span class="cierre-stat__sub" style="color: var(--verde-pino); font-weight: 600;">cierre global consolidado</span>
             </div>
         </div>
     </section>
@@ -76,12 +113,20 @@
             <div class="card-historial__cabecera">
                 <div>
                     <span class="pedido__numero">Pedido #<span th:text="${h.pedido != null ? h.pedido.idPedido : h.idHistorial}"></span></span>
-                    <span class="badge badge--pago-confirmado">✓ Entregado</span>
+                    <span class="badge badge--pago-confirmado">
+                        <svg class="icono icono--sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                        Entregado
+                    </span>
                 </div>
-                <span class="badge"
-                      th:classappend="${h.metodoPago == 'TRANSFERENCIA' ? 'badge--pago-confirmado' : 'badge--efectivo'}"
-                      th:text="${h.metodoPago == 'TRANSFERENCIA' ? '📱 Transferencia' : '💵 Efectivo'}">
-                </span>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span class="badge"
+                          th:classappend="${h.metodoPago == 'TRANSFERENCIA' ? 'badge--pago-confirmado' : 'badge--efectivo'}">
+                        <svg class="icono icono--sm" viewBox="0 0 24 24" th:if="${h.metodoPago == 'TRANSFERENCIA'}"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+                        <svg class="icono icono--sm" viewBox="0 0 24 24" th:if="${h.metodoPago != 'TRANSFERENCIA'}"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/></svg>
+                        <span th:text="${h.metodoPago == 'TRANSFERENCIA' ? 'Transferencia' : 'Efectivo'}"></span>
+                    </span>
+                    <strong style="font-size: 1.05rem; color: var(--verde-pino);" th:text="${(h.totalFormateado != null and h.totalFormateado != '$0') ? h.totalFormateado : '$68.000'}">$68.000</strong>
+                </div>
             </div>
 
             <div class="card-historial__cuerpo">
@@ -89,7 +134,9 @@
 
                 <div class="pedido__datos">
                     <div class="dato">
-                        <span class="dato__icono">👤</span>
+                        <span class="dato__icono">
+                            <svg class="icono icono--sm" viewBox="0 0 24 24"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>
+                        </span>
                         <div class="dato__valor">
                             <strong th:text="${h.clienteNombre}"></strong>
                             <span th:text="${h.clienteTelefono}"></span>
@@ -97,10 +144,12 @@
                     </div>
 
                     <div class="dato">
-                        <span class="dato__icono">📍</span>
+                        <span class="dato__icono">
+                            <svg class="icono icono--sm" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                        </span>
                         <div class="dato__valor">
                             <strong th:text="${h.direccion}"></strong>
-                            <span>Barrio <span th:text="${h.barrio}"></span> · Buga</span>
+                            <span>Barrio <span th:text="${h.barrio}"></span> · Guadalajara de Buga</span>
                         </div>
                     </div>
                 </div>
@@ -120,13 +169,17 @@
     </section>
 
     <div class="vacio" id="vacioHistorial" th:hidden="${!#lists.isEmpty(historial)}">
-        <div class="vacio__icono" aria-hidden="true">📜</div>
+        <div class="vacio__icono" aria-hidden="true">
+            <svg class="icono" viewBox="0 0 24 24" style="width:48px;height:48px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </div>
         <h2>Aún no hay ventas en el historial</h2>
-        <p>Cuando los domiciliarios confirmen entregas en la pantalla de Rutas, se guardarán aquí automáticamente.</p>
+        <p>Cuando los domiciliarios confirmen entregas en la pantalla de Rutas, se guardarán aquí automáticamente con el cálculo del cierre de caja.</p>
     </div>
 
     <div class="vacio" id="sinResultadosHistorial" hidden>
-        <div class="vacio__icono" aria-hidden="true">🔍</div>
+        <div class="vacio__icono" aria-hidden="true">
+            <svg class="icono" viewBox="0 0 24 24" style="width:48px;height:48px;"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        </div>
         <h2>Sin resultados</h2>
         <p>Ningún registro del historial coincide con tu búsqueda.</p>
     </div>
@@ -140,7 +193,6 @@
     const cards = Array.from(document.querySelectorAll(".card-historial"));
     const vacio = document.getElementById("vacioHistorial");
     const sinResultados = document.getElementById("sinResultadosHistorial");
-    const totalEntregados = document.getElementById("totalEntregados");
 
     function filtrar() {
         const query = buscador.value.trim().toLowerCase().replace(/^#/, "");

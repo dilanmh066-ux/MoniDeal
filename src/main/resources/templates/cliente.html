@@ -2,25 +2,30 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#0F3826">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#1E3A2F">
     <title>Monideal | Haz tu pedido</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-<body>
+<body data-costo-domicilio="4000">
 
-<div class="barra-anuncio">🚚 Domicilios en Guadalajara de Buga &nbsp;·&nbsp; 💵 Efectivo o Transferencia</div>
+<div class="barra-anuncio">
+    <svg class="icono icono--sm" viewBox="0 0 24 24"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/></svg>
+    <span>Entregas directas en Guadalajara de Buga &nbsp;·&nbsp; Efectivo contra entrega o Nequi / Bancolombia</span>
+</div>
 
 <header class="ml-header">
     <div class="ml-header__contenido">
         <a class="ml-logo" th:href="@{/pedido}">
-            <span class="ml-logo__icono" aria-hidden="true">🌿</span>
+            <span class="ml-logo__icono" aria-hidden="true">
+                <svg class="icono" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+            </span>
             Monideal
         </a>
-        <span class="ml-header__ayuda">Concentrados y Granos a domicilio</span>
+        <span class="ml-header__ayuda">Concentrados & Granos a Domicilio</span>
     </div>
 </header>
 
@@ -33,14 +38,29 @@
     <!-- ================= FORMULARIO ================= -->
     <section id="panelFormulario">
         <div class="titulo-pagina">
-            <h1>Haz tu pedido</h1>
-            <p class="subtitulo">Elige tus bultos o productos a granel y te los llevamos a la puerta de tu casa.</p>
+            <h1>Haz tu pedido a domicilio</h1>
+            <p class="subtitulo">Selecciona tus bultos cerrados o productos a granel. Te los llevamos hoy mismo a la puerta de tu casa en Buga.</p>
         </div>
 
         <div class="cifras" aria-hidden="true">
-            <div class="cifra"><span class="cifra__icono">🚚</span><div><div class="cifra__valor">Hoy mismo</div><div class="cifra__texto">entrega en Buga</div></div></div>
-            <div class="cifra"><span class="cifra__icono">💵</span><div><div class="cifra__valor">Efectivo / Nequi</div><div class="cifra__texto">tú eliges cómo pagar</div></div></div>
-            <div class="cifra"><span class="cifra__icono">🐾</span><div><div class="cifra__valor">Varios productos</div><div class="cifra__texto">en un solo pedido</div></div></div>
+            <div class="cifra">
+                <span class="cifra__icono">
+                    <svg class="icono icono--sm" viewBox="0 0 24 24"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/></svg>
+                </span>
+                <div><div class="cifra__valor">Hoy mismo</div><div class="cifra__texto">entrega local en Buga</div></div>
+            </div>
+            <div class="cifra">
+                <span class="cifra__icono">
+                    <svg class="icono icono--sm" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/></svg>
+                </span>
+                <div><div class="cifra__valor">Efectivo / Nequi</div><div class="cifra__texto">tú eliges cómo pagar</div></div>
+            </div>
+            <div class="cifra">
+                <span class="cifra__icono">
+                    <svg class="icono icono--sm" viewBox="0 0 24 24"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/></svg>
+                </span>
+                <div><div class="cifra__valor">Varios productos</div><div class="cifra__texto">en un solo domicilio</div></div>
+            </div>
         </div>
 
         <form id="formPedido" class="layout-pedido" novalidate>
@@ -50,13 +70,15 @@
                 <span class="card__etiqueta">Paso 1</span>
                 <h2 class="card__titulo">Tus productos</h2>
 
-                <!-- Selector de modalidad: Bultos vs Granel -->
+                <!-- Selector de modalidad: Segmented Control iOS / Shopify -->
                 <div class="selector-tipo-producto" role="tablist">
                     <button type="button" class="tab-tipo activo" id="tabBultos" data-tipo="bultos">
-                        📦 Bultos cerrados
+                        <svg class="icono icono--sm" viewBox="0 0 24 24"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+                        Bultos cerrados
                     </button>
                     <button type="button" class="tab-tipo" id="tabGranel" data-tipo="granel">
-                        🌾 A granel (Libras / Dinero)
+                        <svg class="icono icono--sm" viewBox="0 0 24 24"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg>
+                        A granel (Libras / Dinero)
                     </button>
                 </div>
 
@@ -66,8 +88,12 @@
                         <label for="selectBulto">Selecciona el concentrado</label>
                         <select class="input" id="selectBulto">
                             <option value="" selected disabled>Elige un bulto...</option>
-                            <option th:each="c : ${concentrados}" th:value="${c}" th:text="${c}">Concentrado</option>
+                            <option th:each="c : ${catalogoBultos}" 
+                                    th:value="${c.nombre}"
+                                    th:data-precio="${c.precio}"
+                                    th:text="${c.nombre + ' · ' + c.precioFormateado}">Concentrado</option>
                         </select>
+                        <span class="precio-preview" id="previewPrecioBulto"></span>
                     </div>
 
                     <div class="fila-agregar">
@@ -79,8 +105,9 @@
                                 <button type="button" data-paso-bulto="1" aria-label="Sumar">+</button>
                             </div>
                         </div>
-                        <button type="button" class="btn btn--secundario btn-agregar" id="btnAgregarBulto">
-                            ➕ Agregar al pedido
+                        <button type="button" class="btn btn--primario btn-agregar" id="btnAgregarBulto">
+                            <svg class="icono icono--sm" viewBox="0 0 24 24"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
+                            Agregar al pedido
                         </button>
                     </div>
                 </div>
@@ -91,8 +118,12 @@
                         <label for="selectGranel">Producto a granel</label>
                         <select class="input" id="selectGranel">
                             <option value="" selected disabled>Elige grano o concentrado...</option>
-                            <option th:each="g : ${granel}" th:value="${g}" th:text="${g}">Granel</option>
+                            <option th:each="g : ${catalogoGranel}"
+                                    th:value="${g.nombre}"
+                                    th:data-precio="${g.precio}"
+                                    th:text="${g.nombre + ' · ' + g.precioFormateado}">Granel</option>
                         </select>
+                        <span class="precio-preview" id="previewPrecioGranel"></span>
                     </div>
 
                     <div class="modalidad-granel">
@@ -121,8 +152,9 @@
                             <input class="input" type="number" id="dineroGranel" placeholder="Ej: 10000" min="2000" step="1000">
                         </div>
 
-                        <button type="button" class="btn btn--secundario btn-agregar" id="btnAgregarGranel">
-                            ➕ Agregar al pedido
+                        <button type="button" class="btn btn--primario btn-agregar" id="btnAgregarGranel">
+                            <svg class="icono icono--sm" viewBox="0 0 24 24"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
+                            Agregar al pedido
                         </button>
                     </div>
                 </div>
@@ -130,7 +162,8 @@
                 <!-- Lista de productos agregados (Carrito) -->
                 <div class="carrito-contenedor">
                     <div class="carrito-header">
-                        <strong>Tu lista de compras (<span id="carritoContador">0</span> ítems)</strong>
+                        <span>Tu lista de compras</span>
+                        <span class="badge badge--ruta"><span id="carritoContador">0</span> productos</span>
                     </div>
 
                     <ul class="carrito-lista" id="carritoLista">
@@ -138,6 +171,23 @@
                             Aún no has agregado productos. Selecciona uno arriba y toca <strong>"Agregar al pedido"</strong>.
                         </li>
                     </ul>
+
+                    <!-- Desglose de totales transparente -->
+                    <div class="carrito-totales" id="carritoTotales" hidden>
+                        <div class="carrito-totales__fila">
+                            <span>Subtotal productos:</span>
+                            <span id="subtotalTexto">$0</span>
+                        </div>
+                        <div class="carrito-totales__fila">
+                            <span>Domicilio en Guadalajara de Buga:</span>
+                            <span id="domicilioTexto">$4.000</span>
+                        </div>
+                        <div class="carrito-totales__fila carrito-totales__fila--final">
+                            <span>Total estimado a pagar:</span>
+                            <span id="totalTexto">$0</span>
+                        </div>
+                    </div>
+
                     <p class="campo__error" id="errorCarrito" style="display:none;"></p>
                 </div>
             </div>
@@ -170,10 +220,35 @@
                     <p class="campo__error"></p>
                 </div>
 
+                <!-- Input de Barrio con Autocompletado nativo de barrios de Buga -->
                 <div class="campo" data-campo="barrio">
                     <label for="barrio">Barrio en Guadalajara de Buga</label>
-                    <input class="input" type="text" id="barrio" name="barrio" maxlength="100"
-                           placeholder="Ej: La Honda, El Albergue, Santa Rita..." required>
+                    <input class="input" type="text" id="barrio" name="barrio" list="barriosBugaList" maxlength="100"
+                           placeholder="Escribe o selecciona tu barrio..." required>
+                    <datalist id="barriosBugaList">
+                        <option value="Montellano">
+                        <option value="Albores">
+                        <option value="El Molino">
+                        <option value="Paloblanco">
+                        <option value="El Albergue">
+                        <option value="Santa Rita">
+                        <option value="La Honda">
+                        <option value="San José de las Palmas">
+                        <option value="Sucre">
+                        <option value="Estambul">
+                        <option value="Balboa">
+                        <option value="La Ventura">
+                        <option value="Bello Horizonte">
+                        <option value="Popular">
+                        <option value="Prados del Sur">
+                        <option value="Ricaurte">
+                        <option value="Jorge Eliécer Gaitán">
+                        <option value="Alto Bonito">
+                        <option value="El Jardín">
+                        <option value="La Merced">
+                        <option value="Aures">
+                        <option value="Chambimbal">
+                    </datalist>
                     <p class="campo__error"></p>
                 </div>
 
@@ -185,7 +260,7 @@
                 </div>
             </div>
 
-            <!-- Paso 3: Método de pago -->
+            <!-- Paso 3: Método de pago con Logos Vectoriales -->
             <div class="card zona-pago">
                 <span class="card__etiqueta">Paso 3</span>
                 <h2 class="card__titulo">Método de pago</h2>
@@ -193,31 +268,38 @@
                 <div class="selector-pago">
                     <label class="tarjeta-pago activa" id="opcionEfectivo">
                         <input type="radio" name="metodoPago" value="EFECTIVO" checked>
-                        <div class="tarjeta-pago__icono">💵</div>
+                        <div class="tarjeta-pago__icono-box">
+                            <svg class="icono" viewBox="0 0 24 24" style="color: var(--verde-pino);"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>
+                        </div>
                         <div class="tarjeta-pago__cuerpo">
                             <strong>Efectivo al recibir</strong>
-                            <p>Le pagas en mano al domiciliario en la puerta de tu casa.</p>
+                            <p>Le pagas en mano al domiciliario cuando llegue a tu puerta.</p>
                         </div>
                     </label>
 
                     <label class="tarjeta-pago" id="opcionTransferencia">
                         <input type="radio" name="metodoPago" value="TRANSFERENCIA">
-                        <div class="tarjeta-pago__icono">📱</div>
+                        <div class="tarjeta-pago__icono-box">
+                            <svg class="icono" viewBox="0 0 24 24" style="color: #DA0081;"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+                        </div>
                         <div class="tarjeta-pago__cuerpo">
-                            <strong>Transferencia bancaria</strong>
-                            <p>Nequi, Bancolombia o Daviplata. Envías el comprobante por WhatsApp.</p>
+                            <strong>Transferencia (Nequi / Bancolombia)</strong>
+                            <p>Pagas por App bancaria y envías el comprobante por WhatsApp tras confirmar.</p>
                         </div>
                     </label>
                 </div>
 
                 <!-- Campo adicional para cambio si paga en efectivo -->
                 <div class="campo" id="campoPagaCon" style="margin-top: 14px;">
-                    <label for="pagaCon">¿Con cuánto billete pagas? <span class="opcional">(opcional para llevarte cambio)</span></label>
-                    <input class="input" type="text" id="pagaCon" name="pagaCon" placeholder="Ej: Con billete de $50.000">
+                    <label for="pagaCon">¿Con cuanto vas a pagar? <span class="opcional">(opcional para llevarte cambio exacto)</span></label>
+                    <input class="input" type="text" id="pagaCon" name="pagaCon" placeholder="Ej: Con billete de $50.000 o $100.000">
                 </div>
 
                 <div class="alerta-transferencia" id="alertaTransferencia" hidden>
-                    💡 <strong>Atención:</strong> Al confirmar tu pedido, te daremos un botón directo para enviar tu comprobante al WhatsApp oficial y así autorizar el despacho desde la oficina.
+                    <svg class="icono icono--sm" viewBox="0 0 24 24" style="color: var(--ambar-texto);"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+                    <div>
+                        <strong>Atención:</strong> Al confirmar tu pedido, te daremos un botón directo para enviar tu comprobante al WhatsApp oficial y autorizar el despacho desde la bodega.
+                    </div>
                 </div>
             </div>
 
@@ -226,24 +308,29 @@
                 <button type="submit" class="btn btn--primario btn--bloque btn--grande" id="btnConfirmar">
                     Confirmar pedido
                 </button>
-                <p class="nota-pago" id="notaPiePago">Pagas cuando recibas tus productos.</p>
+                <p class="nota-pago" id="notaPiePago">Pagas cuando recibas tus productos en Buga.</p>
             </div>
         </form>
     </section>
 
     <!-- ================= CONFIRMACIÓN ================= -->
     <section class="card exito" id="panelExito" hidden>
-        <div class="exito__icono" aria-hidden="true">✓</div>
+        <div class="exito__icono" aria-hidden="true">
+            <svg class="icono" viewBox="0 0 24 24" style="width:36px;height:36px;"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
         <h2>¡Recibimos tu pedido!</h2>
-        <p id="exitoMensajeSub">Ya está en caja. Te avisaremos por WhatsApp cuando salga el domiciliario.</p>
+        <p id="exitoMensajeSub">Ya está registrado en caja. Te avisaremos por WhatsApp cuando salga el domiciliario.</p>
 
         <!-- Bloque especial si pagó por transferencia -->
         <div class="bloque-whatsapp-pago" id="bloqueWpPago" hidden>
             <div class="alerta-wp">
-                <h3>📲 Paso importante: Confirma tu transferencia</h3>
+                <h3>
+                    <svg class="icono" viewBox="0 0 24 24"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+                    Paso importante: Envía tu comprobante
+                </h3>
                 <p>Para despachar tu pedido, envía la foto del comprobante de Nequi o Bancolombia a nuestro WhatsApp de atención.</p>
                 <a href="#" target="_blank" rel="noopener" class="btn btn--exito btn--bloque btn--grande" id="btnWpComprobante">
-                    💬 Enviar comprobante por WhatsApp
+                    Enviar comprobante por WhatsApp
                 </a>
             </div>
         </div>
@@ -252,6 +339,7 @@
             <div><dt>Pedido</dt><dd id="resNumero"></dd></div>
             <div><dt>Productos</dt><dd id="resProductos"></dd></div>
             <div><dt>Método de pago</dt><dd id="resMetodoPago"></dd></div>
+            <div><dt>Total a pagar</dt><dd id="resTotal" style="color: var(--verde-pino); font-size: 1.05rem;"></dd></div>
             <div><dt>Entrega en</dt><dd id="resDireccion"></dd></div>
         </dl>
 
@@ -260,6 +348,17 @@
         </button>
     </section>
 </main>
+
+<!-- ================= BARRA FLOTANTE "STICKY" INFERIOR (MÓVIL) ================= -->
+<div class="barra-confirmar-sticky" id="barraSticky" hidden>
+    <div class="barra-confirmar-sticky__info">
+        <span class="barra-confirmar-sticky__label">Total a pagar</span>
+        <span class="barra-confirmar-sticky__total" id="stickyTotalTexto">$4.000</span>
+    </div>
+    <button type="button" class="btn btn--primario" id="btnStickyConfirmar">
+        Confirmar pedido
+    </button>
+</div>
 
 <div class="toasts" id="toasts" aria-live="polite"></div>
 
@@ -271,6 +370,7 @@
     const CLAVE_DATOS = "monideal.datosCliente";
     const CAMPOS_GUARDADOS = ["clienteNombre", "clienteTelefono", "direccion", "barrio"];
     const WHATSAPP_TIENDA = "573177727181"; // Teléfono oficial Monideal / Santa Mónica Buga
+    const COSTO_DOMICILIO = 4000;
 
     // Estado del carrito local
     let carrito = [];
@@ -280,42 +380,58 @@
     const panelFormulario = document.getElementById("panelFormulario");
     const panelExito = document.getElementById("panelExito");
 
+    // Pestañas Segmented Control Bultos vs Granel
     const tabBultos = document.getElementById("tabBultos");
     const tabGranel = document.getElementById("tabGranel");
     const seccionBultos = document.getElementById("seccionBultos");
     const seccionGranel = document.getElementById("seccionGranel");
 
+    // Elementos Bulto
     const selectBulto = document.getElementById("selectBulto");
     const cantBultos = document.getElementById("cantBultos");
     const btnAgregarBulto = document.getElementById("btnAgregarBulto");
 
+    // Elementos Granel
     const selectGranel = document.getElementById("selectGranel");
     const cantGranel = document.getElementById("cantGranel");
     const dineroGranel = document.getElementById("dineroGranel");
+    const btnAgregarGranel = document.getElementById("btnAgregarGranel");
     const campoGranelCantidad = document.getElementById("campoGranelCantidad");
     const campoGranelDinero = document.getElementById("campoGranelDinero");
     const labelCantGranel = document.getElementById("labelCantGranel");
-    const btnAgregarGranel = document.getElementById("btnAgregarGranel");
 
+    // Carrito
+    const carritoContador = document.getElementById("carritoContador");
     const carritoLista = document.getElementById("carritoLista");
     const carritoVacio = document.getElementById("carritoVacio");
-    const carritoContador = document.getElementById("carritoContador");
+    const carritoTotales = document.getElementById("carritoTotales");
+    const subtotalTexto = document.getElementById("subtotalTexto");
+    const totalTexto = document.getElementById("totalTexto");
     const errorCarrito = document.getElementById("errorCarrito");
 
+    // Sticky Bar
+    const barraSticky = document.getElementById("barraSticky");
+    const stickyTotalTexto = document.getElementById("stickyTotalTexto");
+    const btnStickyConfirmar = document.getElementById("btnStickyConfirmar");
+
+    // Otros campos
     const campoPagaCon = document.getElementById("campoPagaCon");
     const alertaTransferencia = document.getElementById("alertaTransferencia");
     const notaPiePago = document.getElementById("notaPiePago");
 
-    // ---------- Notificaciones ----------
+    function formatDinero(num) {
+        return new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 }).format(num || 0);
+    }
+
     function toast(mensaje, tipo = "info") {
         const el = document.createElement("div");
         el.className = `toast toast--${tipo}`;
-        el.textContent = mensaje;
+        el.innerHTML = `<span>${mensaje}</span>`;
         document.getElementById("toasts").appendChild(el);
         setTimeout(() => el.remove(), 4000);
     }
 
-    // ---------- Pestañas Bultos vs Granel ----------
+    // Alternar tabs con estilo Segmented Control
     tabBultos.addEventListener("click", () => {
         tabBultos.classList.add("activo");
         tabGranel.classList.remove("activo");
@@ -330,11 +446,12 @@
         seccionBultos.hidden = true;
     });
 
-    // Contador bultos
-    document.querySelectorAll("[data-paso-bulto]").forEach(btn => {
-        btn.addEventListener("click", () => {
-            const paso = parseInt(btn.dataset.pasoBulto, 10);
-            cantBultos.value = Math.min(50, Math.max(1, (parseInt(cantBultos.value, 10) || 1) + paso));
+    // Control de paso para cantidad de bultos
+    document.querySelectorAll("[data-paso-bulto]").forEach(b => {
+        b.addEventListener("click", () => {
+            const paso = parseInt(b.dataset.pasoBulto, 10);
+            const actual = parseInt(cantBultos.value, 10) || 1;
+            cantBultos.value = Math.max(1, Math.min(50, actual + paso));
         });
     });
 
@@ -363,11 +480,17 @@
             return;
         }
 
+        const opt = selectBulto.options[selectBulto.selectedIndex];
+        const precioUnit = parseFloat(opt?.dataset?.precio) || 128000;
+        const subtotal = precioUnit * cant;
+
         carrito.push({
             producto: prod,
             tipoUnidad: "BULTO",
             cantidad: cant,
             valorDinero: null,
+            precioUnitario: precioUnit,
+            subtotal: subtotal,
             detalle: `${cant} bulto(s) de ${prod}`
         });
 
@@ -386,6 +509,8 @@
             return;
         }
 
+        const opt = selectGranel.options[selectGranel.selectedIndex];
+        const precioLibra = parseFloat(opt?.dataset?.precio) || 3500;
         const modo = document.querySelector('input[name="modoGranel"]:checked').value;
         let item = null;
 
@@ -396,23 +521,30 @@
                 dineroGranel.focus();
                 return;
             }
-            const formatoDinero = new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 }).format(dinero);
             item = {
                 producto: prod,
                 tipoUnidad: "VALOR",
                 cantidad: 1,
                 valorDinero: dinero,
-                detalle: `${formatoDinero} de ${prod}`
+                precioUnitario: precioLibra,
+                subtotal: dinero,
+                detalle: `${formatDinero(dinero)} de ${prod}`
             };
             dineroGranel.value = "";
         } else {
             const cant = parseFloat(cantGranel.value) || 1;
-            const unidad = modo === "KILOS" ? "kg" : "lb";
+            const esKilo = modo === "KILOS";
+            const unidad = esKilo ? "kg" : "lb";
+            const precioUnit = esKilo ? precioLibra * 2 : precioLibra;
+            const subtotal = precioUnit * cant;
+
             item = {
                 producto: prod,
                 tipoUnidad: modo,
                 cantidad: cant,
                 valorDinero: null,
+                precioUnitario: precioUnit,
+                subtotal: subtotal,
                 detalle: `${cant} ${unidad} de ${prod}`
             };
             cantGranel.value = "2";
@@ -424,7 +556,7 @@
         toast(`Agregado al pedido: ${item.detalle}`, "exito");
     });
 
-    // ---------- Renderizar Carrito ----------
+    // ---------- Renderizar Carrito y Totales ----------
     function renderizarCarrito() {
         errorCarrito.style.display = "none";
         carritoContador.textContent = carrito.length;
@@ -432,24 +564,45 @@
         if (carrito.length === 0) {
             carritoLista.innerHTML = "";
             carritoLista.appendChild(carritoVacio);
+            carritoTotales.hidden = true;
+            barraSticky.hidden = true;
             return;
         }
 
+        let subtotalAcum = 0;
         carritoLista.innerHTML = "";
+
         carrito.forEach((item, index) => {
+            subtotalAcum += (item.subtotal || 0);
+
             const li = document.createElement("li");
             li.className = "carrito-item";
             li.innerHTML = `
                 <div class="carrito-item__info">
-                    <span class="carrito-item__icono">${item.tipoUnidad === "BULTO" ? "📦" : "🌾"}</span>
+                    <span class="carrito-item__icono">
+                        <svg class="icono icono--sm" viewBox="0 0 24 24"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/></svg>
+                    </span>
                     <div>
                         <strong>${item.detalle}</strong>
                     </div>
                 </div>
-                <button type="button" class="btn-eliminar-item" data-index="${index}" title="Quitar producto">✕</button>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span class="carrito-item__precio">${formatDinero(item.subtotal)}</span>
+                    <button type="button" class="btn-eliminar-item" data-index="${index}" title="Quitar producto">
+                        <svg class="icono icono--sm" viewBox="0 0 24 24"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
+                    </button>
+                </div>
             `;
             carritoLista.appendChild(li);
         });
+
+        const totalConDomicilio = subtotalAcum + COSTO_DOMICILIO;
+        subtotalTexto.textContent = formatDinero(subtotalAcum);
+        totalTexto.textContent = formatDinero(totalConDomicilio);
+        stickyTotalTexto.textContent = formatDinero(totalConDomicilio);
+
+        carritoTotales.hidden = false;
+        barraSticky.hidden = false;
 
         // Eventos para quitar ítems
         carritoLista.querySelectorAll(".btn-eliminar-item").forEach(btn => {
@@ -461,6 +614,11 @@
         });
     }
 
+    // Botón sticky inferior móvil confirma o lleva al formulario
+    btnStickyConfirmar.addEventListener("click", () => {
+        form.requestSubmit();
+    });
+
     // ---------- Cambio de Método de Pago ----------
     document.querySelectorAll('input[name="metodoPago"]').forEach(r => {
         r.addEventListener("change", e => {
@@ -470,7 +628,7 @@
 
             campoPagaCon.hidden = !esEfectivo;
             alertaTransferencia.hidden = esEfectivo;
-            notaPiePago.textContent = esEfectivo ? "Pagas cuando recibas tus productos." : "Envías el comprobante por WhatsApp tras confirmar.";
+            notaPiePago.textContent = esEfectivo ? "Pagas en mano cuando recibas tus productos." : "Envías el comprobante por WhatsApp tras confirmar.";
         });
     });
 
@@ -516,12 +674,13 @@
         if (!pedido.clienteNombre) errores.clienteNombre = "Escribe tu nombre";
         if (!/^[0-9]{7,15}$/.test(pedido.clienteTelefono)) errores.clienteTelefono = "Escribe un teléfono válido (solo números)";
         if (!pedido.direccion) errores.direccion = "Escribe la dirección exacta en Buga";
-        if (!pedido.barrio) errores.barrio = "Escribe el barrio en Buga";
+        if (!pedido.barrio) errores.barrio = "Escribe o selecciona tu barrio en Buga";
         return errores;
     }
 
     function setCargando(cargando) {
         btnConfirmar.disabled = cargando;
+        btnStickyConfirmar.disabled = cargando;
         btnConfirmar.innerHTML = cargando
             ? '<span class="spinner" aria-hidden="true"></span> Enviando pedido...'
             : "Confirmar pedido";
@@ -533,6 +692,9 @@
         limpiarErrores();
 
         const metodoPago = form.elements.metodoPago.value;
+        const subtotal = carrito.reduce((acc, it) => acc + (it.subtotal || 0), 0);
+        const total = subtotal + COSTO_DOMICILIO;
+
         const pedido = {
             clienteNombre: form.elements.clienteNombre.value.trim(),
             clienteTelefono: form.elements.clienteTelefono.value.replace(/\D/g, ""),
@@ -541,6 +703,9 @@
             indicaciones: (form.elements.indicaciones.value || "").trim() || null,
             metodoPago: metodoPago,
             pagaCon: metodoPago === "EFECTIVO" ? (form.elements.pagaCon.value.trim() || null) : null,
+            subtotal: subtotal,
+            costoEnvio: COSTO_DOMICILIO,
+            total: total,
             items: carrito
         };
 
@@ -583,11 +748,12 @@
         document.getElementById("resNumero").textContent = `#${p.idPedido}`;
         document.getElementById("resProductos").textContent = p.producto;
         document.getElementById("resDireccion").textContent = `${p.direccion}, Barrio ${p.barrio} (Buga)`;
+        document.getElementById("resTotal").textContent = p.totalFormateado || formatDinero(p.total);
 
         const esTransf = p.metodoPago === "TRANSFERENCIA";
         document.getElementById("resMetodoPago").textContent = esTransf
-            ? "📱 Transferencia bancaria (Nequi / Bancolombia)"
-            : `💵 Efectivo contra entrega ${p.pagaCon ? '(' + p.pagaCon + ')' : ''}`;
+            ? "Transferencia bancaria (Nequi / Bancolombia)"
+            : `Efectivo contra entrega ${p.pagaCon ? '(' + p.pagaCon + ')' : ''}`;
 
         const bloqueWp = document.getElementById("bloqueWpPago");
         const btnWp = document.getElementById("btnWpComprobante");
@@ -599,6 +765,7 @@
 
             const textoWp = encodeURIComponent(
                 `Hola Monideal Buga, acabo de registrar el Pedido #${p.idPedido} a nombre de ${p.clienteNombre}.\n` +
+                `Total a transferir: ${p.totalFormateado || formatDinero(p.total)}\n` +
                 `Productos: ${p.producto}\n` +
                 `Dirección: ${p.direccion}, ${p.barrio}\n` +
                 `Aquí adjunto el comprobante de mi transferencia.`
@@ -610,6 +777,7 @@
                 "Ya está en caja. Te avisaremos por WhatsApp cuando salga el domiciliario hacia tu dirección.";
         }
 
+        barraSticky.hidden = true;
         panelFormulario.hidden = true;
         panelExito.hidden = false;
         window.scrollTo({ top: 0, behavior: "smooth" });

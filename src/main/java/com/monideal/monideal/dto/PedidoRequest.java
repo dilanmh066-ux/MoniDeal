@@ -35,6 +35,11 @@ public record PedidoRequest(
         // Opcional: "Con billete de $50.000" para cambio
         String pagaCon,
 
+        // Totales calculados (opcional del frontend, validados en backend)
+        Double subtotal,
+        Double costoEnvio,
+        Double total,
+
         // Lista de productos seleccionados (carrito)
         List<PedidoItemDto> items
 ) {

@@ -43,11 +43,28 @@ public class PedidoItem {
     @Column(name = "detalle", nullable = false, length = 120)
     private String detalle;
 
+    @Column(name = "precio_unitario")
+    private Double precioUnitario = 0.0;
+
+    @Column(name = "subtotal")
+    private Double subtotal = 0.0;
+
     public PedidoItem(String producto, String tipoUnidad, Double cantidad, Double valorDinero, String detalle) {
+        this(producto, tipoUnidad, cantidad, valorDinero, detalle, 0.0, valorDinero != null ? valorDinero : 0.0);
+    }
+
+    public PedidoItem(String producto, String tipoUnidad, Double cantidad, Double valorDinero, String detalle, Double precioUnitario, Double subtotal) {
         this.producto = producto;
         this.tipoUnidad = tipoUnidad != null ? tipoUnidad : "BULTO";
         this.cantidad = cantidad != null ? cantidad : 1.0;
         this.valorDinero = valorDinero;
         this.detalle = detalle != null ? detalle : producto;
+        this.precioUnitario = precioUnitario != null ? precioUnitario : 0.0;
+        this.subtotal = subtotal != null ? subtotal : 0.0;
+    }
+
+    public String getSubtotalFormateado() {
+        if (subtotal == null || subtotal == 0) return "$0";
+        return String.format("$%,.0f", subtotal);
     }
 }

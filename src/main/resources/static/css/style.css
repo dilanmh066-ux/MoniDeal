@@ -1,49 +1,65 @@
 /* ==========================================================================
-   MONIDEAL - Hoja de estilos global
-   Estética: Moderna, editorial, fresca y profesional (Shopify Style).
-   Paleta: Blanco limpio, Verde Bosque profundo y Esmeralda natural.
-   Mobile-First: diseñado para celular y adaptado con elegancia a PC.
+   MONIDEAL - Diseño Editorial & Logística Agropecuaria Profesional
+   Paleta: Tierra Moderna (Blanco hueso #FBFBF9, Verde Pino #1E3A2F, Arcilla #C97A3E)
+   Tipografía: Plus Jakarta Sans (Geométrica, limpia, corporativa)
+   Formas: Bordes limpios (8px - 10px), sin radios de píldora extrema.
    ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
 /* ---------- 1. Variables de Diseño ---------- */
 :root {
-    /* Identidad Monideal: Naturaleza & Nutrición */
-    --verde-bosque: #0F3826;
-    --verde-bosque-hover: #082619;
-    --verde-bosque-suave: #E9F4EE;
-    --esmeralda: #059669;
-    --esmeralda-hover: #047857;
-    --esmeralda-suave: #ECFDF5;
-    --esmeralda-borde: #A7F3D0;
+    /* Identidad Agro / Tierra Moderna */
+    --verde-pino: #1E3A2F;
+    --verde-pino-hover: #152A22;
+    --verde-pino-suave: #EBF3EE;
+    --verde-pino-borde: #D1E3D9;
+
+    --acento-arcilla: #C97A3E;
+    --acento-arcilla-hover: #B46B33;
+    --acento-arcilla-suave: #FBF4EE;
+    --acento-arcilla-borde: #F1D8C4;
 
     /* Acentos funcionales */
+    --esmeralda: #166534;
+    --esmeralda-hover: #14532D;
+    --esmeralda-suave: #DCFCE7;
+    --esmeralda-borde: #BBF7D0;
+
     --rojo: #DC2626;
     --rojo-suave: #FEF2F2;
+    --rojo-borde: #FECACA;
+
     --ambar: #D97706;
     --ambar-suave: #FFFBEB;
+    --ambar-borde: #FDE68A;
     --ambar-texto: #92400E;
+
     --azul-soft: #EFF6FF;
     --azul-soft-texto: #1E40AF;
+    --azul-borde: #BFDBFE;
 
-    /* Neutros luminosos */
-    --fondo: #F7F9F7;
+    /* Superficies y Neutros Cálidos */
+    --fondo: #FBFBF9;
     --blanco: #FFFFFF;
-    --texto: #111827;
-    --texto-secundario: #4B5563;
-    --texto-suave: #9CA3AF;
-    --borde: #E5E7EB;
-    --borde-input: #D1D5DB;
+    --superficie-muted: #F3F2EE;
+    --texto: #1A1D1A;
+    --texto-secundario: #5E665F;
+    --texto-suave: #8F9690;
+    --borde: #ECEAE4;
+    --borde-input: #D9D6CE;
 
-    /* Formas y Sombras Shopify */
+    /* Formas firmes y modernas (Shopify / Stripe) */
     --radio-sm: 6px;
     --radio: 8px;
+    --radio-md: 10px;
     --radio-lg: 12px;
-    --radio-pill: 999px;
-    --sombra: 0 1px 3px rgba(0, 0, 0, .03), 0 4px 12px rgba(15, 56, 38, .04);
-    --sombra-hover: 0 10px 25px -3px rgba(15, 56, 38, .08), 0 4px 6px -2px rgba(0, 0, 0, .02);
+    --radio-pill: 8px; /* Sustituye el 999px excesivo */
 
-    /* Tipografía */
-    --fuente: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --sombra: 0 1px 3px rgba(0, 0, 0, .04), 0 2px 6px rgba(0, 0, 0, .02);
+    --sombra-hover: 0 4px 16px rgba(30, 58, 47, .08);
+
+    --fuente: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     --lateral: 0px;
 }
 
@@ -63,30 +79,50 @@ body {
 }
 
 h1, h2, h3, p, dl, dd { margin: 0; }
-a { color: var(--esmeralda-hover); text-decoration: none; transition: color .15s; }
-a:hover { color: var(--verde-bosque); }
+a { color: var(--acento-arcilla); text-decoration: none; transition: color .15s; }
+a:hover { color: var(--verde-pino); }
 button, input, select, textarea { font: inherit; color: inherit; }
 [hidden] { display: none !important; }
 
-/* ---------- 3. Barra de anuncio superior ---------- */
+/* ---------- 3. Iconos SVG Minimalistas (Lucide Style) ---------- */
+.icono {
+    display: inline-block;
+    width: 1.25em;
+    height: 1.25em;
+    vertical-align: -0.18em;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex-shrink: 0;
+}
+.icono--sm { width: 1em; height: 1em; }
+.icono--lg { width: 1.5em; height: 1.5em; }
+
+/* ---------- 4. Barra de anuncio superior ---------- */
 .barra-anuncio {
-    background: var(--verde-bosque);
-    color: #E2E8F0;
+    background: var(--verde-pino);
+    color: #E6EFEA;
     text-align: center;
     font-size: .78rem;
     font-weight: 500;
-    letter-spacing: .5px;
-    padding: 8px 16px;
+    letter-spacing: .4px;
+    padding: 7px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 }
 
-/* ---------- 4. Header Blanco Elegante (Shopify) ---------- */
+/* ---------- 5. Header Corporativo Limpio ---------- */
 .ml-header {
     position: sticky;
     top: 0;
     z-index: 50;
     background: var(--blanco);
     border-bottom: 1px solid var(--borde);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, .02);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .02);
 }
 
 .ml-header__contenido {
@@ -103,51 +139,56 @@ button, input, select, textarea { font: inherit; color: inherit; }
     display: flex;
     align-items: center;
     gap: 10px;
-    font-size: 1.35rem;
+    font-size: 1.3rem;
     font-weight: 700;
-    color: var(--verde-bosque);
-    letter-spacing: -.6px;
+    color: var(--verde-pino);
+    letter-spacing: -.4px;
 }
 
 .ml-logo__icono {
-    width: 38px;
-    height: 38px;
+    width: 36px;
+    height: 36px;
     display: grid;
     place-items: center;
-    border-radius: var(--radio-lg);
-    background: var(--esmeralda-suave);
-    border: 1px solid var(--esmeralda-borde);
-    font-size: 1.25rem;
+    border-radius: var(--radio);
+    background: var(--verde-pino-suave);
+    color: var(--verde-pino);
+    border: 1px solid var(--verde-pino-borde);
 }
 
-/* Píldoras de navegación (Caja / Rutas / Historial) */
+/* Navegación interna (Caja / Rutas / Historial) */
 .ml-nav {
     margin-left: auto;
     display: flex;
     align-items: center;
-    gap: 6px;
-    background: #F1F4F1;
+    gap: 4px;
+    background: var(--superficie-muted);
     padding: 4px;
-    border-radius: var(--radio-pill);
+    border-radius: var(--radio);
+    border: 1px solid var(--borde);
 }
 
 .ml-nav a {
     padding: 6px 14px;
-    border-radius: var(--radio-pill);
+    border-radius: var(--radio-sm);
     font-size: .83rem;
     font-weight: 500;
     color: var(--texto-secundario);
     transition: all .15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .ml-nav a:hover {
-    color: var(--verde-bosque);
+    color: var(--texto);
 }
 
 .ml-nav a.activo {
-    background: var(--verde-bosque);
-    color: var(--blanco);
-    box-shadow: 0 2px 6px rgba(15, 56, 38, .2);
+    background: var(--blanco);
+    color: var(--verde-pino);
+    font-weight: 600;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .06);
 }
 
 .ml-header__ayuda {
@@ -162,27 +203,29 @@ button, input, select, textarea { font: inherit; color: inherit; }
     order: 3;
     flex: 1 1 100%;
     display: flex;
+    align-items: center;
     background: var(--fondo);
     border: 1px solid var(--borde-input);
-    border-radius: var(--radio-pill);
+    border-radius: var(--radio);
     overflow: hidden;
     transition: all .2s;
 }
 
 .ml-buscador:focus-within {
     background: var(--blanco);
-    border-color: var(--esmeralda);
-    box-shadow: 0 0 0 3px rgba(5, 150, 105, .12);
+    border-color: var(--verde-pino);
+    box-shadow: 0 0 0 3px rgba(30, 58, 47, .1);
 }
 
 .ml-buscador input {
     flex: 1;
     min-width: 0;
     border: 0;
-    padding: 10px 16px;
+    padding: 10px 14px;
     background: transparent;
     outline: none;
-    font-size: .9rem;
+    font-size: .88rem;
+    color: var(--texto);
 }
 
 .ml-buscador input::placeholder { color: var(--texto-suave); }
@@ -190,19 +233,17 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .ml-buscador__icono {
     display: grid;
     place-items: center;
-    padding: 0 16px;
+    padding: 0 14px;
     color: var(--texto-secundario);
 }
 
-/* ---------- 5. Layout General ---------- */
+/* ---------- 6. Layout General ---------- */
 .contenedor {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 var(--lateral) 40px;
 }
-
-.contenedor--angosto { max-width: 600px; }
 
 .migas,
 .titulo-pagina,
@@ -211,6 +252,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .migas {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: 6px;
     padding-top: 18px;
     font-size: .8rem;
@@ -218,7 +260,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 }
 
 .migas a { color: var(--texto-suave); }
-.migas a:hover { color: var(--verde-bosque); }
+.migas a:hover { color: var(--verde-pino); }
 .migas__actual { color: var(--texto-secundario); font-weight: 500; }
 
 .titulo-pagina { padding-top: 14px; padding-bottom: 20px; }
@@ -226,25 +268,26 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .titulo-pagina::before {
     content: "";
     display: block;
-    width: 28px;
+    width: 24px;
     height: 3px;
     margin-bottom: 12px;
-    border-radius: 999px;
-    background: var(--esmeralda);
+    border-radius: 2px;
+    background: var(--acento-arcilla);
 }
 
 .titulo-pagina h1 {
     font-size: 1.55rem;
-    font-weight: 600;
-    color: var(--verde-bosque);
+    font-weight: 700;
+    color: var(--verde-pino);
     letter-spacing: -.4px;
     line-height: 1.25;
 }
 
 .subtitulo {
-    margin-top: 4px;
+    margin-top: 5px;
     color: var(--texto-secundario);
-    font-size: .92rem;
+    font-size: .9rem;
+    line-height: 1.45;
 }
 
 .fila-titulo {
@@ -254,39 +297,44 @@ button, input, select, textarea { font: inherit; color: inherit; }
     gap: 12px;
 }
 
-/* ---------- 6. Tarjetas Principales (Clean White) ---------- */
+/* ---------- 7. Tarjetas Principales (Clean Surface) ---------- */
 .card {
     background: var(--blanco);
     border: 1px solid var(--borde);
+    border-radius: var(--radio-md);
     padding: 22px 18px;
+    box-shadow: var(--sombra);
 }
 
-.card + .card { margin-top: 12px; }
+.card + .card { margin-top: 14px; }
 
 .card__titulo {
     font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--verde-bosque);
+    font-weight: 700;
+    color: var(--verde-pino);
     letter-spacing: -.2px;
 }
 
 .card__etiqueta {
     display: inline-block;
     margin-bottom: 6px;
-    font-size: .7rem;
-    font-weight: 600;
-    letter-spacing: 1px;
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .8px;
     text-transform: uppercase;
-    color: var(--esmeralda);
+    color: var(--acento-arcilla);
 }
 
-/* ---------- 7. Tarjeta de Cifras y Métricas ---------- */
+/* ---------- 8. Tarjeta de Cifras y Métricas ---------- */
 .cifras {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     background: var(--blanco);
     border: 1px solid var(--borde);
+    border-radius: var(--radio-md);
     margin-bottom: 20px;
+    box-shadow: var(--sombra);
+    overflow: hidden;
 }
 
 .cifra {
@@ -299,18 +347,363 @@ button, input, select, textarea { font: inherit; color: inherit; }
 }
 
 .cifra + .cifra { border-left: 1px solid var(--borde); }
-.cifra__icono { font-size: 1.4rem; line-height: 1; }
+.cifra__icono {
+    color: var(--acento-arcilla);
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radio-sm);
+    background: var(--acento-arcilla-suave);
+}
 
 .cifra__valor {
-    font-size: 1.18rem;
-    font-weight: 600;
-    color: var(--verde-bosque);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--verde-pino);
     line-height: 1.2;
 }
 
 .cifra__texto { font-size: .73rem; color: var(--texto-secundario); }
 
-/* ---------- 8. Formularios e Inputs ---------- */
+.cifra--clickeable {
+    text-decoration: none;
+    transition: background var(--transicion);
+    cursor: pointer;
+}
+
+.cifra--clickeable:hover {
+    background: var(--verde-pino-suave);
+}
+
+/* Barra de control operativa (Sincronización en vivo y audio) */
+.barra-control-operativa {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.badge-sync-live {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: .8rem;
+    font-weight: 600;
+    color: var(--verde-pino);
+    background: var(--verde-pino-suave);
+    border: 1px solid var(--verde-pino-borde);
+    padding: 6px 12px;
+    border-radius: var(--radio-sm);
+}
+
+.led-pulsante {
+    width: 8px;
+    height: 8px;
+    background: var(--verde-oliva);
+    border-radius: 50%;
+    box-shadow: 0 0 0 0 rgba(74, 124, 89, .7);
+    animation: pulso-led 1.8s infinite;
+}
+
+@keyframes pulso-led {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(74, 124, 89, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(74, 124, 89, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(74, 124, 89, 0); }
+}
+
+.control-audio-caja {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-audio-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--blanco);
+    border: 1px solid var(--borde);
+    padding: 6px 12px;
+    border-radius: var(--radio-sm);
+    font-size: .8rem;
+    font-weight: 600;
+    color: var(--texto-secundario);
+    cursor: pointer;
+    transition: all var(--transicion);
+}
+
+.btn-audio-toggle:hover {
+    border-color: var(--verde-pino);
+    color: var(--verde-pino);
+}
+
+.btn-audio-toggle.silenciado {
+    color: var(--texto-suave);
+    background: var(--superficie-muted);
+}
+
+.btn-audio-test {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--acento-arcilla-suave);
+    border: 1px solid var(--acento-arcilla);
+    color: var(--acento-arcilla);
+    padding: 6px 10px;
+    border-radius: var(--radio-sm);
+    font-size: .78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transicion);
+}
+
+.btn-audio-test:hover {
+    background: var(--acento-arcilla);
+    color: var(--blanco);
+}
+
+/* Filtros rápidos tipo Chips / Pills */
+.filtros-chips {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    margin-bottom: 18px;
+}
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--blanco);
+    border: 1px solid var(--borde);
+    border-radius: var(--radio-sm);
+    padding: 8px 14px;
+    font-size: .83rem;
+    font-weight: 600;
+    color: var(--texto-secundario);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all var(--transicion);
+}
+
+.chip:hover {
+    border-color: var(--verde-pino);
+    color: var(--verde-pino);
+}
+
+.chip--activo {
+    background: var(--verde-pino) !important;
+    border-color: var(--verde-pino) !important;
+    color: var(--blanco) !important;
+}
+
+.chip--activo .chip__count {
+    background: rgba(255, 255, 255, .25);
+    color: var(--blanco);
+}
+
+.chip__count {
+    background: var(--superficie-muted);
+    color: var(--texto-secundario);
+    padding: 2px 7px;
+    border-radius: 9999px;
+    font-size: .73rem;
+    font-weight: 700;
+}
+
+.chip--alerta {
+    border-color: var(--ambar-borde);
+    color: var(--ambar-texto);
+}
+
+.chip--alerta:hover {
+    background: var(--ambar-suave);
+}
+
+.chip--alerta.chip--activo {
+    background: var(--acento-arcilla) !important;
+    border-color: var(--acento-arcilla) !important;
+    color: var(--blanco) !important;
+}
+
+/* Timers de pedidos y alertas de retraso */
+.timer-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: .78rem;
+    font-weight: 600;
+    color: var(--texto-secundario);
+    background: var(--superficie-muted);
+    padding: 4px 10px;
+    border-radius: var(--radio-sm);
+    border: 1px solid var(--borde);
+    margin-top: 6px;
+}
+
+.timer-badge--demorado {
+    color: var(--acento-arcilla) !important;
+    background: var(--acento-arcilla-suave) !important;
+    border-color: var(--acento-arcilla) !important;
+    font-weight: 700;
+}
+
+/* Pastilla de resumen de efectivo para Domiciliarios en Rutas */
+.pastilla-efectivo-rutas {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--verde-pino-suave);
+    border: 1px solid var(--verde-pino-borde);
+    padding: 8px 16px;
+    border-radius: var(--radio-md);
+}
+
+.pastilla-efectivo__icono {
+    width: 34px;
+    height: 34px;
+    background: var(--verde-pino);
+    color: var(--blanco);
+    border-radius: var(--radio-sm);
+    display: grid;
+    place-items: center;
+}
+
+.pastilla-efectivo-rutas small {
+    display: block;
+    font-size: .72rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--verde-pino);
+    letter-spacing: .4px;
+}
+
+.pastilla-efectivo-rutas strong {
+    font-size: 1.18rem;
+    color: var(--verde-pino);
+    font-weight: 700;
+    letter-spacing: -.3px;
+}
+
+.repartidor-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: .76rem;
+    font-weight: 600;
+    color: var(--texto-secundario);
+    background: var(--superficie-muted);
+    border: 1px solid var(--borde);
+    padding: 4px 8px;
+    border-radius: var(--radio-sm);
+    margin-bottom: 8px;
+}
+
+.btn--outline-sm {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 7px 12px;
+    font-size: .8rem;
+    font-weight: 600;
+    border-radius: var(--radio-sm);
+    background: var(--blanco);
+    border: 1px solid var(--borde);
+    color: var(--texto);
+    text-decoration: none;
+    transition: all var(--transicion);
+}
+
+.btn--outline-sm:hover {
+    border-color: var(--verde-pino);
+    color: var(--verde-pino);
+}
+
+.btn--outline-sm.btn--waze:hover {
+    border-color: #33ccff;
+    color: #0099cc;
+}
+
+/* ---------- 9. Panel Cierre de Caja Diario (Historial) ---------- */
+.panel-cierre {
+    background: var(--blanco);
+    border: 1px solid var(--borde);
+    border-radius: var(--radio-md);
+    padding: 20px;
+    margin-bottom: 22px;
+    box-shadow: var(--sombra);
+}
+
+.panel-cierre__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--borde);
+    margin-bottom: 16px;
+}
+
+.panel-cierre__titulo {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--verde-pino);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.panel-cierre__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+}
+
+.cierre-stat {
+    background: var(--blanco);
+    border: 1px solid var(--borde);
+    border-radius: var(--radio);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .04);
+}
+
+.cierre-stat--total {
+    background: var(--verde-pino-suave);
+    border-color: var(--verde-pino-borde);
+}
+
+.cierre-stat__label {
+    font-size: .75rem;
+    font-weight: 600;
+    color: var(--texto-secundario);
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.cierre-stat__monto {
+    font-size: 1.55rem;
+    font-weight: 700;
+    color: var(--verde-pino);
+    letter-spacing: -.5px;
+    line-height: 1.15;
+}
+
+.cierre-stat__sub {
+    font-size: .78rem;
+    color: var(--texto-secundario);
+}
+
+/* ---------- 10. Formularios e Inputs ---------- */
 .campo {
     display: flex;
     flex-direction: column;
@@ -322,7 +715,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .campo label {
     margin-bottom: 6px;
     font-size: .86rem;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--texto);
 }
 
@@ -334,24 +727,24 @@ button, input, select, textarea { font: inherit; color: inherit; }
 
 .input {
     width: 100%;
-    min-height: 46px;
+    min-height: 44px;
     padding: 10px 14px;
     border: 1px solid var(--borde-input);
     border-radius: var(--radio);
     background: var(--blanco);
     color: var(--texto);
-    font-size: .95rem;
+    font-size: .92rem;
     outline: none;
     transition: border-color .15s, box-shadow .15s;
 }
 
 .input:focus {
-    border-color: var(--esmeralda);
-    box-shadow: 0 0 0 3px rgba(5, 150, 105, .12);
+    border-color: var(--verde-pino);
+    box-shadow: 0 0 0 3px rgba(30, 58, 47, .1);
 }
 
 textarea.input {
-    min-height: 85px;
+    min-height: 80px;
     resize: vertical;
     line-height: 1.4;
 }
@@ -361,6 +754,7 @@ textarea.input {
     margin-top: 6px;
     font-size: .78rem;
     color: var(--rojo);
+    font-weight: 500;
 }
 
 .campo.con-error .input { border-color: var(--rojo); }
@@ -372,7 +766,7 @@ textarea.input {
 .cantidad {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
     background: var(--fondo);
     padding: 3px;
     border-radius: var(--radio);
@@ -380,93 +774,102 @@ textarea.input {
 }
 
 .cantidad button {
-    width: 38px;
-    height: 38px;
+    width: 36px;
+    height: 36px;
     border: 0;
     border-radius: var(--radio-sm);
     background: var(--blanco);
-    color: var(--verde-bosque);
-    font-size: 1.2rem;
-    font-weight: 500;
+    color: var(--verde-pino);
+    font-size: 1.15rem;
+    font-weight: 600;
     cursor: pointer;
     box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
     transition: all .15s;
 }
 
 .cantidad button:hover {
-    background: var(--verde-bosque);
+    background: var(--verde-pino);
     color: var(--blanco);
 }
 
 .cantidad input {
-    width: 48px;
-    height: 38px;
+    width: 44px;
+    height: 36px;
     border: 0;
     background: transparent;
     text-align: center;
-    font-size: 1.05rem;
-    font-weight: 600;
-    color: var(--verde-bosque);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--verde-pino);
     outline: none;
 }
 
-/* ---------- 9. Botones (Estilo Shopify) ---------- */
+/* ---------- 11. Botones Modernos (Sin forma de píldora extrema) ---------- */
 .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    min-height: 48px;
-    padding: 0 24px;
+    min-height: 44px;
+    padding: 0 20px;
     border: 0;
-    border-radius: var(--radio-pill);
-    font-weight: 500;
-    font-size: .94rem;
-    letter-spacing: .2px;
+    border-radius: var(--radio);
+    font-weight: 600;
+    font-size: .9rem;
+    letter-spacing: .1px;
     cursor: pointer;
     text-align: center;
-    transition: all .18s ease;
+    transition: all .15s ease;
 }
 
 .btn:active { transform: scale(.985); }
 .btn:disabled { opacity: .55; cursor: not-allowed; transform: none; }
-.btn:focus-visible { outline: 3px solid rgba(5, 150, 105, .3); outline-offset: 2px; }
+.btn:focus-visible { outline: 3px solid rgba(30, 58, 47, .25); outline-offset: 2px; }
 
 .btn--bloque { width: 100%; }
 
-/* Botón primario: Verde Bosque profundo */
+/* Botón primario: Verde Pino Profundo */
 .btn--primario {
-    background: var(--verde-bosque);
+    background: var(--verde-pino);
     color: var(--blanco);
-    box-shadow: 0 2px 6px rgba(15, 56, 38, .15);
+    box-shadow: 0 1px 3px rgba(30, 58, 47, .12);
 }
 .btn--primario:hover:not(:disabled) {
-    background: var(--verde-bosque-hover);
-    box-shadow: 0 4px 14px rgba(15, 56, 38, .25);
+    background: var(--verde-pino-hover);
+    box-shadow: 0 3px 10px rgba(30, 58, 47, .2);
 }
 
-/* Botón secundario: Tono esmeralda suave */
+/* Botón de acento arcilla */
+.btn--acento {
+    background: var(--acento-arcilla);
+    color: var(--blanco);
+}
+.btn--acento:hover:not(:disabled) {
+    background: var(--acento-arcilla-hover);
+}
+
+/* Botón secundario */
 .btn--secundario {
-    background: var(--esmeralda-suave);
-    color: var(--verde-bosque);
-    border: 1px solid var(--esmeralda-borde);
+    background: var(--fondo);
+    color: var(--texto);
+    border: 1px solid var(--borde-input);
 }
 .btn--secundario:hover:not(:disabled) {
-    background: #D1FAE5;
+    background: var(--superficie-muted);
+    border-color: var(--borde);
 }
 
-/* Botón éxito: Esmeralda vivo */
+/* Botón éxito */
 .btn--exito {
     background: var(--esmeralda);
     color: var(--blanco);
-    box-shadow: 0 2px 6px rgba(5, 150, 105, .2);
+    box-shadow: 0 1px 3px rgba(22, 101, 52, .15);
 }
 .btn--exito:hover:not(:disabled) {
     background: var(--esmeralda-hover);
-    box-shadow: 0 4px 14px rgba(5, 150, 105, .3);
 }
 
-.btn--grande { min-height: 52px; font-size: 1rem; font-weight: 600; }
+.btn--grande { min-height: 48px; font-size: .96rem; font-weight: 700; }
 
 .btn .spinner {
     width: 18px;
@@ -477,22 +880,23 @@ textarea.input {
     animation: girar .7s linear infinite;
 }
 
-/* ---------- 10. Insignias / Badges ---------- */
+/* ---------- 12. Insignias / Badges ---------- */
 .badge {
     display: inline-flex;
     align-items: center;
-    padding: 3px 10px;
-    border-radius: var(--radio-pill);
+    gap: 5px;
+    padding: 3px 8px;
+    border-radius: var(--radio-sm);
     font-size: .72rem;
     font-weight: 600;
     letter-spacing: .2px;
 }
 
-.badge--pendiente { background: var(--ambar-suave); color: var(--ambar-texto); }
-.badge--ruta { background: var(--azul-soft); color: var(--azul-soft-texto); }
-.badge--pago-confirmado { background: var(--esmeralda-suave); color: var(--esmeralda-hover); }
-.badge--pago-pendiente { background: #FEF3C7; color: #92400E; }
-.badge--efectivo { background: var(--verde-bosque-suave); color: var(--verde-bosque); }
+.badge--pendiente { background: var(--ambar-suave); color: var(--ambar-texto); border: 1px solid var(--ambar-borde); }
+.badge--ruta { background: var(--azul-soft); color: var(--azul-soft-texto); border: 1px solid var(--azul-borde); }
+.badge--pago-confirmado { background: var(--esmeralda-suave); color: var(--esmeralda); border: 1px solid var(--esmeralda-borde); }
+.badge--pago-pendiente { background: #FEF3C7; color: #92400E; border: 1px solid #FDE68A; }
+.badge--efectivo { background: var(--acento-arcilla-suave); color: var(--acento-arcilla); border: 1px solid var(--acento-arcilla-borde); }
 
 .badges-cabecera {
     display: flex;
@@ -502,16 +906,16 @@ textarea.input {
 }
 
 .contador {
-    min-width: 24px;
-    height: 24px;
-    padding: 0 8px;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 7px;
     display: inline-grid;
     place-items: center;
-    border-radius: var(--radio-pill);
-    background: var(--verde-bosque);
+    border-radius: var(--radio-sm);
+    background: var(--verde-pino);
     color: var(--blanco);
-    font-weight: 600;
-    font-size: .8rem;
+    font-weight: 700;
+    font-size: .78rem;
     vertical-align: middle;
 }
 
@@ -521,7 +925,7 @@ textarea.input {
     align-items: center;
     gap: 6px;
     font-size: .8rem;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--esmeralda);
 }
 
@@ -537,11 +941,11 @@ textarea.input {
 .en-vivo.sin-conexion { color: var(--rojo); }
 .en-vivo.sin-conexion::before { background: var(--rojo); animation: none; }
 
-/* ---------- 11. Tarjetas de Pedido (Caja y Rutas) ---------- */
+/* ---------- 13. Tarjetas de Pedido (Caja y Rutas) ---------- */
 .grid-pedidos {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 14px;
 }
 
 .pedido {
@@ -549,6 +953,8 @@ textarea.input {
     flex-direction: column;
     background: var(--blanco);
     border: 1px solid var(--borde);
+    border-radius: var(--radio-md);
+    box-shadow: var(--sombra);
     transition: box-shadow .2s, transform .2s;
 }
 
@@ -570,8 +976,8 @@ textarea.input {
 
 .pedido__numero {
     font-size: .75rem;
-    font-weight: 600;
-    letter-spacing: .6px;
+    font-weight: 700;
+    letter-spacing: .5px;
     text-transform: uppercase;
     color: var(--texto-secundario);
 }
@@ -585,44 +991,79 @@ textarea.input {
 
 .pedido__titulo {
     font-size: 1.05rem;
-    font-weight: 600;
-    color: var(--verde-bosque);
+    font-weight: 700;
+    color: var(--verde-pino);
     line-height: 1.35;
 }
 
-.pago-detalle {
-    padding: 4px 0;
-    font-size: .85rem;
+/* ---------- 14. Bloque de Cobro Claro para Domiciliario (Ruta) ---------- */
+.cobro-domiciliario {
+    border-radius: var(--radio);
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
 }
 
-.alerta-pago-amarilla {
-    display: inline-block;
-    padding: 6px 10px;
-    background: #FEF3C7;
-    border-radius: var(--radio-sm);
-    color: #92400E;
-    font-size: .82rem;
-    border: 1px solid #FDE68A;
+.cobro-domiciliario--efectivo {
+    background: #FFF7ED;
+    border: 1.5px solid #FDBA74;
 }
 
-.alerta-pago-verde {
-    display: inline-block;
-    padding: 6px 10px;
+.cobro-domiciliario--transferencia {
     background: var(--esmeralda-suave);
-    border-radius: var(--radio-sm);
-    color: var(--esmeralda-hover);
-    font-size: .82rem;
-    border: 1px solid var(--esmeralda-borde);
+    border: 1.5px solid var(--esmeralda-borde);
 }
 
-.alerta-cobro-efectivo {
-    display: inline-block;
-    padding: 8px 12px;
-    background: #FFF1F2;
-    border: 1px solid #FECDD3;
+.cobro-monto-destacado {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.cobro-label {
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    color: #9A3412;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.cobro-label--verde {
+    color: #14532D;
+}
+
+.cobro-valor {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #7C2D12;
+    letter-spacing: -.4px;
+}
+
+.cobro-valor--verde {
+    color: #14532D;
+    font-size: 1.15rem;
+}
+
+.cobro-desglose {
+    font-size: .78rem;
+    color: var(--texto-secundario);
+    line-height: 1.3;
+}
+
+.cobro-cambio {
+    font-size: .8rem;
+    font-weight: 600;
+    color: #C2410C;
+    background: #FFEDD5;
+    padding: 4px 8px;
     border-radius: var(--radio-sm);
-    color: #BE123C;
-    font-size: .88rem;
+    margin-top: 2px;
 }
 
 .pedido__datos {
@@ -637,23 +1078,21 @@ textarea.input {
     grid-template-columns: 22px 1fr;
     gap: 10px;
     align-items: start;
-    font-size: .9rem;
+    font-size: .88rem;
 }
 
-.dato__icono { text-align: center; }
-.dato__valor strong { display: block; font-weight: 500; color: var(--texto); }
+.dato__icono { color: var(--texto-secundario); display: grid; place-items: center; }
+.dato__valor strong { display: block; font-weight: 600; color: var(--texto); }
 .dato__valor span { color: var(--texto-secundario); font-size: .82rem; }
 
 .pedido__indicaciones {
-    padding: 10px 14px;
-    border-radius: var(--radio);
-    background: #F8FAFC;
-    border: 1px solid #E2E8F0;
-    font-size: .85rem;
-    color: #334155;
+    padding: 10px 12px;
+    border-radius: var(--radio-sm);
+    background: var(--fondo);
+    border: 1px solid var(--borde);
+    font-size: .82rem;
+    color: var(--texto-secundario);
 }
-
-.pedido__indicaciones::before { content: "📝 "; }
 
 .pedido__tiempo { font-size: .75rem; color: var(--texto-suave); }
 
@@ -669,34 +1108,40 @@ textarea.input {
     gap: 8px;
 }
 
-.acciones-secundarias .btn { min-height: 44px; padding: 0 12px; font-size: .88rem; }
+.acciones-secundarias .btn { min-height: 40px; padding: 0 12px; font-size: .85rem; }
 
-/* ---------- 12. Estado Vacío ---------- */
+/* ---------- 15. Estado Vacío ---------- */
 .vacio {
     padding: 56px 24px;
     text-align: center;
     background: var(--blanco);
     border: 1px solid var(--borde);
+    border-radius: var(--radio-md);
     color: var(--texto-secundario);
 }
 
-.vacio__icono { font-size: 2.6rem; margin-bottom: 12px; }
-.vacio h2 { font-size: 1.15rem; font-weight: 600; color: var(--verde-bosque); margin-bottom: 4px; }
-.vacio p { font-size: .9rem; }
+.vacio__icono {
+    color: var(--acento-arcilla);
+    margin-bottom: 12px;
+    display: inline-block;
+}
+.vacio h2 { font-size: 1.15rem; font-weight: 700; color: var(--verde-pino); margin-bottom: 4px; }
+.vacio p { font-size: .88rem; }
 
-/* ---------- 13. Pantalla del Cliente & Carrito ---------- */
+/* ---------- 16. Pantalla del Cliente: Segmented Control & Carrito ---------- */
 .layout-pedido {
     display: grid;
-    gap: 12px;
+    gap: 14px;
     grid-template-areas:
         "producto"
         "entrega"
+        "pago"
         "accion";
 }
 
 .zona-producto { grid-area: producto; }
 .zona-entrega { grid-area: entrega; }
-.zona-pago { margin-top: 12px; }
+.zona-pago { grid-area: pago; }
 .zona-accion { grid-area: accion; }
 
 .zona-accion .nota-pago {
@@ -706,34 +1151,43 @@ textarea.input {
     color: var(--texto-secundario);
 }
 
-/* Pestañas de tipo de producto (Bultos vs Granel) */
+/* Segmented Control Bultos vs Granel (Estilo iOS / Shopify) */
 .selector-tipo-producto {
-    display: flex;
-    gap: 8px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
     margin-bottom: 18px;
-    background: #EEF2EE;
-    padding: 5px;
-    border-radius: var(--radio-pill);
+    background: var(--superficie-muted);
+    padding: 4px;
+    border-radius: var(--radio);
+    border: 1px solid var(--borde);
 }
 
 .tab-tipo {
-    flex: 1;
-    padding: 10px 16px;
+    padding: 10px 14px;
     border: 0;
-    border-radius: var(--radio-pill);
+    border-radius: var(--radio-sm);
     background: transparent;
     font-size: .88rem;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--texto-secundario);
     cursor: pointer;
-    transition: all .2s;
+    transition: all .15s;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.tab-tipo:hover {
+    color: var(--texto);
 }
 
 .tab-tipo.activo {
-    background: var(--verde-bosque);
-    color: var(--blanco);
-    box-shadow: 0 2px 6px rgba(15, 56, 38, .2);
+    background: var(--blanco);
+    color: var(--verde-pino);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .08);
 }
 
 .fila-agregar {
@@ -745,7 +1199,7 @@ textarea.input {
 
 .btn-agregar {
     flex: 1;
-    min-height: 46px;
+    min-height: 44px;
 }
 
 .modalidad-granel {
@@ -759,11 +1213,21 @@ textarea.input {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    font-size: .86rem;
+    font-size: .85rem;
+    font-weight: 500;
     cursor: pointer;
 }
 
-/* Lista Carrito */
+/* Precio preview badge */
+.precio-preview {
+    font-size: .82rem;
+    color: var(--acento-arcilla);
+    font-weight: 600;
+    margin-top: 4px;
+    display: inline-block;
+}
+
+/* Lista Carrito con Resumen Económico */
 .carrito-contenedor {
     margin-top: 22px;
     padding-top: 18px;
@@ -771,8 +1235,12 @@ textarea.input {
 }
 
 .carrito-header {
-    font-size: .92rem;
-    color: var(--verde-bosque);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: .9rem;
+    font-weight: 700;
+    color: var(--verde-pino);
     margin-bottom: 12px;
 }
 
@@ -788,11 +1256,11 @@ textarea.input {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px 14px;
+    padding: 10px 14px;
     background: var(--fondo);
     border: 1px solid var(--borde);
     border-radius: var(--radio);
-    font-size: .9rem;
+    font-size: .88rem;
 }
 
 .carrito-item__info {
@@ -801,24 +1269,34 @@ textarea.input {
     gap: 10px;
 }
 
-.carrito-item__icono { font-size: 1.15rem; }
+.carrito-item__icono {
+    color: var(--acento-arcilla);
+    display: grid;
+    place-items: center;
+}
+
+.carrito-item__precio {
+    font-weight: 700;
+    color: var(--verde-pino);
+    font-size: .9rem;
+}
 
 .btn-eliminar-item {
     background: none;
     border: none;
     color: var(--rojo);
-    font-size: 1rem;
-    font-weight: 600;
     cursor: pointer;
-    padding: 4px 8px;
+    padding: 4px;
     border-radius: var(--radio-sm);
+    display: grid;
+    place-items: center;
     transition: background .15s;
 }
 
 .btn-eliminar-item:hover { background: var(--rojo-suave); }
 
 .carrito-vacio {
-    font-size: .86rem;
+    font-size: .84rem;
     color: var(--texto-secundario);
     padding: 16px;
     background: var(--fondo);
@@ -827,54 +1305,95 @@ textarea.input {
     text-align: center;
 }
 
-/* Selector Método de Pago */
+/* Desglose total del carrito */
+.carrito-totales {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--borde);
+    display: grid;
+    gap: 6px;
+    font-size: .86rem;
+}
+
+.carrito-totales__fila {
+    display: flex;
+    justify-content: space-between;
+    color: var(--texto-secundario);
+}
+
+.carrito-totales__fila--final {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--verde-pino);
+    padding-top: 6px;
+    border-top: 1px solid var(--borde);
+}
+
+/* Selector Método de Pago con Logos Vectoriales */
 .selector-pago {
     display: grid;
-    gap: 12px;
+    gap: 10px;
     margin-top: 12px;
 }
 
 .tarjeta-pago {
     display: flex;
     align-items: flex-start;
-    gap: 14px;
-    padding: 16px;
-    border: 2px solid var(--borde);
-    border-radius: var(--radio-lg);
+    gap: 12px;
+    padding: 14px;
+    border: 1.5px solid var(--borde);
+    border-radius: var(--radio-md);
     cursor: pointer;
-    transition: all .2s;
+    transition: all .15s;
     background: var(--blanco);
 }
 
 .tarjeta-pago input[type="radio"] { margin-top: 3px; }
 
 .tarjeta-pago.activa {
-    border-color: var(--esmeralda);
-    background: var(--esmeralda-suave);
+    border-color: var(--verde-pino);
+    background: var(--verde-pino-suave);
 }
 
-.tarjeta-pago__icono { font-size: 1.5rem; line-height: 1; }
+.tarjeta-pago__icono-box {
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    border-radius: var(--radio-sm);
+    background: var(--fondo);
+    border: 1px solid var(--borde);
+    flex-shrink: 0;
+}
+
+.tarjeta-pago.activa .tarjeta-pago__icono-box {
+    background: var(--blanco);
+    border-color: var(--verde-pino-borde);
+}
 
 .tarjeta-pago__cuerpo strong {
     display: block;
-    font-size: .96rem;
-    color: var(--verde-bosque);
+    font-size: .92rem;
+    color: var(--verde-pino);
 }
 
 .tarjeta-pago__cuerpo p {
-    font-size: .83rem;
+    font-size: .8rem;
     color: var(--texto-secundario);
     margin-top: 2px;
 }
 
 .alerta-transferencia {
     margin-top: 14px;
-    padding: 12px 16px;
+    padding: 12px 14px;
     border-radius: var(--radio);
     background: var(--ambar-suave);
-    border: 1px solid #FDE68A;
+    border: 1px solid var(--ambar-borde);
     color: var(--ambar-texto);
-    font-size: .84rem;
+    font-size: .82rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
 }
 
 .bloque-whatsapp-pago { margin: 20px 0; }
@@ -883,18 +1402,21 @@ textarea.input {
     background: var(--esmeralda-suave);
     border: 1px solid var(--esmeralda-borde);
     padding: 20px;
-    border-radius: var(--radio-lg);
+    border-radius: var(--radio-md);
     text-align: left;
 }
 
 .alerta-wp h3 {
     font-size: 1.05rem;
-    color: var(--verde-bosque);
+    color: var(--esmeralda);
     margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .alerta-wp p {
-    font-size: .9rem;
+    font-size: .88rem;
     color: #14532D;
     margin-bottom: 14px;
 }
@@ -903,27 +1425,26 @@ textarea.input {
 .exito { text-align: center; padding: 40px 24px; max-width: 600px; margin: 0 auto; }
 
 .exito__icono {
-    width: 76px;
-    height: 76px;
-    margin: 0 auto 18px;
+    width: 68px;
+    height: 68px;
+    margin: 0 auto 16px;
     display: grid;
     place-items: center;
     border-radius: 50%;
     background: var(--esmeralda-suave);
     color: var(--esmeralda);
-    font-size: 2.2rem;
     border: 2px solid var(--esmeralda-borde);
 }
 
-.exito h2 { font-size: 1.4rem; font-weight: 600; color: var(--verde-bosque); margin-bottom: 6px; }
-.exito p { color: var(--texto-secundario); margin-bottom: 24px; font-size: .93rem; }
+.exito h2 { font-size: 1.35rem; font-weight: 700; color: var(--verde-pino); margin-bottom: 6px; }
+.exito p { color: var(--texto-secundario); margin-bottom: 22px; font-size: .9rem; }
 
 .resumen {
     text-align: left;
     border: 1px solid var(--borde);
-    border-radius: var(--radio-lg);
-    margin-bottom: 26px;
-    font-size: .9rem;
+    border-radius: var(--radio-md);
+    margin-bottom: 24px;
+    font-size: .88rem;
     background: var(--blanco);
 }
 
@@ -931,82 +1452,57 @@ textarea.input {
     display: flex;
     justify-content: space-between;
     gap: 12px;
-    padding: 14px 16px;
+    padding: 12px 16px;
 }
 
 .resumen div + div { border-top: 1px solid var(--borde); }
 .resumen dt { color: var(--texto-secundario); }
-.resumen dd { font-weight: 600; color: var(--verde-bosque); text-align: right; }
+.resumen dd { font-weight: 700; color: var(--verde-pino); text-align: right; }
 
-/* ---------- 14. Rutas / Domiciliarios ---------- */
-.vista-rutas .pedido__direccion {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--verde-bosque);
-    line-height: 1.3;
-}
-
-.vista-rutas .pedido__barrio { font-size: .88rem; color: var(--texto-secundario); }
-
-.vista-rutas .pedido__resumen-carga {
+/* ---------- 17. Botón Flotante "Sticky" Inferior (Móvil) ---------- */
+.barra-confirmar-sticky {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--blanco);
+    border-top: 1px solid var(--borde);
+    padding: 10px 16px;
+    z-index: 40;
+    box-shadow: 0 -4px 14px rgba(0, 0, 0, .05);
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 12px 14px;
-    border-radius: var(--radio);
-    background: var(--fondo);
-    border: 1px solid var(--borde);
-    font-size: .9rem;
-    font-weight: 500;
-    color: var(--verde-bosque);
-}
-
-/* ---------- 15. Vista Historial ---------- */
-.grid-historial {
-    display: grid;
-    gap: 14px;
-    grid-template-columns: 1fr;
-    margin-top: 16px;
-}
-
-.card-historial {
-    padding: 18px;
-    border-radius: var(--radio-lg);
-    display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     gap: 12px;
 }
 
-.card-historial__cabecera {
+.barra-confirmar-sticky__info {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid var(--borde);
-    padding-bottom: 10px;
+    flex-direction: column;
 }
 
-.card-historial__producto {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--verde-bosque);
-    margin-bottom: 6px;
-}
-
-.tiempos-entrega {
-    display: flex;
-    justify-content: space-between;
-    font-size: .78rem;
+.barra-confirmar-sticky__label {
+    font-size: .72rem;
     color: var(--texto-secundario);
-    padding-top: 10px;
-    border-top: 1px dashed var(--borde);
-    margin-top: 8px;
+    text-transform: uppercase;
+    font-weight: 600;
 }
 
-/* ---------- 16. Modal de Seguridad PIN ---------- */
+.barra-confirmar-sticky__total {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--verde-pino);
+}
+
+@media (min-width: 960px) {
+    .barra-confirmar-sticky { display: none !important; }
+}
+
+/* ---------- 18. Modal de Seguridad PIN (Caja) ---------- */
 .modal-seguridad {
     position: fixed;
     inset: 0;
-    background: rgba(15, 56, 38, .6);
+    background: rgba(30, 58, 47, .5);
     backdrop-filter: blur(4px);
     z-index: 1000;
     display: grid;
@@ -1015,40 +1511,53 @@ textarea.input {
 }
 
 .modal-seguridad__caja {
-    max-width: 380px;
+    max-width: 360px;
     width: 100%;
     text-align: center;
-    padding: 34px 26px;
-    border-radius: var(--radio-lg);
+    padding: 30px 24px;
+    border-radius: var(--radio-md);
 }
 
-.modal-seguridad__icono { font-size: 2.6rem; display: block; margin-bottom: 12px; }
-.modal-seguridad h2 { font-size: 1.3rem; color: var(--verde-bosque); margin-bottom: 8px; }
-.modal-seguridad p { font-size: .86rem; color: var(--texto-secundario); margin-bottom: 20px; }
+.modal-seguridad__icono {
+    color: var(--verde-pino);
+    margin: 0 auto 12px;
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radio);
+    background: var(--verde-pino-suave);
+}
 
-/* ---------- 17. Botón Sonido Timbre ---------- */
+.modal-seguridad h2 { font-size: 1.25rem; font-weight: 700; color: var(--verde-pino); margin-bottom: 6px; }
+.modal-seguridad p { font-size: .84rem; color: var(--texto-secundario); margin-bottom: 18px; }
+
+/* ---------- 19. Botón Sonido Timbre ---------- */
 .btn-sonido {
     background: var(--blanco);
     border: 1px solid var(--borde);
-    border-radius: var(--radio-pill);
-    padding: 5px 12px;
-    font-size: .78rem;
-    font-weight: 500;
-    color: var(--verde-bosque);
+    border-radius: var(--radio-sm);
+    padding: 5px 10px;
+    font-size: .75rem;
+    font-weight: 600;
+    color: var(--verde-pino);
     cursor: pointer;
-    transition: all .2s;
+    transition: all .15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
 }
 .btn-sonido:hover {
-    background: var(--esmeralda-suave);
-    border-color: var(--esmeralda-borde);
+    background: var(--verde-pino-suave);
+    border-color: var(--verde-pino-borde);
 }
 
-/* ---------- 18. Notificaciones (Toasts) ---------- */
+/* ---------- 20. Notificaciones (Toasts) ---------- */
 .toasts {
     position: fixed;
     left: 12px;
     right: 12px;
-    bottom: 12px;
+    bottom: 74px; /* elevar por encima de la barra sticky si está activa */
     z-index: 100;
     display: grid;
     gap: 8px;
@@ -1056,77 +1565,75 @@ textarea.input {
 }
 
 .toast {
-    padding: 14px 18px;
-    border-radius: var(--radio-lg);
-    background: var(--verde-bosque);
+    padding: 12px 16px;
+    border-radius: var(--radio);
+    background: var(--verde-pino);
     color: var(--blanco);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, .2);
-    font-size: .9rem;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, .15);
+    font-size: .88rem;
+    font-weight: 500;
     animation: entrar .25s ease-out;
     pointer-events: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .toast--exito { background: var(--esmeralda); }
 .toast--error { background: var(--rojo); }
-.toast--info { background: var(--verde-bosque); }
+.toast--info { background: var(--verde-pino); }
 
-/* ---------- 19. Animaciones ---------- */
+/* ---------- 21. Animaciones ---------- */
 @keyframes girar { to { transform: rotate(360deg); } }
 @keyframes pulso {
-    0% { box-shadow: 0 0 0 0 rgba(5, 150, 105, .5); }
-    70% { box-shadow: 0 0 0 8px rgba(5, 150, 105, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(5, 150, 105, 0); }
+    0% { box-shadow: 0 0 0 0 rgba(22, 101, 52, .5); }
+    70% { box-shadow: 0 0 0 8px rgba(22, 101, 52, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(22, 101, 52, 0); }
 }
 @keyframes entrar {
     from { opacity: 0; transform: translateY(8px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* ---------- 20. Responsividad (Tablets & Desktop) ---------- */
+/* ---------- 22. Responsividad (Tablets & Desktop) ---------- */
 @media (min-width: 600px) {
     :root { --lateral: 16px; }
     .migas, .titulo-pagina, .encabezado-seccion { padding-left: 0; padding-right: 0; }
 
-    .card, .pedido, .vacio, .cifras {
-        border-radius: var(--radio-lg);
-        box-shadow: var(--sombra);
-    }
+    .card { padding: 26px; }
+    .card + .card { margin-top: 18px; }
 
-    .card { padding: 30px; }
-    .card + .card { margin-top: 20px; }
-    .pedido:hover { box-shadow: var(--sombra-hover); }
-
-    .grid-pedidos, .layout-pedido { gap: 20px; }
+    .grid-pedidos, .layout-pedido { gap: 18px; }
     .fila-campos { grid-template-columns: 1fr 1fr; }
 
-    .cifra { flex-direction: row; justify-content: center; gap: 14px; padding: 20px 14px; text-align: left; }
-    .cifra__icono { font-size: 2rem; }
-    .cifra__valor { font-size: 1.4rem; }
-    .cifra__texto { font-size: .8rem; }
+    .cifra { flex-direction: row; justify-content: center; gap: 12px; padding: 18px 14px; text-align: left; }
+    .cifra__icono { width: 36px; height: 36px; }
+    .cifra__valor { font-size: 1.3rem; }
+    .cifra__texto { font-size: .78rem; }
 
-    .toasts { left: auto; width: 380px; }
+    .toasts { left: auto; width: 360px; bottom: 20px; }
 }
 
 @media (min-width: 768px) {
-    .ml-header__contenido { flex-wrap: nowrap; gap: 28px; padding: 14px 28px; }
-    .ml-buscador { order: 0; flex: 0 1 540px; margin: 0 auto; }
+    .ml-header__contenido { flex-wrap: nowrap; gap: 24px; padding: 12px 24px; }
+    .ml-buscador { order: 0; flex: 0 1 500px; margin: 0 auto; }
     .ml-buscador + .ml-nav { margin-left: 0; }
     :root { --lateral: 24px; }
-    .titulo-pagina h1 { font-size: 1.8rem; }
-    .grid-pedidos { grid-template-columns: repeat(2, 1fr); gap: 22px; }
-    .grid-historial { grid-template-columns: repeat(2, 1fr); }
-    .vista-rutas .grid-pedidos { grid-template-columns: 1fr; max-width: 620px; margin: 0 auto; }
+    .titulo-pagina h1 { font-size: 1.75rem; }
+    .grid-pedidos { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .grid-historial { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .vista-rutas .grid-pedidos { grid-template-columns: 1fr; max-width: 640px; margin: 0 auto; }
 }
 
 @media (min-width: 960px) {
     .layout-pedido {
-        grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+        grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
         grid-template-areas:
-            "entrega producto"
-            "pago accion";
+            "producto entrega"
+            "producto pago"
+            "producto accion";
         align-items: start;
     }
-    .zona-entrega { min-height: 100%; }
 }
 
 @media (min-width: 1100px) {

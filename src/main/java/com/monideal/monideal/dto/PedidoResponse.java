@@ -31,6 +31,12 @@ public class PedidoResponse {
     private String metodoPago;
     private Boolean pagoConfirmado;
     private String pagaCon;
+    private Double subtotal;
+    private Double costoEnvio;
+    private Double total;
+    private String subtotalFormateado;
+    private String costoEnvioFormateado;
+    private String totalFormateado;
     private List<PedidoItemDto> items;
     private LocalDateTime fechaCreacion;
     private LocalDateTime fechaAsignacion;
@@ -54,6 +60,12 @@ public class PedidoResponse {
                 p.getMetodoPago(),
                 p.getPagoConfirmado() != null ? p.getPagoConfirmado() : true,
                 p.getPagaCon(),
+                p.getSubtotal(),
+                p.getCostoEnvio(),
+                p.getTotal(),
+                p.getSubtotalFormateado(),
+                p.getCostoEnvioFormateado(),
+                p.getTotalFormateado(),
                 itemDtos,
                 p.getFechaCreacion(),
                 p.getFechaAsignacion(),

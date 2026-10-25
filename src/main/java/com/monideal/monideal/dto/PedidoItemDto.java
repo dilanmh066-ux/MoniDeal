@@ -10,7 +10,10 @@ public record PedidoItemDto(
         String tipoUnidad, // "BULTO", "LIBRA", "KILO", "VALOR"
         Double cantidad,
         Double valorDinero,
-        String detalle
+        String detalle,
+        Double precioUnitario,
+        Double subtotal,
+        String subtotalFormateado
 ) {
     public static PedidoItemDto desde(PedidoItem item) {
         return new PedidoItemDto(
@@ -18,7 +21,10 @@ public record PedidoItemDto(
                 item.getTipoUnidad(),
                 item.getCantidad(),
                 item.getValorDinero(),
-                item.getDetalle()
+                item.getDetalle(),
+                item.getPrecioUnitario(),
+                item.getSubtotal(),
+                item.getSubtotalFormateado()
         );
     }
 }

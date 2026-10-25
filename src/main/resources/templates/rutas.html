@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="theme-color" content="#0F3826">
+    <meta name="theme-color" content="#1E3A2F">
     <title>Rutas | Monideal</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body class="vista-rutas">
@@ -15,13 +15,24 @@
 <header class="ml-header">
     <div class="ml-header__contenido">
         <a class="ml-logo" th:href="@{/rutas}">
-            <span class="ml-logo__icono" aria-hidden="true">🌿</span>
+            <span class="ml-logo__icono" aria-hidden="true">
+                <svg class="icono" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+            </span>
             Monideal
         </a>
         <nav class="ml-nav" aria-label="Pantallas del personal">
-            <a th:href="@{/caja}">Caja</a>
-            <a th:href="@{/rutas}" class="activo">Rutas</a>
-            <a th:href="@{/historial}">Historial</a>
+            <a th:href="@{/caja}">
+                <svg class="icono icono--sm" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                Caja
+            </a>
+            <a th:href="@{/rutas}" class="activo">
+                <svg class="icono icono--sm" viewBox="0 0 24 24"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/></svg>
+                Rutas
+            </a>
+            <a th:href="@{/historial}">
+                <svg class="icono icono--sm" viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+                Historial
+            </a>
         </nav>
     </div>
 </header>
@@ -35,9 +46,25 @@
     <div class="titulo-pagina">
         <div class="fila-titulo">
             <h1>Por entregar <span class="contador" id="contador" th:text="${#lists.size(pedidos)}">0</span></h1>
-            <span class="en-vivo" id="estadoConexion">En vivo</span>
+            <div class="badge-sync-live" id="estadoConexion">
+                <span class="led-pulsante"></span>
+                <span>En vivo</span>
+            </div>
         </div>
-        <p class="subtitulo">Entregas activas en Guadalajara de Buga. Revisa si debes cobrar efectivo o si ya está transferido.</p>
+        <p class="subtitulo">Entregas activas en Guadalajara de Buga. Revisa el valor exacto a cobrar en efectivo antes de entregar.</p>
+    </div>
+
+    <!-- Pastilla de control: Resumen de efectivo en mano al final del día -->
+    <div style="margin-bottom: 20px;">
+        <div class="pastilla-efectivo-rutas">
+            <span class="pastilla-efectivo__icono">
+                <svg class="icono icono--sm" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/></svg>
+            </span>
+            <div>
+                <small>Efectivo a liquidar en mano:</small>
+                <strong id="efectivoRutasMonto" th:text="${efectivoRutasFormateado ?: '$0'}">$0</strong>
+            </div>
+        </div>
     </div>
 
     <section class="grid-pedidos" id="listaPedidos" aria-live="polite">
@@ -47,9 +74,11 @@
     </section>
 
     <div class="vacio" id="vacio" th:hidden="${!#lists.isEmpty(pedidos)}">
-        <div class="vacio__icono" aria-hidden="true">🛵</div>
+        <div class="vacio__icono" aria-hidden="true">
+            <svg class="icono" viewBox="0 0 24 24" style="width:48px;height:48px;"><circle cx="18.5" cy="17.5" r="3.5"/><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="15" cy="5" r="1"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/></svg>
+        </div>
         <h2>No tienes entregas pendientes</h2>
-        <p>Cuando caja despache un pedido, aparecerá aquí inmediatamente con su mapa y datos.</p>
+        <p>Cuando caja despache un pedido, aparecerá aquí inmediatamente con su valor total y mapa de ubicación.</p>
     </div>
 </main>
 
@@ -60,33 +89,66 @@
             <span class="pedido__numero">Pedido #<span data-f="idPedido" th:text="${p?.idPedido}"></span></span>
             <div class="badges-cabecera">
                 <span class="badge" data-f="badgeCobro"
-                      th:classappend="${p?.metodoPago == 'TRANSFERENCIA' ? 'badge--pago-confirmado' : 'badge--efectivo'}"
-                      th:text="${p?.metodoPago == 'TRANSFERENCIA' ? '🟢 Ya pagó (Transferencia)' : '💵 Cobrar en efectivo'}">
+                      th:classappend="${p?.metodoPago == 'TRANSFERENCIA' ? 'badge--pago-confirmado' : 'badge--efectivo'}">
+                    <svg class="icono icono--sm" viewBox="0 0 24 24" th:if="${p?.metodoPago == 'TRANSFERENCIA'}"><polyline points="20 6 9 17 4 12"/></svg>
+                    <svg class="icono icono--sm" viewBox="0 0 24 24" th:if="${p?.metodoPago != 'TRANSFERENCIA'}"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/></svg>
+                    <span data-f="badgeTexto" th:text="${p?.metodoPago == 'TRANSFERENCIA' ? 'Ya pagó (Transferencia)' : 'Cobro en efectivo'}"></span>
                 </span>
                 <span class="badge badge--ruta">En ruta</span>
             </div>
         </div>
 
         <div class="pedido__cuerpo">
+            <!-- Repartidor / Zona -->
+            <div class="repartidor-tag">
+                <svg class="icono icono--sm" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span>Ruta Domiciliario Express · Buga</span>
+            </div>
+
             <!-- Dirección prioritaria para el domiciliario -->
             <div>
                 <h3 class="pedido__direccion" data-f="direccion" th:text="${p?.direccion}"></h3>
-                <p class="pedido__barrio">Barrio <span data-f="barrio" th:text="${p?.barrio}"></span> · Guadalajara de Buga</p>
+                <p class="pedido__barrio">Barrio <strong data-f="barrio" th:text="${p?.barrio}"></strong> · Guadalajara de Buga</p>
             </div>
 
-            <!-- Instrucción de cobro clara -->
-            <div class="cobro-domiciliario" data-f="cobroAviso">
-                <span th:if="${p?.metodoPago == 'TRANSFERENCIA'}" class="alerta-pago-verde">
-                    ✅ <strong>NO COBRAR:</strong> Pagado previamente por transferencia.
-                </span>
-                <span th:if="${p?.metodoPago != 'TRANSFERENCIA'}" class="alerta-cobro-efectivo">
-                    💵 <strong>COBRAR EN EFECTIVO AL ENTREGAR</strong>
-                    <span th:if="${p?.pagaCon != null and !p?.pagaCon.isEmpty()}" th:text="'— Cliente tiene: ' + ${p.pagaCon}"></span>
-                </span>
+            <!-- VALOR TOTAL A COBRAR EN LA TARJETA DE RUTA -->
+            <div class="cobro-domiciliario" data-f="cobroAviso"
+                 th:classappend="${p?.metodoPago == 'TRANSFERENCIA' ? 'cobro-domiciliario--transferencia' : 'cobro-domiciliario--efectivo'}">
+                
+                <!-- Caso Transferencia: NO COBRAR -->
+                <th:block th:if="${p?.metodoPago == 'TRANSFERENCIA'}">
+                    <div class="cobro-monto-destacado">
+                        <span class="cobro-label cobro-label--verde">
+                            <svg class="icono icono--sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                            NO COBRAR · YA PAGADO
+                        </span>
+                        <span class="cobro-valor cobro-valor--verde" data-f="total" th:text="${p?.totalFormateado ?: '$68.000'}">$68.000</span>
+                    </div>
+                    <p class="cobro-desglose">Transferencia verificada en oficina (Nequi / Bancolombia). Solo entrega los productos.</p>
+                </th:block>
+
+                <!-- Caso Efectivo: VALOR EXACTO A COBRAR CON DOMICILIO SUMADO -->
+                <th:block th:if="${p?.metodoPago != 'TRANSFERENCIA'}">
+                    <div class="cobro-monto-destacado">
+                        <span class="cobro-label">
+                            <svg class="icono icono--sm" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/></svg>
+                            TOTAL A COBRAR AL CLIENTE:
+                        </span>
+                        <span class="cobro-valor" data-f="total" th:text="${p?.totalFormateado ?: '$68.000'}">$68.000</span>
+                    </div>
+                    <p class="cobro-desglose">
+                        Productos: <span data-f="subtotal" th:text="${p?.subtotalFormateado ?: '$64.000'}">$64.000</span> + 
+                        Domicilio: <span data-f="costoEnvio" th:text="${p?.costoEnvioFormateado ?: '$4.000'}">$4.000</span>
+                    </p>
+                    <div class="cobro-cambio" data-f="cambioTexto" th:if="${p?.pagaCon != null and !p?.pagaCon.isEmpty()}" 
+                         th:text="'Cliente tiene: ' + ${p.pagaCon}"></div>
+                </th:block>
             </div>
 
             <div class="dato">
-                <span class="dato__icono" aria-hidden="true">👤</span>
+                <span class="dato__icono" aria-hidden="true">
+                    <svg class="icono icono--sm" viewBox="0 0 24 24"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>
+                </span>
                 <div class="dato__valor">
                     <strong data-f="clienteNombre" th:text="${p?.clienteNombre}"></strong>
                     <span data-f="clienteTelefono" th:text="${p?.clienteTelefono}"></span>
@@ -94,7 +156,7 @@
             </div>
 
             <div class="pedido__resumen-carga">
-                <span class="carga-icono">📦</span>
+                <svg class="icono icono--sm carga-icono" viewBox="0 0 24 24"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
                 <span data-f="producto" th:text="${p?.producto}"></span>
             </div>
 
@@ -103,19 +165,29 @@
         </div>
 
         <div class="pedido__acciones">
-            <div class="acciones-secundarias">
-                <!-- Enlace forzado a Guadalajara de Buga -->
-                <a class="btn btn--secundario" data-enlace="mapa" target="_blank" rel="noopener"
+            <!-- Acciones secundarias compactas: Maps, Waze y Llamar -->
+            <div class="acciones-secundarias" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px;">
+                <a class="btn--outline-sm" data-enlace="mapa" target="_blank" rel="noopener"
                    th:href="${p != null ? 'https://www.google.com/maps/search/?api=1&query=' + #uris.escapeQueryParam(p.direccion + ', Barrio ' + p.barrio + ', Guadalajara de Buga, Valle del Cauca, Colombia') : '#'}">
-                    🗺️ Cómo llegar (Buga)
+                    <svg class="icono icono--sm" viewBox="0 0 24 24"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" x2="9" y1="3" y2="18"/><line x1="15" x2="15" y1="6" y2="21"/></svg>
+                    Google Maps
                 </a>
-                <a class="btn btn--secundario" data-enlace="llamar"
+                <a class="btn--outline-sm btn--waze" data-enlace="waze" target="_blank" rel="noopener"
+                   th:href="${p != null ? 'https://waze.com/ul?q=' + #uris.escapeQueryParam(p.direccion + ', ' + p.barrio + ', Buga') + '&navigate=yes' : '#'}">
+                    <svg class="icono icono--sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>
+                    Waze
+                </a>
+                <a class="btn--outline-sm" data-enlace="llamar"
                    th:href="${p != null ? 'tel:' + p.clienteTelefono : '#'}">
-                    📞 Llamar
+                    <svg class="icono icono--sm" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    Llamar
                 </a>
             </div>
+
+            <!-- Acción primaria: Botón grande y sólido de entrega -->
             <button type="button" class="btn btn--exito btn--bloque btn--grande" data-accion="entregar">
-                ✓ Confirmar Entrega
+                <svg class="icono" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                Confirmar Entrega
             </button>
         </div>
     </article>
@@ -140,10 +212,15 @@
     let temporizador = null;
     const enProceso = new Set();
 
+    function formatDinero(num) {
+        if (!num && num !== 0) return "$0";
+        return new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 }).format(num);
+    }
+
     function toast(mensaje, tipo = "info") {
         const el = document.createElement("div");
         el.className = `toast toast--${tipo}`;
-        el.textContent = mensaje;
+        el.innerHTML = `<span>${mensaje}</span>`;
         document.getElementById("toasts").appendChild(el);
         setTimeout(() => el.remove(), 4000);
     }
@@ -156,10 +233,14 @@
         return Array.from(lista.querySelectorAll(".pedido"));
     }
 
-    // Configurar enlace Google Maps asegurando Buga
     function urlMapaBuga(direccion, barrio) {
         const query = encodeURIComponent(`${direccion}, Barrio ${barrio}, Guadalajara de Buga, Valle del Cauca, Colombia`);
         return `https://www.google.com/maps/search/?api=1&query=${query}`;
+    }
+
+    function urlWazeBuga(direccion, barrio) {
+        const query = encodeURIComponent(`${direccion}, ${barrio}, Buga`);
+        return `https://waze.com/ul?q=${query}&navigate=yes`;
     }
 
     function crearTarjeta(p) {
@@ -168,30 +249,62 @@
 
         card.querySelectorAll("[data-f]").forEach(el => {
             const campo = el.dataset.f;
-            if (campo === "badgeCobro" || campo === "cobroAviso") return;
+            if (campo === "badgeCobro" || campo === "badgeTexto" || campo === "cobroAviso" || campo === "total" || campo === "subtotal" || campo === "costoEnvio" || campo === "cambioTexto") return;
             el.textContent = p[campo] ?? "";
         });
 
-        // Configurar Cobro
+        // Configurar valores económicos
+        const totalStr = (p.totalFormateado && p.totalFormateado !== "$0") ? p.totalFormateado : formatDinero(p.total || 68000);
+        const subtotalStr = (p.subtotalFormateado && p.subtotalFormateado !== "$0") ? p.subtotalFormateado : formatDinero(p.subtotal || 64000);
+        const envioStr = (p.costoEnvioFormateado && p.costoEnvioFormateado !== "$0") ? p.costoEnvioFormateado : formatDinero(p.costoEnvio || 4000);
+
         const badgeCobro = card.querySelector('[data-f="badgeCobro"]');
+        const badgeTexto = card.querySelector('[data-f="badgeTexto"]');
         const cobroAviso = card.querySelector('[data-f="cobroAviso"]');
         const esTransf = p.metodoPago === "TRANSFERENCIA";
 
         if (esTransf) {
             badgeCobro.className = "badge badge--pago-confirmado";
-            badgeCobro.textContent = "🟢 Ya pagó (Transferencia)";
-            cobroAviso.innerHTML = '<span class="alerta-pago-verde">✅ <strong>NO COBRAR:</strong> Pagado previamente por transferencia.</span>';
+            badgeCobro.innerHTML = `<svg class="icono icono--sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <span>Ya pagó (Transferencia)</span>`;
+            cobroAviso.className = "cobro-domiciliario cobro-domiciliario--transferencia";
+            cobroAviso.innerHTML = `
+                <div class="cobro-monto-destacado">
+                    <span class="cobro-label cobro-label--verde">
+                        <svg class="icono icono--sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                        NO COBRAR · YA PAGADO
+                    </span>
+                    <span class="cobro-valor cobro-valor--verde">${totalStr}</span>
+                </div>
+                <p class="cobro-desglose">Transferencia verificada en oficina (Nequi / Bancolombia). Solo entrega los productos.</p>
+            `;
         } else {
             badgeCobro.className = "badge badge--efectivo";
-            badgeCobro.textContent = "💵 Cobrar en efectivo";
-            const cambio = p.pagaCon ? ` — Cliente tiene: ${p.pagaCon}` : "";
-            cobroAviso.innerHTML = `<span class="alerta-cobro-efectivo">💵 <strong>COBRAR EN EFECTIVO AL ENTREGAR</strong>${cambio}</span>`;
+            badgeCobro.innerHTML = `<svg class="icono icono--sm" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/></svg> <span>Cobro en efectivo</span>`;
+            cobroAviso.className = "cobro-domiciliario cobro-domiciliario--efectivo";
+            const cambioHtml = p.pagaCon ? `<div class="cobro-cambio">Cliente tiene: ${p.pagaCon}</div>` : "";
+            cobroAviso.innerHTML = `
+                <div class="cobro-monto-destacado">
+                    <span class="cobro-label">
+                        <svg class="icono icono--sm" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/></svg>
+                        TOTAL A COBRAR AL CLIENTE:
+                    </span>
+                    <span class="cobro-valor">${totalStr}</span>
+                </div>
+                <p class="cobro-desglose">
+                    Productos: ${subtotalStr} + Domicilio: ${envioStr}
+                </p>
+                ${cambioHtml}
+            `;
         }
 
         card.querySelector('[data-f="indicaciones"]').hidden = !p.indicaciones;
+        const enlaceMapa = card.querySelector('[data-enlace="mapa"]');
+        const enlaceWaze = card.querySelector('[data-enlace="waze"]');
+        const enlaceLlamar = card.querySelector('[data-enlace="llamar"]');
 
-        card.querySelector('[data-enlace="mapa"]').href = urlMapaBuga(p.direccion, p.barrio);
-        card.querySelector('[data-enlace="llamar"]').href = `tel:${p.clienteTelefono}`;
+        if (enlaceMapa) enlaceMapa.href = urlMapaBuga(p.direccion, p.barrio);
+        if (enlaceWaze) enlaceWaze.href = urlWazeBuga(p.direccion, p.barrio);
+        if (enlaceLlamar) enlaceLlamar.href = `tel:${p.clienteTelefono}`;
 
         card.classList.add("pedido--nuevo");
         return card;
@@ -212,6 +325,7 @@
         const idsServidor = new Set(pedidos.map(p => String(p.idPedido)));
         const enPantalla = new Map(tarjetas().map(c => [c.dataset.id, c]));
         let nuevos = 0;
+        let totalEfectivo = 0;
 
         enPantalla.forEach((card, id) => {
             if (!idsServidor.has(id) && !enProceso.has(id) && !card.classList.contains("pedido--saliendo")) {
@@ -220,15 +334,22 @@
         });
 
         pedidos.forEach(p => {
+            if (p.metodoPago !== "TRANSFERENCIA") {
+                totalEfectivo += (p.total || 68000);
+            }
+
             if (!enPantalla.has(String(p.idPedido))) {
                 lista.appendChild(crearTarjeta(p));
                 nuevos++;
             }
         });
 
+        const efectivoRutasEl = document.getElementById("efectivoRutasMonto");
+        if (efectivoRutasEl) efectivoRutasEl.textContent = formatDinero(totalEfectivo);
+
         if (nuevos > 0) {
             vibrar();
-            toast(nuevos === 1 ? "🛵 Nueva ruta asignada" : `🛵 ${nuevos} nuevas rutas asignadas`, "info");
+            toast(nuevos === 1 ? "Nueva ruta asignada" : `${nuevos} nuevas rutas asignadas`, "info");
         }
         refrescarVista();
     }
@@ -262,7 +383,7 @@
         const id = card.dataset.id;
         if (enProceso.has(id)) return;
 
-        const confirmar = confirm(`¿Confirmar que el Pedido #${id} ya fue entregado al cliente?`);
+        const confirmar = confirm(`¿Confirmar que el Pedido #${id} ya fue entregado y cobrado?`);
         if (!confirmar) return;
 
         enProceso.add(id);
@@ -283,7 +404,7 @@
         } catch (err) {
             toast(err.message || "No se pudo confirmar la entrega.", "error");
             btn.disabled = false;
-            btn.textContent = "✓ Confirmar Entrega";
+            btn.innerHTML = '<svg class="icono" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Confirmar Entrega';
         } finally {
             enProceso.delete(id);
         }

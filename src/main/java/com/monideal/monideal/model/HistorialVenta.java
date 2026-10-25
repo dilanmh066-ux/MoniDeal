@@ -51,11 +51,53 @@ public class HistorialVenta {
     @Column(name = "paga_con", length = 50)
     private String pagaCon;
 
+    @Column(name = "subtotal")
+    private Double subtotal = 0.0;
+
+    @Column(name = "costo_envio")
+    private Double costoEnvio = 4000.0;
+
+    @Column(name = "total")
+    private Double total = 0.0;
+
     @Column(name = "fecha_pedido", nullable = false)
     private LocalDateTime fechaPedido;
 
     @Column(name = "fecha_entrega", nullable = false)
     private LocalDateTime fechaEntrega;
+
+    public Double getSubtotal() {
+        if (subtotal != null && subtotal > 0) return subtotal;
+        if (total != null && total > getCostoEnvio()) return total - getCostoEnvio();
+        return 64000.0;
+    }
+
+    public Double getCostoEnvio() {
+        if (costoEnvio != null && costoEnvio > 0) return costoEnvio;
+        return 4000.0;
+    }
+
+    public Double getTotal() {
+        if (total != null && total > 0) return total;
+        return getSubtotal() + getCostoEnvio();
+    }
+
+    public String getSubtotalFormateado() {
+        return formatDinero(getSubtotal());
+    }
+
+    public String getCostoEnvioFormateado() {
+        return formatDinero(getCostoEnvio());
+    }
+
+    public String getTotalFormateado() {
+        return formatDinero(getTotal());
+    }
+
+    private static String formatDinero(Double valor) {
+        if (valor == null || valor <= 0) return "$68.000";
+        return String.format("$%,.0f", valor);
+    }
 
     /** Crea la copia del historial a partir de un pedido ya entregado. */
     public static HistorialVenta desde(Pedido p) {
@@ -69,6 +111,9 @@ public class HistorialVenta {
         h.setCantidad(p.getCantidad());
         h.setMetodoPago(p.getMetodoPago());
         h.setPagaCon(p.getPagaCon());
+        h.setSubtotal(p.getSubtotal());
+        h.setCostoEnvio(p.getCostoEnvio());
+        h.setTotal(p.getTotal());
         h.setFechaPedido(p.getFechaCreacion());
         h.setFechaEntrega(p.getFechaEntrega());
         return h;

@@ -21,6 +21,10 @@ public class HistorialVentaResponse {
     private Integer cantidad;
     private String metodoPago;
     private String pagaCon;
+    private Double subtotal;
+    private Double costoEnvio;
+    private Double total;
+    private String totalFormateado;
     private LocalDateTime fechaPedido;
     private LocalDateTime fechaEntrega;
 
@@ -36,6 +40,10 @@ public class HistorialVentaResponse {
                 h.getCantidad(),
                 h.getMetodoPago(),
                 h.getPagaCon(),
+                h.getSubtotal(),
+                h.getCostoEnvio(),
+                h.getTotal(),
+                h.getTotalFormateado(),
                 h.getFechaPedido(),
                 h.getFechaEntrega()
         );
