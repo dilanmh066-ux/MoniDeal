@@ -30,6 +30,17 @@ public class PedidoController {
     }
 
     // =====================================================================
+    // HEALTHCHECK / PING (Mantener Render activo sin carga de base de datos)
+    // =====================================================================
+
+    /** Endpoint ultraligero para el bot de keep-alive (Render no se duerme y no gasta BD). */
+    @GetMapping("/api/ping")
+    @ResponseBody
+    public ResponseEntity<String> ping() {
+        return ResponseEntity.ok("PONG");
+    }
+
+    // =====================================================================
     // VISTAS (Thymeleaf)
     // =====================================================================
 
