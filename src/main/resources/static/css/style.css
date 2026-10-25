@@ -85,20 +85,87 @@ button, input, select, textarea { font: inherit; color: inherit; }
 [hidden] { display: none !important; }
 
 /* ---------- 3. Iconos SVG Minimalistas (Lucide Style) ---------- */
-.icono {
-    display: inline-block;
-    width: 1.25em;
-    height: 1.25em;
-    vertical-align: -0.18em;
+svg {
     fill: none;
     stroke: currentColor;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    flex-shrink: 0;
+    max-width: 100%;
 }
-.icono--sm { width: 1em; height: 1em; }
-.icono--lg { width: 1.5em; height: 1.5em; }
+
+svg.icono, .icono {
+    display: inline-block !important;
+    width: 18px !important;
+    height: 18px !important;
+    max-width: 18px !important;
+    max-height: 18px !important;
+    min-width: 14px;
+    min-height: 14px;
+    vertical-align: -0.18em;
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 2 !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
+    flex-shrink: 0 !important;
+}
+
+svg.icono--sm, .icono--sm {
+    width: 15px !important;
+    height: 15px !important;
+    max-width: 15px !important;
+    max-height: 15px !important;
+}
+
+svg.icono--lg, .icono--lg {
+    width: 22px !important;
+    height: 22px !important;
+    max-width: 22px !important;
+    max-height: 22px !important;
+}
+
+.ml-logo__icono svg {
+    width: 24px !important;
+    height: 24px !important;
+    max-width: 24px !important;
+    max-height: 24px !important;
+    fill: none !important;
+    stroke: currentColor !important;
+}
+
+.ml-nav a svg {
+    width: 16px !important;
+    height: 16px !important;
+    max-width: 16px !important;
+    max-height: 16px !important;
+    fill: none !important;
+    stroke: currentColor !important;
+}
+
+.tab-tipo svg {
+    width: 16px !important;
+    height: 16px !important;
+    max-width: 16px !important;
+    max-height: 16px !important;
+    fill: none !important;
+    stroke: currentColor !important;
+}
+
+.chip svg {
+    width: 14px !important;
+    height: 14px !important;
+    max-width: 14px !important;
+    max-height: 14px !important;
+    fill: none !important;
+    stroke: currentColor !important;
+}
+
+.btn-audio-toggle svg, .btn-audio-test svg {
+    width: 15px !important;
+    height: 15px !important;
+    max-width: 15px !important;
+    max-height: 15px !important;
+    fill: none !important;
+    stroke: currentColor !important;
+}
 
 /* ---------- 4. Barra de anuncio superior ---------- */
 .barra-anuncio {

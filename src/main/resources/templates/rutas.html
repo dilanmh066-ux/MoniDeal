@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css(v='2.3')}">
 </head>
 <body class="vista-rutas">
 
@@ -16,22 +16,22 @@
     <div class="ml-header__contenido">
         <a class="ml-logo" th:href="@{/rutas}">
             <span class="ml-logo__icono" aria-hidden="true">
-                <svg class="icono" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+                <svg class="icono" width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
             </span>
             Monideal
         </a>
         <nav class="ml-nav" aria-label="Pantallas del personal">
             <a th:href="@{/caja}">
-                <svg class="icono icono--sm" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                Caja
+                <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <span>Caja</span>
             </a>
             <a th:href="@{/rutas}" class="activo">
-                <svg class="icono icono--sm" viewBox="0 0 24 24"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/></svg>
-                Rutas
+                <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/></svg>
+                <span>Rutas</span>
             </a>
             <a th:href="@{/historial}">
-                <svg class="icono icono--sm" viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
-                Historial
+                <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+                <span>Historial</span>
             </a>
         </nav>
     </div>
@@ -58,7 +58,7 @@
     <div style="margin-bottom: 20px;">
         <div class="pastilla-efectivo-rutas">
             <span class="pastilla-efectivo__icono">
-                <svg class="icono icono--sm" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/></svg>
+                <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/></svg>
             </span>
             <div>
                 <small>Efectivo a liquidar en mano:</small>
@@ -75,7 +75,7 @@
 
     <div class="vacio" id="vacio" th:hidden="${!#lists.isEmpty(pedidos)}">
         <div class="vacio__icono" aria-hidden="true">
-            <svg class="icono" viewBox="0 0 24 24" style="width:48px;height:48px;"><circle cx="18.5" cy="17.5" r="3.5"/><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="15" cy="5" r="1"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/></svg>
+            <svg class="icono" width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width:48px;height:48px;"><circle cx="18.5" cy="17.5" r="3.5"/><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="15" cy="5" r="1"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/></svg>
         </div>
         <h2>No tienes entregas pendientes</h2>
         <p>Cuando caja despache un pedido, aparecerá aquí inmediatamente con su valor total y mapa de ubicación.</p>
@@ -90,8 +90,8 @@
             <div class="badges-cabecera">
                 <span class="badge" data-f="badgeCobro"
                       th:classappend="${p?.metodoPago == 'TRANSFERENCIA' ? 'badge--pago-confirmado' : 'badge--efectivo'}">
-                    <svg class="icono icono--sm" viewBox="0 0 24 24" th:if="${p?.metodoPago == 'TRANSFERENCIA'}"><polyline points="20 6 9 17 4 12"/></svg>
-                    <svg class="icono icono--sm" viewBox="0 0 24 24" th:if="${p?.metodoPago != 'TRANSFERENCIA'}"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/></svg>
+                    <svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" th:if="${p?.metodoPago == 'TRANSFERENCIA'}"><polyline points="20 6 9 17 4 12"/></svg>
+                    <svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" th:if="${p?.metodoPago != 'TRANSFERENCIA'}"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/></svg>
                     <span data-f="badgeTexto" th:text="${p?.metodoPago == 'TRANSFERENCIA' ? 'Ya pagó (Transferencia)' : 'Cobro en efectivo'}"></span>
                 </span>
                 <span class="badge badge--ruta">En ruta</span>
@@ -101,7 +101,7 @@
         <div class="pedido__cuerpo">
             <!-- Repartidor / Zona -->
             <div class="repartidor-tag">
-                <svg class="icono icono--sm" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                 <span>Ruta Domiciliario Express · Buga</span>
             </div>
 
@@ -119,7 +119,7 @@
                 <th:block th:if="${p?.metodoPago == 'TRANSFERENCIA'}">
                     <div class="cobro-monto-destacado">
                         <span class="cobro-label cobro-label--verde">
-                            <svg class="icono icono--sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                            <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
                             NO COBRAR · YA PAGADO
                         </span>
                         <span class="cobro-valor cobro-valor--verde" data-f="total" th:text="${p?.totalFormateado ?: '$68.000'}">$68.000</span>
@@ -131,7 +131,7 @@
                 <th:block th:if="${p?.metodoPago != 'TRANSFERENCIA'}">
                     <div class="cobro-monto-destacado">
                         <span class="cobro-label">
-                            <svg class="icono icono--sm" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/></svg>
+                            <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/></svg>
                             TOTAL A COBRAR AL CLIENTE:
                         </span>
                         <span class="cobro-valor" data-f="total" th:text="${p?.totalFormateado ?: '$68.000'}">$68.000</span>
@@ -147,7 +147,7 @@
 
             <div class="dato">
                 <span class="dato__icono" aria-hidden="true">
-                    <svg class="icono icono--sm" viewBox="0 0 24 24"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>
+                    <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>
                 </span>
                 <div class="dato__valor">
                     <strong data-f="clienteNombre" th:text="${p?.clienteNombre}"></strong>
@@ -156,7 +156,7 @@
             </div>
 
             <div class="pedido__resumen-carga">
-                <svg class="icono icono--sm carga-icono" viewBox="0 0 24 24"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+                <svg class="icono icono--sm carga-icono" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
                 <span data-f="producto" th:text="${p?.producto}"></span>
             </div>
 
@@ -169,24 +169,24 @@
             <div class="acciones-secundarias" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px;">
                 <a class="btn--outline-sm" data-enlace="mapa" target="_blank" rel="noopener"
                    th:href="${p != null ? 'https://www.google.com/maps/search/?api=1&query=' + #uris.escapeQueryParam(p.direccion + ', Barrio ' + p.barrio + ', Guadalajara de Buga, Valle del Cauca, Colombia') : '#'}">
-                    <svg class="icono icono--sm" viewBox="0 0 24 24"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" x2="9" y1="3" y2="18"/><line x1="15" x2="15" y1="6" y2="21"/></svg>
+                    <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" x2="9" y1="3" y2="18"/><line x1="15" x2="15" y1="6" y2="21"/></svg>
                     Google Maps
                 </a>
                 <a class="btn--outline-sm btn--waze" data-enlace="waze" target="_blank" rel="noopener"
                    th:href="${p != null ? 'https://waze.com/ul?q=' + #uris.escapeQueryParam(p.direccion + ', ' + p.barrio + ', Buga') + '&navigate=yes' : '#'}">
-                    <svg class="icono icono--sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>
+                    <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>
                     Waze
                 </a>
                 <a class="btn--outline-sm" data-enlace="llamar"
                    th:href="${p != null ? 'tel:' + p.clienteTelefono : '#'}">
-                    <svg class="icono icono--sm" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                     Llamar
                 </a>
             </div>
 
             <!-- Acción primaria: Botón grande y sólido de entrega -->
             <button type="button" class="btn btn--exito btn--bloque btn--grande" data-accion="entregar">
-                <svg class="icono" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                <svg class="icono" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
                 Confirmar Entrega
             </button>
         </div>
@@ -265,12 +265,12 @@
 
         if (esTransf) {
             badgeCobro.className = "badge badge--pago-confirmado";
-            badgeCobro.innerHTML = `<svg class="icono icono--sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <span>Ya pagó (Transferencia)</span>`;
+            badgeCobro.innerHTML = `<svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <span>Ya pagó (Transferencia)</span>`;
             cobroAviso.className = "cobro-domiciliario cobro-domiciliario--transferencia";
             cobroAviso.innerHTML = `
                 <div class="cobro-monto-destacado">
                     <span class="cobro-label cobro-label--verde">
-                        <svg class="icono icono--sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                        <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
                         NO COBRAR · YA PAGADO
                     </span>
                     <span class="cobro-valor cobro-valor--verde">${totalStr}</span>
@@ -279,13 +279,13 @@
             `;
         } else {
             badgeCobro.className = "badge badge--efectivo";
-            badgeCobro.innerHTML = `<svg class="icono icono--sm" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/></svg> <span>Cobro en efectivo</span>`;
+            badgeCobro.innerHTML = `<svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/></svg> <span>Cobro en efectivo</span>`;
             cobroAviso.className = "cobro-domiciliario cobro-domiciliario--efectivo";
             const cambioHtml = p.pagaCon ? `<div class="cobro-cambio">Cliente tiene: ${p.pagaCon}</div>` : "";
             cobroAviso.innerHTML = `
                 <div class="cobro-monto-destacado">
                     <span class="cobro-label">
-                        <svg class="icono icono--sm" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/></svg>
+                        <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/></svg>
                         TOTAL A COBRAR AL CLIENTE:
                     </span>
                     <span class="cobro-valor">${totalStr}</span>
@@ -404,7 +404,7 @@
         } catch (err) {
             toast(err.message || "No se pudo confirmar la entrega.", "error");
             btn.disabled = false;
-            btn.innerHTML = '<svg class="icono" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Confirmar Entrega';
+            btn.innerHTML = '<svg class="icono" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Confirmar Entrega';
         } finally {
             enProceso.delete(id);
         }

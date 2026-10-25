@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css(v='2.3')}">
 </head>
 <body>
 
@@ -16,7 +16,7 @@
 <div class="modal-seguridad" id="modalPin" hidden>
     <div class="modal-seguridad__caja card">
         <span class="modal-seguridad__icono">
-            <svg class="icono" viewBox="0 0 24 24" style="width:32px;height:32px;"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <svg class="icono" width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width:32px;height:32px;"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
         </span>
         <h2>Acceso a Caja</h2>
         <p>Esta pantalla es solo para personal de caja y oficina. Ingresa el PIN de seguridad.</p>
@@ -35,7 +35,7 @@
     <div class="ml-header__contenido">
         <a class="ml-logo" th:href="@{/caja}">
             <span class="ml-logo__icono" aria-hidden="true">
-                <svg class="icono" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+                <svg class="icono" width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
             </span>
             Monideal
         </a>
@@ -44,22 +44,22 @@
             <input type="search" id="buscador" placeholder="Buscar por nombre, teléfono, barrio o # de pedido"
                    aria-label="Buscar pedidos" autocomplete="off">
             <span class="ml-buscador__icono" aria-hidden="true">
-                <svg class="icono" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                <svg class="icono" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
             </span>
         </label>
 
         <nav class="ml-nav" aria-label="Pantallas del personal">
             <a th:href="@{/caja}" class="activo">
-                <svg class="icono icono--sm" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                Caja
+                <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <span>Caja</span>
             </a>
             <a th:href="@{/rutas}">
-                <svg class="icono icono--sm" viewBox="0 0 24 24"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/></svg>
-                Rutas
+                <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/></svg>
+                <span>Rutas</span>
             </a>
             <a th:href="@{/historial}">
-                <svg class="icono icono--sm" viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
-                Historial
+                <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+                <span>Historial</span>
             </a>
         </nav>
     </div>
@@ -85,11 +85,11 @@
 
         <div class="control-audio-caja">
             <button type="button" class="btn-audio-toggle" id="btnToggleSonido" title="Silenciar / Activar alertas sonoras">
-                <svg class="icono icono--sm" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
                 <span id="textoSonido">Alertas activas</span>
             </button>
             <button type="button" class="btn-audio-test" id="btnProbarTono" title="Probar tono de campana">
-                <svg class="icono icono--sm" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                 <span>Probar tono</span>
             </button>
         </div>
@@ -99,7 +99,7 @@
     <section class="cifras" aria-label="Métricas de control operativo">
         <div class="cifra">
             <span class="cifra__icono" aria-hidden="true">
-                <svg class="icono" viewBox="0 0 24 24"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+                <svg class="icono" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
             </span>
             <div>
                 <div class="cifra__valor" id="contador" th:text="${totalPendientes ?: #lists.size(pedidos)}">0</div>
@@ -109,7 +109,7 @@
 
         <a th:href="@{/rutas}" class="cifra cifra--clickeable" title="Ver domiciliarios en ruta">
             <span class="cifra__icono" aria-hidden="true">
-                <svg class="icono" viewBox="0 0 24 24"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/></svg>
+                <svg class="icono" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/></svg>
             </span>
             <div>
                 <div class="cifra__valor" id="contadorEnRuta" th:text="${totalEnRuta ?: 0}">0</div>
@@ -119,7 +119,7 @@
 
         <div class="cifra">
             <span class="cifra__icono" aria-hidden="true">
-                <svg class="icono" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>
+                <svg class="icono" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>
             </span>
             <div>
                 <div class="cifra__valor" id="totalCajaHoy" th:text="${cierreHoy?.totalRecaudadoFormateado ?: '$0'}">$0</div>
@@ -134,15 +134,15 @@
             Todos <span class="chip__count" id="countTodos">0</span>
         </button>
         <button type="button" class="chip" data-filtro="efectivo">
-            <svg class="icono icono--sm" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/></svg>
+            <svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/></svg>
             Efectivo <span class="chip__count" id="countEfectivo">0</span>
         </button>
         <button type="button" class="chip" data-filtro="transferencia">
-            <svg class="icono icono--sm" viewBox="0 0 24 24"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+            <svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
             Transferencia <span class="chip__count" id="countTransferencia">0</span>
         </button>
         <button type="button" class="chip chip--alerta" data-filtro="demorados">
-            <svg class="icono icono--sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             Demorados (+15 min) <span class="chip__count" id="countDemorados">0</span>
         </button>
     </div>
@@ -155,7 +155,7 @@
 
     <div class="vacio" id="vacio" th:hidden="${!#lists.isEmpty(pedidos)}">
         <div class="vacio__icono" aria-hidden="true">
-            <svg class="icono" viewBox="0 0 24 24" style="width:48px;height:48px;"><path d="M22 13V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7"/><path d="M22 13a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5"/><path d="M2 13h5l2 3h6l2-3h5"/></svg>
+            <svg class="icono" width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width:48px;height:48px;"><path d="M22 13V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7"/><path d="M22 13a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5"/><path d="M2 13h5l2 3h6l2-3h5"/></svg>
         </div>
         <h2>No hay pedidos pendientes</h2>
         <p>Los pedidos nuevos aparecerán aquí automáticamente y sonará la campana.</p>
@@ -163,7 +163,7 @@
 
     <div class="vacio" id="sinResultados" hidden>
         <div class="vacio__icono" aria-hidden="true">
-            <svg class="icono" viewBox="0 0 24 24" style="width:48px;height:48px;"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <svg class="icono" width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width:48px;height:48px;"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
         </div>
         <h2>Sin resultados</h2>
         <p>Ningún pedido coincide con tu búsqueda.</p>
@@ -182,8 +182,8 @@
                 <!-- Badge de pago -->
                 <span class="badge" data-f="badgePago"
                       th:classappend="${p?.metodoPago == 'TRANSFERENCIA' ? (p?.pagoConfirmado ? 'badge--pago-confirmado' : 'badge--pago-pendiente') : 'badge--efectivo'}">
-                    <svg class="icono icono--sm" viewBox="0 0 24 24" th:if="${p?.metodoPago == 'TRANSFERENCIA'}"><polyline points="20 6 9 17 4 12"/></svg>
-                    <svg class="icono icono--sm" viewBox="0 0 24 24" th:if="${p?.metodoPago != 'TRANSFERENCIA'}"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/></svg>
+                    <svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" th:if="${p?.metodoPago == 'TRANSFERENCIA'}"><polyline points="20 6 9 17 4 12"/></svg>
+                    <svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" th:if="${p?.metodoPago != 'TRANSFERENCIA'}"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/></svg>
                     <span data-f="badgeTexto" th:text="${p?.metodoPago == 'TRANSFERENCIA' ? (p?.pagoConfirmado ? 'Transferencia OK' : 'Esperando Transferencia') : 'Efectivo'}"></span>
                 </span>
                 <span class="badge badge--pendiente">Pendiente</span>
@@ -204,15 +204,15 @@
             <!-- Indicación de pago detallada -->
             <div class="pago-detalle" data-f="detallePago">
                 <span th:if="${p?.metodoPago == 'TRANSFERENCIA' and !p?.pagoConfirmado}" class="alerta-pago-amarilla">
-                    <svg class="icono icono--sm" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg>
+                    <svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg>
                     <strong>Oficina:</strong> Verificar comprobante en WhatsApp antes de despachar.
                 </span>
                 <span th:if="${p?.metodoPago == 'TRANSFERENCIA' and p?.pagoConfirmado}" class="alerta-pago-verde">
-                    <svg class="icono icono--sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                    <svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
                     <strong>Transferencia verificada:</strong> Dinero recibido en cuenta.
                 </span>
                 <span th:if="${p?.metodoPago != 'TRANSFERENCIA'}" class="alerta-pago-verde">
-                    <svg class="icono icono--sm" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/></svg>
+                    <svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/></svg>
                     <strong>Paga en efectivo al recibir</strong>
                     <span th:if="${p?.pagaCon != null and !p?.pagaCon.isEmpty()}" th:text="'(' + ${p.pagaCon} + ')'"></span>
                 </span>
@@ -221,7 +221,7 @@
             <div class="pedido__datos">
                 <div class="dato">
                     <span class="dato__icono" aria-hidden="true">
-                        <svg class="icono icono--sm" viewBox="0 0 24 24"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>
+                        <svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>
                     </span>
                     <div class="dato__valor">
                         <strong data-f="clienteNombre" th:text="${p?.clienteNombre}"></strong>
@@ -231,7 +231,7 @@
 
                 <div class="dato">
                     <span class="dato__icono" aria-hidden="true">
-                        <svg class="icono icono--sm" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                        <svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
                     </span>
                     <div class="dato__valor">
                         <strong data-f="direccion" th:text="${p?.direccion}"></strong>
@@ -246,7 +246,7 @@
             <!-- Timer visual y alerta de retraso (+15 min) -->
             <div data-f="tiempoAlerta">
                 <span class="timer-badge" data-f="timerBadge">
-                    <svg class="icono icono--sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    <svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                     <span data-f="tiempoTexto">Llegó hace un momento</span>
                 </span>
             </div>
@@ -256,13 +256,13 @@
             <!-- Botón para confirmar pago si es transferencia pendiente -->
             <button type="button" class="btn btn--secundario btn-confirmar-pago" data-accion="confirmar-pago"
                     th:hidden="${p?.metodoPago != 'TRANSFERENCIA' or p?.pagoConfirmado}">
-                <svg class="icono icono--sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                <svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
                 Oficina: Confirmar Pago Recibido
             </button>
 
             <!-- Botón despachar a domicilio -->
             <button type="button" class="btn btn--primario btn--bloque" data-accion="asignar">
-                <svg class="icono" viewBox="0 0 24 24"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/></svg>
+                <svg class="icono" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/></svg>
                 Asignar a domicilio (Buga)
             </button>
         </div>
@@ -464,20 +464,20 @@
         if (esTransf) {
             if (p.pagoConfirmado) {
                 badgePago.className = "badge badge--pago-confirmado";
-                badgePago.innerHTML = '<svg class="icono icono--sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <span>Transferencia OK</span>';
-                detallePago.innerHTML = '<span class="alerta-pago-verde"><svg class="icono icono--sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <strong>Transferencia verificada:</strong> Dinero recibido en cuenta.</span>';
+                badgePago.innerHTML = '<svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <span>Transferencia OK</span>';
+                detallePago.innerHTML = '<span class="alerta-pago-verde"><svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <strong>Transferencia verificada:</strong> Dinero recibido en cuenta.</span>';
                 if (btnConfirmarPago) btnConfirmarPago.hidden = true;
             } else {
                 badgePago.className = "badge badge--pago-pendiente";
-                badgePago.innerHTML = '<svg class="icono icono--sm" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg> <span>Esperando Transferencia</span>';
-                detallePago.innerHTML = '<span class="alerta-pago-amarilla"><svg class="icono icono--sm" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg> <strong>Oficina:</strong> Verificar comprobante en WhatsApp antes de despachar.</span>';
+                badgePago.innerHTML = '<svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg> <span>Esperando Transferencia</span>';
+                detallePago.innerHTML = '<span class="alerta-pago-amarilla"><svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg> <strong>Oficina:</strong> Verificar comprobante en WhatsApp antes de despachar.</span>';
                 if (btnConfirmarPago) btnConfirmarPago.hidden = false;
             }
         } else {
             badgePago.className = "badge badge--efectivo";
-            badgePago.innerHTML = '<svg class="icono icono--sm" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/></svg> <span>Efectivo</span>';
+            badgePago.innerHTML = '<svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/></svg> <span>Efectivo</span>';
             const cambio = p.pagaCon ? ` (${p.pagaCon})` : "";
-            detallePago.innerHTML = `<span class="alerta-pago-verde"><svg class="icono icono--sm" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/></svg> <strong>Paga en efectivo al recibir</strong>${cambio}</span>`;
+            detallePago.innerHTML = `<span class="alerta-pago-verde"><svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/></svg> <strong>Paga en efectivo al recibir</strong>${cambio}</span>`;
             if (btnConfirmarPago) btnConfirmarPago.hidden = true;
         }
 
@@ -641,12 +641,12 @@
                 } else {
                     toast("No se pudo confirmar el pago.", "error");
                     btnPago.disabled = false;
-                    btnPago.innerHTML = '<svg class="icono icono--sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Oficina: Confirmar Pago Recibido';
+                    btnPago.innerHTML = '<svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Oficina: Confirmar Pago Recibido';
                 }
             } catch (_) {
                 toast("Error de conexión al confirmar pago.", "error");
                 btnPago.disabled = false;
-                btnPago.innerHTML = '<svg class="icono icono--sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Oficina: Confirmar Pago Recibido';
+                btnPago.innerHTML = '<svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Oficina: Confirmar Pago Recibido';
             }
             return;
         }
