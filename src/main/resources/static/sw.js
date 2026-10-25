@@ -3,7 +3,7 @@ const CACHE_NAME = 'monideal-v1';
 const ASSETS_TO_CACHE = [
   '/manifest.json',
   '/img/icon.svg',
-  '/css/style.css?v=2.4'
+  '/css/style.css?v=2.5'
 ];
 
 self.addEventListener('install', event => {

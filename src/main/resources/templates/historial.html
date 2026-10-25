@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
-    <link rel="stylesheet" th:href="@{/css/style.css(v='2.4')}">
+    <link rel="stylesheet" th:href="@{/css/style.css(v='2.5')}">
 </head>
 <body class="vista-historial">
 
@@ -63,7 +63,7 @@
         <div class="panel-cierre__header">
             <div class="panel-cierre__titulo">
                 <svg class="icono" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
-                Resumen de Cierre Diario (Hoy)
+                <span id="tituloPeriodoCierre">Resumen de Cierre Diario (Hoy)</span>
             </div>
             <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
                 <span class="badge badge--pago-confirmado">Auditoría en tiempo real</span>
@@ -117,10 +117,46 @@
         </div>
     </section>
 
+    <!-- Barra de Filtros Temporales (Hoy, 3, 7, 15, 30 días o fecha específica) -->
+    <div class="barra-filtros-historial" role="toolbar" aria-label="Filtros por período y fecha">
+        <div class="filtros-rango-grupo" role="tablist">
+            <button type="button" class="chip chip--activo" data-rango="1" id="tabRangoHoy">
+                Hoy <span class="chip__count" id="countRangoHoy">0</span>
+            </button>
+            <button type="button" class="chip" data-rango="3">
+                3 días <span class="chip__count" id="countRango3">0</span>
+            </button>
+            <button type="button" class="chip" data-rango="7">
+                7 días <span class="chip__count" id="countRango7">0</span>
+            </button>
+            <button type="button" class="chip" data-rango="15">
+                15 días <span class="chip__count" id="countRango15">0</span>
+            </button>
+            <button type="button" class="chip" data-rango="30">
+                30 días <span class="chip__count" id="countRango30">0</span>
+            </button>
+            <button type="button" class="chip" data-rango="todos">
+                Todos <span class="chip__count" id="countRangoTodos">0</span>
+            </button>
+        </div>
+
+        <div class="filtro-fecha-exacta">
+            <label for="filtroFechaEspecifica" style="display: flex; align-items: center; gap: 6px;">
+                <svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+                <span>Día específico:</span>
+            </label>
+            <input type="date" id="filtroFechaEspecifica" aria-label="Filtrar por fecha exacta">
+            <button type="button" class="btn-limpiar-fecha" id="btnLimpiarFecha" hidden title="Volver al día de hoy">Limpiar</button>
+        </div>
+    </div>
+
     <!-- Lista de ventas históricas -->
     <section class="grid-historial" id="listaHistorial">
         <article class="card card-historial" th:each="h : ${historial}"
-                 th:data-busqueda="${(h.pedido != null ? h.pedido.idPedido : '') + ' ' + h.clienteNombre + ' ' + h.clienteTelefono + ' ' + h.barrio + ' ' + h.direccion + ' ' + h.producto}">
+                 th:data-busqueda="${(h.pedido != null ? h.pedido.idPedido : '') + ' ' + h.clienteNombre + ' ' + h.clienteTelefono + ' ' + h.barrio + ' ' + h.direccion + ' ' + h.producto}"
+                 th:data-fecha="${h.fechaEntrega != null ? #temporals.format(h.fechaEntrega, 'yyyy-MM-dd') : (h.fechaPedido != null ? #temporals.format(h.fechaPedido, 'yyyy-MM-dd') : '')}"
+                 th:data-total="${h.total != null ? h.total : 0}"
+                 th:data-metodo="${h.metodoPago}">
             <div class="card-historial__cabecera">
                 <div>
                     <span class="pedido__numero">Pedido #<span th:text="${h.pedido != null ? h.pedido.idPedido : h.idHistorial}"></span></span>
@@ -191,8 +227,18 @@
         <div class="vacio__icono" aria-hidden="true">
             <svg class="icono" width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width:48px;height:48px;"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
         </div>
-        <h2>Sin resultados</h2>
-        <p>Ningún registro del historial coincide con tu búsqueda.</p>
+        <h2>Sin resultados de búsqueda</h2>
+        <p>Ningún registro coincide con el texto buscado.</p>
+    </div>
+
+    <!-- Vacío cuando un período no tiene ventas -->
+    <div class="vacio" id="sinResultadosPeriodo" hidden>
+        <div class="vacio__icono" aria-hidden="true">
+            <svg class="icono" width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width:48px;height:48px;"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+        </div>
+        <h2>No hay entregas en este período</h2>
+        <p>No se encontraron pedidos entregados en el rango de fechas seleccionado. Puedes consultar otros días o ver todo el historial.</p>
+        <button type="button" class="btn btn--secundario" id="btnVerTodos" style="margin-top: 10px;">Ver todos los registros</button>
     </div>
 </main>
 
@@ -204,48 +250,255 @@
     const cards = Array.from(document.querySelectorAll(".card-historial"));
     const vacio = document.getElementById("vacioHistorial");
     const sinResultados = document.getElementById("sinResultadosHistorial");
+    const sinResultadosPeriodo = document.getElementById("sinResultadosPeriodo");
+    const btnVerTodos = document.getElementById("btnVerTodos");
+
+    const tabsRango = Array.from(document.querySelectorAll("[data-rango]"));
+    const inputFechaEsp = document.getElementById("filtroFechaEspecifica");
+    const btnLimpiarFecha = document.getElementById("btnLimpiarFecha");
+
+    const tituloPeriodo = document.getElementById("tituloPeriodoCierre");
+    const totalPedidosEl = document.getElementById("cierreTotalPedidos");
+    const totalEfectivoEl = document.getElementById("cierreTotalEfectivo");
+    const totalTransfEl = document.getElementById("cierreTotalTransf");
+    const totalGeneralEl = document.getElementById("cierreTotalGeneral");
+    const subEfectivoEl = document.querySelector(".cierre-stat:nth-child(2) .cierre-stat__sub");
+    const subTransfEl = document.querySelector(".cierre-stat:nth-child(3) .cierre-stat__sub");
+
     const btnExportar = document.getElementById("btnExportarCSV");
     const btnImprimir = document.getElementById("btnImprimirCierre");
 
-    function filtrar() {
-        const query = buscador.value.trim().toLowerCase().replace(/^#/, "");
-        let visibles = 0;
+    let rangoActual = "1"; // "1" (Hoy) por defecto
+    let fechaExactaActual = "";
+
+    function formatDinero(num) {
+        if (!num || num <= 0) return "$0";
+        return "$" + Math.round(num).toLocaleString("es-CO");
+    }
+
+    function getFechaLocalStr(date = new Date()) {
+        const y = date.getFullYear();
+        const m = String(date.getMonth() + 1).padStart(2, "0");
+        const d = String(date.getDate()).padStart(2, "0");
+        return `${y}-${m}-${d}`;
+    }
+
+    function calcularFechaLimite(diasAtras) {
+        const d = new Date();
+        d.setHours(0, 0, 0, 0);
+        d.setDate(d.getDate() - (diasAtras - 1));
+        return getFechaLocalStr(d);
+    }
+
+    function actualizarContadoresRangos() {
+        const hoy = getFechaLocalStr(new Date());
+        const f3 = calcularFechaLimite(3);
+        const f7 = calcularFechaLimite(7);
+        const f15 = calcularFechaLimite(15);
+        const f30 = calcularFechaLimite(30);
+
+        let countHoy = 0, count3 = 0, count7 = 0, count15 = 0, count30 = 0;
 
         cards.forEach(card => {
-            const texto = (card.dataset.busqueda || card.textContent).toLowerCase();
-            const coincide = !query || texto.includes(query);
-            card.hidden = !coincide;
-            if (coincide) visibles++;
+            const f = card.dataset.fecha;
+            if (!f) return;
+            if (f === hoy) countHoy++;
+            if (f >= f3) count3++;
+            if (f >= f7) count7++;
+            if (f >= f15) count15++;
+            if (f >= f30) count30++;
         });
 
-        if (cards.length > 0) {
-            sinResultados.hidden = visibles > 0;
+        const elHoy = document.getElementById("countRangoHoy");
+        const el3 = document.getElementById("countRango3");
+        const el7 = document.getElementById("countRango7");
+        const el15 = document.getElementById("countRango15");
+        const el30 = document.getElementById("countRango30");
+        const elTodos = document.getElementById("countRangoTodos");
+
+        if (elHoy) elHoy.textContent = countHoy;
+        if (el3) el3.textContent = count3;
+        if (el7) el7.textContent = count7;
+        if (el15) el15.textContent = count15;
+        if (el30) el30.textContent = count30;
+        if (elTodos) elTodos.textContent = cards.length;
+    }
+
+    function filtrar() {
+        const query = buscador.value.trim().toLowerCase().replace(/^#/, "");
+        const hoy = getFechaLocalStr(new Date());
+
+        let fechaMinima = "";
+        let esFechaExacta = Boolean(fechaExactaActual);
+
+        if (!esFechaExacta) {
+            if (rangoActual === "1") {
+                fechaMinima = hoy;
+            } else if (rangoActual === "todos") {
+                fechaMinima = "";
+            } else {
+                const dias = parseInt(rangoActual, 10) || 1;
+                fechaMinima = calcularFechaLimite(dias);
+            }
         }
+
+        let visibles = 0;
+        let sumTotal = 0;
+        let sumEfectivo = 0;
+        let sumTransf = 0;
+        let countEfectivo = 0;
+        let countTransf = 0;
+
+        cards.forEach(card => {
+            const fechaCard = card.dataset.fecha || "";
+            const total = parseFloat(card.dataset.total) || 0;
+            const esTransf = (card.dataset.metodo || "").toUpperCase() === "TRANSFERENCIA";
+
+            // 1. Filtro temporal
+            let cumpleFecha = true;
+            if (esFechaExacta) {
+                cumpleFecha = fechaCard === fechaExactaActual;
+            } else if (rangoActual === "1") {
+                cumpleFecha = fechaCard === hoy;
+            } else if (fechaMinima) {
+                cumpleFecha = fechaCard >= fechaMinima;
+            }
+
+            // 2. Filtro de búsqueda textual
+            const texto = (card.dataset.busqueda || card.textContent).toLowerCase();
+            const cumpleBusqueda = !query || texto.includes(query);
+
+            const visible = cumpleFecha && cumpleBusqueda;
+            card.hidden = !visible;
+
+            if (visible) {
+                visibles++;
+                sumTotal += total;
+                if (esTransf) {
+                    sumTransf += total;
+                    countTransf++;
+                } else {
+                    sumEfectivo += total;
+                    countEfectivo++;
+                }
+            }
+        });
+
+        // Título del período dinámico
+        if (tituloPeriodo) {
+            if (esFechaExacta) {
+                const partes = fechaExactaActual.split("-");
+                const fBonita = `${partes[2]}/${partes[1]}/${partes[0]}`;
+                tituloPeriodo.textContent = `Resumen de Ventas (${fBonita})`;
+            } else if (rangoActual === "1") {
+                tituloPeriodo.textContent = "Resumen de Cierre Diario (Hoy)";
+            } else if (rangoActual === "todos") {
+                tituloPeriodo.textContent = "Resumen Histórico Consolidado (Todos)";
+            } else {
+                tituloPeriodo.textContent = `Resumen de Ventas (Últimos ${rangoActual} días)`;
+            }
+        }
+
+        // Métricas reactivas
+        if (totalPedidosEl) totalPedidosEl.textContent = visibles;
+        if (totalEfectivoEl) totalEfectivoEl.textContent = formatDinero(sumEfectivo);
+        if (totalTransfEl) totalTransfEl.textContent = formatDinero(sumTransf);
+        if (totalGeneralEl) totalGeneralEl.textContent = formatDinero(sumTotal);
+
+        if (subEfectivoEl) subEfectivoEl.textContent = `${countEfectivo} cobros en mano`;
+        if (subTransfEl) subTransfEl.textContent = `${countTransf} transferencias bancarias`;
+
+        // Control de vistas vacías
+        if (cards.length === 0) {
+            if (vacio) vacio.hidden = false;
+            if (sinResultados) sinResultados.hidden = true;
+            if (sinResultadosPeriodo) sinResultadosPeriodo.hidden = true;
+        } else {
+            if (vacio) vacio.hidden = true;
+            if (query && visibles === 0) {
+                if (sinResultados) sinResultados.hidden = false;
+                if (sinResultadosPeriodo) sinResultadosPeriodo.hidden = true;
+            } else if (visibles === 0) {
+                if (sinResultados) sinResultados.hidden = true;
+                if (sinResultadosPeriodo) sinResultadosPeriodo.hidden = false;
+            } else {
+                if (sinResultados) sinResultados.hidden = true;
+                if (sinResultadosPeriodo) sinResultadosPeriodo.hidden = true;
+            }
+        }
+    }
+
+    tabsRango.forEach(tab => {
+        tab.addEventListener("click", () => {
+            tabsRango.forEach(t => t.classList.remove("chip--activo"));
+            tab.classList.add("chip--activo");
+            rangoActual = tab.dataset.rango;
+            fechaExactaActual = "";
+            if (inputFechaEsp) inputFechaEsp.value = "";
+            if (btnLimpiarFecha) btnLimpiarFecha.hidden = true;
+            filtrar();
+        });
+    });
+
+    if (inputFechaEsp) {
+        inputFechaEsp.addEventListener("change", () => {
+            if (inputFechaEsp.value) {
+                tabsRango.forEach(t => t.classList.remove("chip--activo"));
+                fechaExactaActual = inputFechaEsp.value;
+                rangoActual = "";
+                if (btnLimpiarFecha) btnLimpiarFecha.hidden = false;
+                filtrar();
+            }
+        });
+    }
+
+    if (btnLimpiarFecha) {
+        btnLimpiarFecha.addEventListener("click", () => {
+            inputFechaEsp.value = "";
+            btnLimpiarFecha.hidden = true;
+            fechaExactaActual = "";
+            rangoActual = "1";
+            tabsRango.forEach(t => t.classList.toggle("chip--activo", t.dataset.rango === "1"));
+            filtrar();
+        });
+    }
+
+    if (btnVerTodos) {
+        btnVerTodos.addEventListener("click", () => {
+            rangoActual = "todos";
+            fechaExactaActual = "";
+            if (inputFechaEsp) inputFechaEsp.value = "";
+            if (btnLimpiarFecha) btnLimpiarFecha.hidden = true;
+            tabsRango.forEach(t => t.classList.toggle("chip--activo", t.dataset.rango === "todos"));
+            filtrar();
+        });
     }
 
     buscador.addEventListener("input", filtrar);
 
-    // Exportación de Cierre a Excel / CSV con BOM UTF-8
+    // Exportación de Cierre a Excel / CSV del período visible
     if (btnExportar) {
         btnExportar.addEventListener("click", () => {
             const fechaHoy = new Date().toISOString().slice(0, 10);
-            const totalPedidos = document.getElementById("cierreTotalPedidos")?.textContent.trim() || "0";
-            const totalEfectivo = document.getElementById("cierreTotalEfectivo")?.textContent.trim() || "$0";
-            const totalTransf = document.getElementById("cierreTotalTransf")?.textContent.trim() || "$0";
-            const totalGeneral = document.getElementById("cierreTotalGeneral")?.textContent.trim() || "$0";
+            const tituloTxt = tituloPeriodo ? tituloPeriodo.textContent.trim() : "REPORTE DE VENTAS";
+            const totalPedidos = totalPedidosEl?.textContent.trim() || "0";
+            const totalEfectivo = totalEfectivoEl?.textContent.trim() || "$0";
+            const totalTransf = totalTransfEl?.textContent.trim() || "$0";
+            const totalGeneral = totalGeneralEl?.textContent.trim() || "$0";
 
             let csv = "\uFEFF"; // Byte Order Mark para compatibilidad de acentos con Excel
-            csv += `REPORTE DE CIERRE DIARIO DE CAJA - MONIDEAL (GUADALAJARA DE BUGA)\n`;
+            csv += `${tituloTxt.toUpperCase()} - MONIDEAL (GUADALAJARA DE BUGA)\n`;
             csv += `Fecha de Generación:;${fechaHoy}\n`;
-            csv += `Total Pedidos Entregados:;${totalPedidos}\n`;
+            csv += `Total Pedidos Filtrados:;${totalPedidos}\n`;
             csv += `Recaudado en Efectivo:;${totalEfectivo}\n`;
             csv += `Recaudado en Transferencias:;${totalTransf}\n`;
-            csv += `TOTAL GLOBAL CONSOLIDADO:;${totalGeneral}\n\n`;
+            csv += `TOTAL CONSOLIDADO DEL PERÍODO:;${totalGeneral}\n\n`;
 
-            csv += `Pedido #;Cliente;Teléfono;Barrio;Dirección;Productos Entregados;Método de Pago;Total Cobrado\n`;
+            csv += `Pedido #;Fecha Entrega;Cliente;Teléfono;Barrio;Dirección;Productos Entregados;Método de Pago;Total Cobrado\n`;
 
-            cards.forEach(card => {
+            cards.filter(card => !card.hidden).forEach(card => {
                 const num = card.querySelector(".pedido__numero span")?.textContent.trim() || "";
+                const fecha = card.dataset.fecha || "";
                 const cliente = card.querySelector(".dato__valor strong")?.textContent.trim() || "";
                 const tel = card.querySelector(".dato__valor span")?.textContent.trim() || "";
                 const dir = card.querySelectorAll(".dato__valor strong")[1]?.textContent.trim() || "";
@@ -254,14 +507,14 @@
                 const metodo = card.querySelector(".card-historial__cabecera .badge:not(.badge--pago-confirmado) span")?.textContent.trim() || "Efectivo";
                 const total = card.querySelector(".card-historial__cabecera strong")?.textContent.trim() || "$0";
 
-                csv += `"${num}";"${cliente}";"${tel}";"${barrio}";"${dir}";"${prod}";"${metodo}";"${total}"\n`;
+                csv += `"${num}";"${fecha}";"${cliente}";"${tel}";"${barrio}";"${dir}";"${prod}";"${metodo}";"${total}"\n`;
             });
 
             const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
             const url = URL.createObjectURL(blob);
             const a = document.createElement("a");
             a.href = url;
-            a.download = `Cierre_Caja_MoniDeal_${fechaHoy}.csv`;
+            a.download = `Reporte_MoniDeal_${(rangoActual || fechaExactaActual || 'ventas')}_${fechaHoy}.csv`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
@@ -279,6 +532,29 @@
             }, 800);
         });
     }
+
+    // Inicializar
+    actualizarContadoresRangos();
+
+    // Si hoy no tiene pedidos pero hay ventas anteriores, o si tiene parámetros URL:
+    const params = new URLSearchParams(window.location.search);
+    if (params.has("dias")) {
+        const d = params.get("dias");
+        const matchTab = tabsRango.find(t => t.dataset.rango === d);
+        if (matchTab) {
+            tabsRango.forEach(t => t.classList.remove("chip--activo"));
+            matchTab.classList.add("chip--activo");
+            rangoActual = d;
+        }
+    } else if (params.has("fecha") && inputFechaEsp) {
+        inputFechaEsp.value = params.get("fecha");
+        tabsRango.forEach(t => t.classList.remove("chip--activo"));
+        fechaExactaActual = params.get("fecha");
+        rangoActual = "";
+        if (btnLimpiarFecha) btnLimpiarFecha.hidden = false;
+    }
+
+    filtrar();
 
     // PWA Service Worker
     if ('serviceWorker' in navigator) {
