@@ -1,0 +1,19 @@
+{
+  "name": "MoniDeal · Logística Agropecuaria",
+  "short_name": "MoniDeal",
+  "description": "Sistema de gestión de pedidos, caja y rutas a domicilio en Buga",
+  "start_url": "/caja",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#FBFBF9",
+  "theme_color": "#1E3A2F",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/img/icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

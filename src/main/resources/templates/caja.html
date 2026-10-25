@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#1E3A2F">
     <title>Caja | Monideal</title>
+    <link rel="manifest" href="/manifest.json">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
-    <link rel="stylesheet" th:href="@{/css/style.css(v='2.3')}">
+    <link rel="stylesheet" th:href="@{/css/style.css(v='2.4')}">
 </head>
 <body>
 
@@ -78,9 +79,15 @@
 
     <!-- Barra de control operativa (Sincronización en vivo y alertas audibles) -->
     <div class="barra-control-operativa">
-        <div class="badge-sync-live" id="estadoConexion">
-            <span class="led-pulsante"></span>
-            <span>Sincronización activa (En tiempo real)</span>
+        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+            <div class="badge-sync-live" id="estadoConexion">
+                <span class="led-pulsante"></span>
+                <span>Sincronización activa (En tiempo real)</span>
+            </div>
+            <span class="ml-badge-red" id="indicadorRed" title="Estado de la conexión a internet">
+                <span class="punto-red"></span>
+                <span id="textoRed">En línea</span>
+            </span>
         </div>
 
         <div class="control-audio-caja">
@@ -253,6 +260,20 @@
         </div>
 
         <div class="pedido__acciones">
+            <!-- Acciones secundarias rápidas: Imprimir comanda y Notificar por WhatsApp -->
+            <div style="display: flex; gap: 8px; margin-bottom: 8px; width: 100%;">
+                <button type="button" class="btn--outline-sm" data-accion="imprimir" title="Imprimir comanda térmica de despacho" style="flex: 1;">
+                    <svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg>
+                    Imprimir comanda
+                </button>
+                <a class="btn--outline-sm btn--wp" data-accion="whatsapp-cliente" target="_blank" rel="noopener" title="Notificar despacho por WhatsApp al cliente"
+                   th:href="${p != null ? 'https://wa.me/57' + #strings.replace(#strings.replace(p.clienteTelefono, ' ', ''), '-', '') + '?text=' + #uris.escapeQueryParam('¡Hola ' + p.clienteNombre + '! Tu pedido #' + p.idPedido + ' de MoniDeal ya va en camino con el domiciliario a ' + p.direccion + '. Total a cobrar: ' + (p.totalFormateado ?: '$68.000') + '. ¡Gracias por tu compra!') : '#'}"
+                   style="flex: 1;">
+                    <svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    Avisar WhatsApp
+                </a>
+            </div>
+
             <!-- Botón para confirmar pago si es transferencia pendiente -->
             <button type="button" class="btn btn--secundario btn-confirmar-pago" data-accion="confirmar-pago"
                     th:hidden="${p?.metodoPago != 'TRANSFERENCIA' or p?.pagoConfirmado}">
@@ -268,6 +289,9 @@
         </div>
     </article>
 </template>
+
+<!-- Elemento para impresión de comanda térmica (58mm / 80mm) -->
+<div id="ticketImpresion" aria-hidden="true"></div>
 
 <div class="toasts" id="toasts" aria-live="polite"></div>
 
@@ -483,6 +507,16 @@
 
         actualizarTiempoCard(card);
         card.querySelector('[data-f="indicaciones"]').hidden = !p.indicaciones;
+
+        // Configurar enlace directo de WhatsApp con mensaje listo
+        const btnWp = card.querySelector('[data-accion="whatsapp-cliente"]');
+        if (btnWp && p.clienteTelefono) {
+            const telClean = String(p.clienteTelefono).replace(/\D/g, "");
+            const totTxt = (p.totalFormateado && p.totalFormateado !== "$0") ? p.totalFormateado : formatDinero(p.total || 68000);
+            const msg = `¡Hola ${p.clienteNombre || 'estimado cliente'}! Tu pedido #${p.idPedido} de MoniDeal ya va en camino con el domiciliario a ${p.direccion || 'tu dirección'}. Total a cobrar: ${totTxt}. ¡Gracias por tu compra!`;
+            btnWp.href = `https://wa.me/57${telClean}?text=${encodeURIComponent(msg)}`;
+        }
+
         card.classList.add("pedido--nuevo");
         return card;
     }
@@ -622,13 +656,91 @@
         else clearTimeout(temporizador);
     });
 
+    function imprimirComandaDesdeCard(card) {
+        const id = card.dataset.id;
+        const cliente = card.querySelector('[data-f="clienteNombre"]')?.textContent.trim() || "Cliente Mostrador";
+        const telefono = card.querySelector('[data-f="clienteTelefono"]')?.textContent.trim() || "";
+        const direccion = card.querySelector('[data-f="direccion"]')?.textContent.trim() || "Dirección no especificada";
+        const barrio = card.querySelector('[data-f="barrio"]')?.textContent.trim() || "Buga";
+        const producto = card.querySelector('[data-f="producto"]')?.textContent.trim() || "";
+        const indicaciones = card.querySelector('[data-f="indicaciones"]')?.textContent.trim() || "";
+        const total = card.querySelector('[data-f="total"]')?.textContent.trim() || "$0";
+        const esTransf = card.dataset.metodoPago === "TRANSFERENCIA";
+        const pagoOk = card.dataset.pagoConfirmado === "true";
+
+        const ticketEl = document.getElementById("ticketImpresion");
+        if (!ticketEl) return;
+
+        const ahora = new Date();
+        const fechaHora = ahora.toLocaleDateString("es-CO") + " " + ahora.toLocaleTimeString("es-CO", { hour: '2-digit', minute: '2-digit' });
+
+        ticketEl.innerHTML = `
+            <div class="ticket__header">
+                <div class="ticket__empresa">MONIDEAL</div>
+                <div class="ticket__sub">CONCENTRADOS & GRANOS A DOMICILIO</div>
+                <div class="ticket__sub">Guadalajara de Buga, Valle del Cauca</div>
+                <div class="ticket__num">COMANDA DE DESPACHO #${id}</div>
+                <div class="ticket__sub">${fechaHora}</div>
+            </div>
+
+            <div class="ticket__seccion">
+                <div class="ticket__campo-col">
+                    <small>CLIENTE:</small>
+                    <strong>${cliente}</strong>
+                </div>
+                ${telefono ? `<div class="ticket__campo"><small>TELÉFONO:</small> <span>${telefono}</span></div>` : ''}
+                <div class="ticket__campo-col">
+                    <small>ENTREGA EN:</small>
+                    <strong>${direccion}</strong>
+                    <span>Barrio ${barrio} · Buga</span>
+                </div>
+                ${indicaciones ? `<div class="ticket__campo-col" style="font-size:11px;margin-top:3px;"><em>Indicaciones: ${indicaciones}</em></div>` : ''}
+            </div>
+
+            <div class="ticket__items">
+                <div style="font-weight:bold;margin-bottom:3px;font-size:11px;">DETALLE DE PRODUCTOS:</div>
+                <div class="ticket__item">
+                    <div class="ticket__item-detalle">${producto}</div>
+                </div>
+            </div>
+
+            <div class="ticket__totales">
+                <div class="ticket__gran-total">
+                    <span>TOTAL DEL PEDIDO:</span>
+                    <span>${total}</span>
+                </div>
+            </div>
+
+            <div class="ticket__cobro-box">
+                ${esTransf 
+                    ? (pagoOk ? '✓ YA PAGADO (TRANSFERENCIA BANCARIA)' : '⚠ PENDIENTE VERIFICAR TRANSFERENCIA') 
+                    : `COBRAR EN EFECTIVO AL RECIBIR: ${total}`}
+            </div>
+
+            <div class="ticket__footer">
+                <div>Documento Interno de Control de Bodega</div>
+                <div>¡Gracias por su compra en Monideal!</div>
+            </div>
+        `;
+
+        document.body.classList.remove("imprimiendo-cierre");
+        window.print();
+    }
+
     lista.addEventListener("click", async e => {
+        const btnImprimir = e.target.closest('[data-accion="imprimir"]');
+        if (btnImprimir) {
+            const card = btnImprimir.closest(".pedido");
+            imprimirComandaDesdeCard(card);
+            return;
+        }
+
         const btnPago = e.target.closest('[data-accion="confirmar-pago"]');
         if (btnPago) {
             const card = btnPago.closest(".pedido");
             const id = card.dataset.id;
             btnPago.disabled = true;
-            btnPago.textContent = "Confirmando...";
+            btnPago.classList.add("btn--cargando");
             try {
                 const resp = await fetch(API_CONFIRMAR_PAGO(id), { method: "PUT", headers: { "Accept": "application/json" } });
                 if (resp.ok) {
@@ -641,12 +753,12 @@
                 } else {
                     toast("No se pudo confirmar el pago.", "error");
                     btnPago.disabled = false;
-                    btnPago.innerHTML = '<svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Oficina: Confirmar Pago Recibido';
+                    btnPago.classList.remove("btn--cargando");
                 }
             } catch (_) {
                 toast("Error de conexión al confirmar pago.", "error");
                 btnPago.disabled = false;
-                btnPago.innerHTML = '<svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Oficina: Confirmar Pago Recibido';
+                btnPago.classList.remove("btn--cargando");
             }
             return;
         }
@@ -665,8 +777,7 @@
 
         enProceso.add(id);
         btn.disabled = true;
-        const textoOriginal = btn.innerHTML;
-        btn.innerHTML = '<span class="spinner" aria-hidden="true"></span> Asignando...';
+        btn.classList.add("btn--cargando");
 
         try {
             const resp = await fetch(API_ASIGNAR(id), { method: "PUT", headers: { "Accept": "application/json" } });
@@ -684,13 +795,39 @@
         } catch (err) {
             toast(err.message || "No se pudo asignar el pedido. Intenta de nuevo.", "error");
             btn.disabled = false;
-            btn.innerHTML = textoOriginal;
+            btn.classList.remove("btn--cargando");
         } finally {
             enProceso.delete(id);
         }
     });
 
     buscador.addEventListener("input", refrescarVista);
+
+    // Monitoreo de conexión online / offline
+    const indRed = document.getElementById("indicadorRed");
+    const txtRed = document.getElementById("textoRed");
+    function actualizarEstadoRed() {
+        if (!indRed || !txtRed) return;
+        if (navigator.onLine) {
+            indRed.className = "ml-badge-red";
+            txtRed.textContent = "En línea";
+        } else {
+            indRed.className = "ml-badge-red ml-badge-red--offline";
+            txtRed.textContent = "Sin conexión";
+            toast("Sin conexión a internet en caja", "error");
+        }
+    }
+    window.addEventListener("online", () => {
+        actualizarEstadoRed();
+        toast("Conexión a internet restablecida", "exito");
+    });
+    window.addEventListener("offline", actualizarEstadoRed);
+    actualizarEstadoRed();
+
+    // Registro de PWA Service Worker
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+    }
 
     tarjetas().forEach(c => c.classList.remove("pedido--nuevo"));
     refrescarVista();

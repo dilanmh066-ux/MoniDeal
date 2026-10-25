@@ -1650,7 +1650,7 @@ textarea.input {
 .toast--error { background: var(--rojo); }
 .toast--info { background: var(--verde-pino); }
 
-/* ---------- 21. Animaciones ---------- */
+/* ---------- 21. Animaciones y Micro-interacciones SaaS ---------- */
 @keyframes girar { to { transform: rotate(360deg); } }
 @keyframes pulso {
     0% { box-shadow: 0 0 0 0 rgba(22, 101, 52, .5); }
@@ -1660,6 +1660,87 @@ textarea.input {
 @keyframes entrar {
     from { opacity: 0; transform: translateY(8px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+/* Estado de carga en botones (Spinners) */
+.btn--cargando {
+    position: relative !important;
+    color: transparent !important;
+    pointer-events: none !important;
+    cursor: wait !important;
+}
+.btn--cargando::after {
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: calc(50% - 9px);
+    left: calc(50% - 9px);
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-radius: 50%;
+    border-top-color: #ffffff;
+    animation: girar 0.6s linear infinite;
+}
+.btn--secundario.btn--cargando::after,
+.btn--outline-sm.btn--cargando::after {
+    border-color: rgba(30, 58, 47, 0.2);
+    border-top-color: var(--verde-pino);
+}
+
+/* Transición fluida al retirar pedido del DOM */
+.pedido--saliendo {
+    opacity: 0 !important;
+    transform: translateY(-10px) scale(0.97) !important;
+    transition: opacity 0.22s ease-out, transform 0.22s ease-out !important;
+}
+
+/* Indicador de estado de conexión (En línea / Sin conexión) */
+.ml-badge-red {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.74rem;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 6px;
+    background: var(--superficie-muted);
+    border: 1px solid var(--borde);
+    color: var(--texto-secundario);
+    transition: all 0.2s ease;
+    user-select: none;
+}
+.ml-badge-red .punto-red {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #10B981;
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25);
+}
+.ml-badge-red--offline {
+    background: var(--rojo-suave) !important;
+    border-color: var(--rojo-borde) !important;
+    color: var(--rojo) !important;
+}
+.ml-badge-red--offline .punto-red {
+    background: var(--rojo) !important;
+    box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.25) !important;
+}
+
+/* Botón WhatsApp para comunicación con el cliente */
+.btn--wp {
+    color: #15803D !important;
+    border-color: #BBF7D0 !important;
+    background: #F0FDF4 !important;
+}
+.btn--wp:hover {
+    background: #DCFCE7 !important;
+    border-color: #86EFAC !important;
+    color: #14532D !important;
+}
+
+/* Contenedor del ticket en pantalla: oculto */
+#ticketImpresion {
+    display: none;
 }
 
 /* ---------- 22. Responsividad (Tablets & Desktop) ---------- */
@@ -1707,4 +1788,143 @@ textarea.input {
     .grid-pedidos { grid-template-columns: repeat(3, 1fr); }
     .grid-historial { grid-template-columns: repeat(3, 1fr); }
     .vista-rutas .grid-pedidos { grid-template-columns: 1fr; }
+}
+
+/* ---------- 23. Formato de Impresión Térmica y Comandas (58mm / 80mm) ---------- */
+@media print {
+    @page {
+        margin: 0;
+        size: auto;
+    }
+    html, body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        height: auto !important;
+    }
+    body * {
+        visibility: hidden !important;
+    }
+    #ticketImpresion, #ticketImpresion * {
+        visibility: visible !important;
+    }
+    #ticketImpresion {
+        display: block !important;
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 76mm !important;
+        max-width: 100% !important;
+        margin: 0 auto !important;
+        padding: 4mm 2mm !important;
+        font-family: 'Courier New', Courier, monospace, sans-serif !important;
+        font-size: 12px !important;
+        line-height: 1.35 !important;
+        color: #000000 !important;
+        background: #ffffff !important;
+    }
+    .ticket__header {
+        text-align: center;
+        border-bottom: 1px dashed #000;
+        padding-bottom: 6px;
+        margin-bottom: 8px;
+    }
+    .ticket__empresa {
+        font-size: 16px;
+        font-weight: bold;
+        letter-spacing: 0.5px;
+        margin-bottom: 2px;
+    }
+    .ticket__sub {
+        font-size: 10px;
+        color: #333;
+        margin-bottom: 4px;
+    }
+    .ticket__num {
+        font-size: 14px;
+        font-weight: bold;
+        margin-top: 4px;
+    }
+    .ticket__seccion {
+        border-bottom: 1px dashed #000;
+        padding-bottom: 6px;
+        margin-bottom: 6px;
+    }
+    .ticket__campo {
+        display: flex;
+        justify-content: space-between;
+        margin: 2px 0;
+    }
+    .ticket__campo-col {
+        margin: 3px 0;
+    }
+    .ticket__campo-col strong {
+        display: block;
+        font-size: 12px;
+    }
+    .ticket__items {
+        margin: 6px 0;
+        border-bottom: 1px dashed #000;
+        padding-bottom: 6px;
+    }
+    .ticket__item {
+        margin: 4px 0;
+    }
+    .ticket__item-detalle {
+        font-weight: bold;
+    }
+    .ticket__item-precio {
+        text-align: right;
+    }
+    .ticket__totales {
+        border-bottom: 2px solid #000;
+        padding-bottom: 6px;
+        margin-bottom: 6px;
+    }
+    .ticket__gran-total {
+        display: flex;
+        justify-content: space-between;
+        font-size: 15px;
+        font-weight: bold;
+        margin-top: 4px;
+        border-top: 1px dashed #000;
+        padding-top: 4px;
+    }
+    .ticket__cobro-box {
+        text-align: center;
+        border: 2px dashed #000;
+        padding: 6px;
+        margin: 8px 0;
+        font-weight: bold;
+        font-size: 13px;
+    }
+    .ticket__footer {
+        text-align: center;
+        font-size: 10px;
+        margin-top: 8px;
+        color: #333;
+    }
+
+    /* Impresión del cierre de caja diario en /historial */
+    body.imprimiendo-cierre #ticketImpresion {
+        display: none !important;
+    }
+    body.imprimiendo-cierre .panel-cierre,
+    body.imprimiendo-cierre .panel-cierre * {
+        visibility: visible !important;
+    }
+    body.imprimiendo-cierre .panel-cierre {
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        margin: 0 !important;
+        border: 2px solid #000 !important;
+        background: #fff !important;
+        box-shadow: none !important;
+    }
+    body.imprimiendo-cierre .panel-cierre__header button {
+        display: none !important;
+    }
 }

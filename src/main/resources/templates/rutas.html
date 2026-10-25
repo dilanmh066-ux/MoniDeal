@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#1E3A2F">
     <title>Rutas | Monideal</title>
+    <link rel="manifest" href="/manifest.json">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
-    <link rel="stylesheet" th:href="@{/css/style.css(v='2.3')}">
+    <link rel="stylesheet" th:href="@{/css/style.css(v='2.4')}">
 </head>
 <body class="vista-rutas">
 
@@ -46,9 +47,15 @@
     <div class="titulo-pagina">
         <div class="fila-titulo">
             <h1>Por entregar <span class="contador" id="contador" th:text="${#lists.size(pedidos)}">0</span></h1>
-            <div class="badge-sync-live" id="estadoConexion">
-                <span class="led-pulsante"></span>
-                <span>En vivo</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <div class="badge-sync-live" id="estadoConexion">
+                    <span class="led-pulsante"></span>
+                    <span>En vivo</span>
+                </div>
+                <span class="ml-badge-red" id="indicadorRed" title="Estado de la conexión">
+                    <span class="punto-red"></span>
+                    <span id="textoRed">En línea</span>
+                </span>
             </div>
         </div>
         <p class="subtitulo">Entregas activas en Guadalajara de Buga. Revisa el valor exacto a cobrar en efectivo antes de entregar.</p>
@@ -165,7 +172,7 @@
         </div>
 
         <div class="pedido__acciones">
-            <!-- Acciones secundarias compactas: Maps, Waze y Llamar -->
+            <!-- Acciones secundarias compactas: Maps, Waze, Llamar y WhatsApp -->
             <div class="acciones-secundarias" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px;">
                 <a class="btn--outline-sm" data-enlace="mapa" target="_blank" rel="noopener"
                    th:href="${p != null ? 'https://www.google.com/maps/search/?api=1&query=' + #uris.escapeQueryParam(p.direccion + ', Barrio ' + p.barrio + ', Guadalajara de Buga, Valle del Cauca, Colombia') : '#'}">
@@ -181,6 +188,11 @@
                    th:href="${p != null ? 'tel:' + p.clienteTelefono : '#'}">
                     <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                     Llamar
+                </a>
+                <a class="btn--outline-sm btn--wp" data-enlace="whatsapp" target="_blank" rel="noopener"
+                   th:href="${p != null ? 'https://wa.me/57' + #strings.replace(#strings.replace(p.clienteTelefono, ' ', ''), '-', '') + '?text=' + #uris.escapeQueryParam('¡Hola ' + p.clienteNombre + '! Soy tu domiciliario de MoniDeal, ya estoy cerca de tu dirección con tu pedido.') : '#'}">
+                    <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    WhatsApp
                 </a>
             </div>
 
@@ -301,10 +313,16 @@
         const enlaceMapa = card.querySelector('[data-enlace="mapa"]');
         const enlaceWaze = card.querySelector('[data-enlace="waze"]');
         const enlaceLlamar = card.querySelector('[data-enlace="llamar"]');
+        const enlaceWp = card.querySelector('[data-enlace="whatsapp"]');
 
         if (enlaceMapa) enlaceMapa.href = urlMapaBuga(p.direccion, p.barrio);
         if (enlaceWaze) enlaceWaze.href = urlWazeBuga(p.direccion, p.barrio);
         if (enlaceLlamar) enlaceLlamar.href = `tel:${p.clienteTelefono}`;
+        if (enlaceWp && p.clienteTelefono) {
+            const telClean = String(p.clienteTelefono).replace(/\D/g, "");
+            const msg = `¡Hola ${p.clienteNombre || 'estimado cliente'}! Soy tu domiciliario de MoniDeal, ya estoy cerca de tu dirección con tu pedido.`;
+            enlaceWp.href = `https://wa.me/57${telClean}?text=${encodeURIComponent(msg)}`;
+        }
 
         card.classList.add("pedido--nuevo");
         return card;
@@ -388,7 +406,7 @@
 
         enProceso.add(id);
         btn.disabled = true;
-        btn.innerHTML = '<span class="spinner" aria-hidden="true"></span> Guardando...';
+        btn.classList.add("btn--cargando");
 
         try {
             const resp = await fetch(API_ENTREGAR(id), { method: "PUT", headers: { "Accept": "application/json" } });
@@ -404,11 +422,37 @@
         } catch (err) {
             toast(err.message || "No se pudo confirmar la entrega.", "error");
             btn.disabled = false;
-            btn.innerHTML = '<svg class="icono" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Confirmar Entrega';
+            btn.classList.remove("btn--cargando");
         } finally {
             enProceso.delete(id);
         }
     });
+
+    // Monitoreo de red
+    const indRed = document.getElementById("indicadorRed");
+    const txtRed = document.getElementById("textoRed");
+    function actualizarEstadoRed() {
+        if (!indRed || !txtRed) return;
+        if (navigator.onLine) {
+            indRed.className = "ml-badge-red";
+            txtRed.textContent = "En línea";
+        } else {
+            indRed.className = "ml-badge-red ml-badge-red--offline";
+            txtRed.textContent = "Sin conexión";
+            toast("Sin conexión en ruta. Reconectando...", "error");
+        }
+    }
+    window.addEventListener("online", () => {
+        actualizarEstadoRed();
+        toast("Conexión restablecida", "exito");
+    });
+    window.addEventListener("offline", actualizarEstadoRed);
+    actualizarEstadoRed();
+
+    // PWA Service Worker
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+    }
 
     tarjetas().forEach(c => c.classList.remove("pedido--nuevo"));
     refrescarVista();
