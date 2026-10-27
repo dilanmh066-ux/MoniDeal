@@ -281,10 +281,13 @@
                 Oficina: Confirmar Pago Recibido
             </button>
 
-            <!-- Botón despachar a domicilio -->
-            <button type="button" class="btn btn--primario btn--bloque" data-accion="asignar">
+            <!-- Botón despachar a domicilio (Desactivado si transferencia no está confirmada) -->
+            <button type="button" class="btn btn--primario btn--bloque" data-accion="asignar"
+                    th:classappend="${p != null and p.metodoPago == 'TRANSFERENCIA' and !p.pagoConfirmado} ? ' btn--desactivado' : ''"
+                    th:disabled="${p != null and p.metodoPago == 'TRANSFERENCIA' and !p.pagoConfirmado}"
+                    th:title="${p != null and p.metodoPago == 'TRANSFERENCIA' and !p.pagoConfirmado} ? 'No se puede despachar: Confirma el pago de la transferencia en WhatsApp primero' : 'Asignar a domicilio (Buga)'">
                 <svg class="icono" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/></svg>
-                Asignar a domicilio (Buga)
+                <span th:text="${p != null and p.metodoPago == 'TRANSFERENCIA' and !p.pagoConfirmado} ? 'Esperando confirmación de pago' : 'Asignar a domicilio (Buga)'">Asignar a domicilio (Buga)</span>
             </button>
         </div>
     </article>
@@ -483,6 +486,7 @@
         const badgePago = card.querySelector('[data-f="badgePago"]');
         const detallePago = card.querySelector('[data-f="detallePago"]');
         const btnConfirmarPago = card.querySelector('[data-accion="confirmar-pago"]');
+        const btnAsignar = card.querySelector('[data-accion="asignar"]');
 
         const esTransf = p.metodoPago === "TRANSFERENCIA";
         if (esTransf) {
@@ -491,11 +495,23 @@
                 badgePago.innerHTML = '<svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <span>Transferencia OK</span>';
                 detallePago.innerHTML = '<span class="alerta-pago-verde"><svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <strong>Transferencia verificada:</strong> Dinero recibido en cuenta.</span>';
                 if (btnConfirmarPago) btnConfirmarPago.hidden = true;
+                if (btnAsignar) {
+                    btnAsignar.disabled = false;
+                    btnAsignar.classList.remove("btn--desactivado");
+                    btnAsignar.title = "Asignar este pedido al domiciliario";
+                    btnAsignar.innerHTML = '<svg class="icono" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/></svg> <span>Asignar a domicilio (Buga)</span>';
+                }
             } else {
                 badgePago.className = "badge badge--pago-pendiente";
                 badgePago.innerHTML = '<svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg> <span>Esperando Transferencia</span>';
                 detallePago.innerHTML = '<span class="alerta-pago-amarilla"><svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg> <strong>Oficina:</strong> Verificar comprobante en WhatsApp antes de despachar.</span>';
                 if (btnConfirmarPago) btnConfirmarPago.hidden = false;
+                if (btnAsignar) {
+                    btnAsignar.disabled = true;
+                    btnAsignar.classList.add("btn--desactivado");
+                    btnAsignar.title = "No se puede despachar: Confirma el pago de la transferencia en WhatsApp primero";
+                    btnAsignar.innerHTML = '<svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> <span>Esperando confirmación de pago</span>';
+                }
             }
         } else {
             badgePago.className = "badge badge--efectivo";
@@ -503,6 +519,12 @@
             const cambio = p.pagaCon ? ` (${p.pagaCon})` : "";
             detallePago.innerHTML = `<span class="alerta-pago-verde"><svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/></svg> <strong>Paga en efectivo al recibir</strong>${cambio}</span>`;
             if (btnConfirmarPago) btnConfirmarPago.hidden = true;
+            if (btnAsignar) {
+                btnAsignar.disabled = false;
+                btnAsignar.classList.remove("btn--desactivado");
+                btnAsignar.title = "Asignar este pedido al domiciliario";
+                btnAsignar.innerHTML = '<svg class="icono" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/></svg> <span>Asignar a domicilio (Buga)</span>';
+            }
         }
 
         actualizarTiempoCard(card);
@@ -770,9 +792,10 @@
         const id = card.dataset.id;
         if (enProceso.has(id)) return;
 
-        if (card.dataset.pagoConfirmado === "false") {
-            const proceder = confirm(`El Pedido #${id} es por TRANSFERENCIA y aún no ha sido confirmado por la oficina.\n\n¿Deseas despacharlo de todas formas?`);
-            if (!proceder) return;
+        // Bloqueo estricto: Desactivado hasta que la oficina confirme la transferencia
+        if (btn.disabled || btn.classList.contains("btn--desactivado") || (card.dataset.metodoPago === "TRANSFERENCIA" && card.dataset.pagoConfirmado !== "true")) {
+            toast("No se puede despachar: Primero debes confirmar el pago de la transferencia en WhatsApp.", "error");
+            return;
         }
 
         enProceso.add(id);

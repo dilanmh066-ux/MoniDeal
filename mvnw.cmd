@@ -28,6 +28,11 @@
 @REM ----------------------------------------------------------------------------
 
 @IF "%__MVNW_ARG0_NAME__%"=="" (SET __MVNW_ARG0_NAME__=%~nx0)
+@IF EXIST "%USERPROFILE%\.jdks\ms-17.0.21.0.2\bin\java.exe" (
+  SET "JAVA_HOME=%USERPROFILE%\.jdks\ms-17.0.21.0.2"
+) ELSE IF EXIST "C:\Program Files\Java\jdk-25\bin\java.exe" (
+  SET "JAVA_HOME=C:\Program Files\Java\jdk-25"
+)
 @SET __MVNW_CMD__=
 @SET __MVNW_ERROR__=
 @SET __MVNW_PSMODULEP_SAVE=%PSModulePath%

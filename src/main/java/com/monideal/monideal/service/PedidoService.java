@@ -32,31 +32,61 @@ public class PedidoService {
     public static final Double COSTO_DOMICILIO_BUGA = 4000.0;
 
     /**
-     * Catálogo enriquecido de concentrados en bulto cerrado con precios en COP.
+     * Catálogo enriquecido de concentrados en bulto cerrado con fotos y precios en COP para Buga.
+     * Incluye todas las categorías agropecuarias y de mascotas solicitadas.
      */
     public static final List<ProductoCatalogoDto> CATALOGO_BULTOS = List.of(
-            new ProductoCatalogoDto("Chunky Perros Adultos Pollo - 25 kg", 148000.0, "$148.000", "BULTO", "25 kg", "Perros", "Más vendido"),
-            new ProductoCatalogoDto("Purina Dog Chow Adultos Medianos y Grandes - 22.7 kg", 156000.0, "$156.000", "BULTO", "22.7 kg", "Perros", "Gama Pro"),
-            new ProductoCatalogoDto("Ringo Croquetas Adultos - 30 kg", 128000.0, "$128.000", "BULTO", "30 kg", "Perros", "Económico"),
-            new ProductoCatalogoDto("Mirringo Gatos Adultos - 10 kg", 69000.0, "$69.000", "BULTO", "10 kg", "Gatos", "Top Gatos"),
-            new ProductoCatalogoDto("Donkat Gatos Adultos - 14 kg", 89000.0, "$89.000", "BULTO", "14 kg", "Gatos", "Ahorro"),
-            new ProductoCatalogoDto("Italcol Ponedoras Postura - 40 kg", 98000.0, "$98.000", "BULTO", "40 kg", "Aves", "Granja"),
-            new ProductoCatalogoDto("Solla Pollo Engorde Iniciación - 40 kg", 106000.0, "$106.000", "BULTO", "40 kg", "Aves", "Engorde"),
-            new ProductoCatalogoDto("Monello Perros Adultos - 15 kg", 119000.0, "$119.000", "BULTO", "15 kg", "Perros", "Premium"),
-            new ProductoCatalogoDto("Cat Chow Gatitos Pollo - 15 kg", 134000.0, "$134.000", "BULTO", "15 kg", "Gatos", "Especial")
+            // PERROS ADULTOS
+            new ProductoCatalogoDto("Chunky Perros Adultos Pollo - 25 kg", 148000.0, "$148.000", "BULTO", "25 kg", "Perros Adultos", "Más vendido", "https://images.unsplash.com/photo-1589924691995-400dc9ecc119?w=500&auto=format&fit=crop&q=80"),
+            new ProductoCatalogoDto("Purina Dog Chow Adultos Medianos y Grandes - 22.7 kg", 156000.0, "$156.000", "BULTO", "22.7 kg", "Perros Adultos", "Gama Pro", "https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?w=500&auto=format&fit=crop&q=80"),
+            new ProductoCatalogoDto("Ringo Croquetas Adultos - 30 kg", 128000.0, "$128.000", "BULTO", "30 kg", "Perros Adultos", "Económico", "https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=500&auto=format&fit=crop&q=80"),
+            new ProductoCatalogoDto("Monello Perros Adultos Carne y Vegetales - 15 kg", 119000.0, "$119.000", "BULTO", "15 kg", "Perros Adultos", "Premium", "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=500&auto=format&fit=crop&q=80"),
+
+            // CACHORROS
+            new ProductoCatalogoDto("Chunky Cachorros Cordero y Arroz - 25 kg", 162000.0, "$162.000", "BULTO", "25 kg", "Cachorros", "Alta Proteína", "https://images.unsplash.com/photo-1591769225440-811ad7d6eab2?w=500&auto=format&fit=crop&q=80"),
+            new ProductoCatalogoDto("Dog Chow Cachorros Razas Medianas/Grandes - 22.7 kg", 168000.0, "$168.000", "BULTO", "22.7 kg", "Cachorros", "Crecimiento", "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=500&auto=format&fit=crop&q=80"),
+            new ProductoCatalogoDto("Ringo Cachorros Vitalidad - 25 kg", 136000.0, "$136.000", "BULTO", "25 kg", "Cachorros", "Ahorro", "https://images.unsplash.com/photo-1546527868-ccb7ee7dfa6a?w=500&auto=format&fit=crop&q=80"),
+
+            // GATOS ADULTOS
+            new ProductoCatalogoDto("Mirringo Gatos Adultos Pescado y Pollo - 10 kg", 69000.0, "$69.000", "BULTO", "10 kg", "Gatos Adultos", "Top Gatos", "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=500&auto=format&fit=crop&q=80"),
+            new ProductoCatalogoDto("Donkat Gatos Adultos Salmón y Carne - 14 kg", 89000.0, "$89.000", "BULTO", "14 kg", "Gatos Adultos", "Rinde Más", "https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=500&auto=format&fit=crop&q=80"),
+            new ProductoCatalogoDto("Cat Chow Adultos Esterilizados - 15 kg", 142000.0, "$142.000", "BULTO", "15 kg", "Gatos Adultos", "Control Peso", "https://images.unsplash.com/photo-1495360010541-f48722b34f7d?w=500&auto=format&fit=crop&q=80"),
+
+            // GATITOS
+            new ProductoCatalogoDto("Cat Chow Gatitos Delicias de Pollo - 15 kg", 134000.0, "$134.000", "BULTO", "15 kg", "Gatitos", "Defensas Plus", "https://images.unsplash.com/photo-1533738363-b7f9aef128ce?w=500&auto=format&fit=crop&q=80"),
+            new ProductoCatalogoDto("Mirringo Gatitos Inicio Proteico - 8 kg", 62000.0, "$62.000", "BULTO", "8 kg", "Gatitos", "Nutritivo", "https://images.unsplash.com/photo-1574158622682-e40e69881006?w=500&auto=format&fit=crop&q=80"),
+
+            // AVICULTURA
+            new ProductoCatalogoDto("Italcol Ponedoras Postura Pico - 40 kg", 98000.0, "$98.000", "BULTO", "40 kg", "Avicultura", "Alta Postura", "https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=500&auto=format&fit=crop&q=80"),
+            new ProductoCatalogoDto("Solla Pollo Engorde Finalización - 40 kg", 106000.0, "$106.000", "BULTO", "40 kg", "Avicultura", "Rápido Peso", "https://images.unsplash.com/photo-1563281577-a7be47e20db9?w=500&auto=format&fit=crop&q=80"),
+            new ProductoCatalogoDto("Pollito Iniciación Migajas - 40 kg", 102000.0, "$102.000", "BULTO", "40 kg", "Avicultura", "Crecimiento", "https://images.unsplash.com/photo-1516467508483-a7212febe31a?w=500&auto=format&fit=crop&q=80"),
+
+            // PORCICULTURA
+            new ProductoCatalogoDto("Italcol Cerdos Ceba y Engorde - 40 kg", 96000.0, "$96.000", "BULTO", "40 kg", "Porcicultura", "Rendimiento", "https://images.unsplash.com/photo-1516467508483-a7212febe31a?w=500&auto=format&fit=crop&q=80"),
+            new ProductoCatalogoDto("Solla Lechones Precebo Iniciación - 40 kg", 118000.0, "$118.000", "BULTO", "40 kg", "Porcicultura", "Destete Fácil", "https://images.unsplash.com/photo-1563281577-a7be47e20db9?w=500&auto=format&fit=crop&q=80"),
+
+            // GANADERÍA / NOVILLAS
+            new ProductoCatalogoDto("Solla Novillas Levante y Lechería - 40 kg", 92000.0, "$92.000", "BULTO", "40 kg", "Ganadería", "Desarrollo", "https://images.unsplash.com/photo-1570042225831-d98fa7577f1e?w=500&auto=format&fit=crop&q=80"),
+            new ProductoCatalogoDto("Concentrado Vacas Alta Producción Leche - 40 kg", 108000.0, "$108.000", "BULTO", "40 kg", "Ganadería", "Más Litros", "https://images.unsplash.com/photo-1546445317-29f4545e9d53?w=500&auto=format&fit=crop&q=80"),
+            new ProductoCatalogoDto("Sal Mineralizada Bovina 8% Fósforo - 40 kg", 78000.0, "$78.000", "BULTO", "40 kg", "Ganadería", "Minerales", "https://images.unsplash.com/photo-1527153857715-3908f2ae5e81?w=500&auto=format&fit=crop&q=80"),
+
+            // PISCICULTURA
+            new ProductoCatalogoDto("Solla Mojarra y Tilapia 38% Proteína - 40 kg", 124000.0, "$124.000", "BULTO", "40 kg", "Piscicultura", "Engorde Peces", "https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?w=500&auto=format&fit=crop&q=80"),
+            new ProductoCatalogoDto("Italcol Cachama y Tilapia 32% Proteína - 40 kg", 112000.0, "$112.000", "BULTO", "40 kg", "Piscicultura", "Crecimiento Rápido", "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=500&auto=format&fit=crop&q=80")
     );
 
     /**
      * Catálogo enriquecido de productos a granel (precio por libra en COP).
      */
     public static final List<ProductoCatalogoDto> CATALOGO_GRANEL = List.of(
-            new ProductoCatalogoDto("Alpiste Limpio", 3500.0, "$3.500 / lb", "GRANEL", "Libra", "Aves", "Limpio"),
-            new ProductoCatalogoDto("Maíz Amarillo Entero", 2200.0, "$2.200 / lb", "GRANEL", "Libra", "Granos", "Seleccionado"),
-            new ProductoCatalogoDto("Maíz Amarillo Partido", 2400.0, "$2.400 / lb", "GRANEL", "Libra", "Granos", "Calidad"),
-            new ProductoCatalogoDto("Mezcla Especial para Canarios", 4200.0, "$4.200 / lb", "GRANEL", "Libra", "Aves", "Nutritivo"),
-            new ProductoCatalogoDto("Q-ida Can Perro Adulto", 3800.0, "$3.800 / lb", "GRANEL", "Libra", "Perros", "Porción"),
-            new ProductoCatalogoDto("Mogolla de Trigo", 2500.0, "$2.500 / lb", "GRANEL", "Libra", "Granos", "Fresco"),
-            new ProductoCatalogoDto("Sal Mineralizada", 2800.0, "$2.800 / lb", "GRANEL", "Libra", "Ganadería", "Minerales")
+            new ProductoCatalogoDto("Alpiste Limpio Seleccionado", 3500.0, "$3.500 / lb", "GRANEL", "Libra", "Granos", "Pájaros Limpio", "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=500&auto=format&fit=crop&q=80"),
+            new ProductoCatalogoDto("Maíz Amarillo Entero Trillado", 2200.0, "$2.200 / lb", "GRANEL", "Libra", "Granos", "Seleccionado", "https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=500&auto=format&fit=crop&q=80"),
+            new ProductoCatalogoDto("Maíz Amarillo Partido para Aves", 2400.0, "$2.400 / lb", "GRANEL", "Libra", "Granos", "Aves y Pollos", "https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=500&auto=format&fit=crop&q=80"),
+            new ProductoCatalogoDto("Mezcla Especial para Canarios y Finches", 4200.0, "$4.200 / lb", "GRANEL", "Libra", "Granos", "Nutritivo", "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=500&auto=format&fit=crop&q=80"),
+            new ProductoCatalogoDto("Q-ida Can Libra Perro Adulto", 3800.0, "$3.800 / lb", "GRANEL", "Libra", "Perros Adultos", "Porción Diaria", "https://images.unsplash.com/photo-1589924691995-400dc9ecc119?w=500&auto=format&fit=crop&q=80"),
+            new ProductoCatalogoDto("Mogolla de Trigo Finca", 2500.0, "$2.500 / lb", "GRANEL", "Libra", "Granos", "Fresco Finca", "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=500&auto=format&fit=crop&q=80"),
+            new ProductoCatalogoDto("Semilla de Girasol para Loros", 5000.0, "$5.000 / lb", "GRANEL", "Libra", "Granos", "Semilla Calidad", "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=500&auto=format&fit=crop&q=80"),
+            new ProductoCatalogoDto("Sal Mineralizada Granel Buga", 2800.0, "$2.800 / lb", "GRANEL", "Libra", "Ganadería", "Minerales", "https://images.unsplash.com/photo-1527153857715-3908f2ae5e81?w=500&auto=format&fit=crop&q=80")
     );
 
     public static final List<String> CONCENTRADOS_BULTOS = CATALOGO_BULTOS.stream()
@@ -453,6 +483,12 @@ public class PedidoService {
     public PedidoResponse asignarADomicilio(Long id) {
         Pedido p = buscar(id);
         validarEstado(p, EstadoPedido.PENDIENTE, "Solo se pueden asignar pedidos PENDIENTES.");
+
+        // Bloqueo de seguridad: No despachar si el cliente paga por transferencia y aún no se valida comprobante
+        if ("TRANSFERENCIA".equalsIgnoreCase(p.getMetodoPago()) && !Boolean.TRUE.equals(p.getPagoConfirmado())) {
+            throw new TransicionInvalidaException(
+                    "No se puede asignar a domicilio un pedido con transferencia sin antes verificar y confirmar el pago en WhatsApp.");
+        }
 
         p.setEstado(EstadoPedido.EN_RUTA);
         p.setFechaAsignacion(LocalDateTime.now());

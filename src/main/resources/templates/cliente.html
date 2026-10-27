@@ -30,17 +30,165 @@
     </div>
 </header>
 
+<!-- ================= HERO DE COMERCIO (BUGA) ================= -->
+<section class="hero-comercio">
+    <div class="hero-comercio__contenido">
+        <span class="hero-comercio__tag">
+            <svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            Guadalajara de Buga · Entregas locales el mismo día
+        </span>
+        <h1 class="hero-comercio__titulo">Concentrados & Granos para Animales</h1>
+        <p class="hero-comercio__sub">Elige tus bultos o libras a granel con fotos ilustradas. Te los llevamos hoy mismo a la puerta de tu casa o finca en Buga.</p>
+
+        <!-- Buscador instantáneo en el Hero -->
+        <div class="hero-comercio__buscador">
+            <svg class="icono" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <input type="search" id="buscadorCatalogo" placeholder="Buscar por marca o animal (Chunky, Dog Chow, Mirringo, Ponedora, Mojarra, Maíz)..." autocomplete="off">
+            <button type="button" id="btnLimpiarBuscador" class="btn-limpiar-busqueda" hidden aria-label="Limpiar búsqueda">✕</button>
+        </div>
+
+        <div class="hero-comercio__pills">
+            <span class="hero-pill">⚡ Entrega hoy en Buga</span>
+            <span class="hero-pill">💵 Efectivo o Nequi al recibir</span>
+            <span class="hero-pill">🛵 Domicilio $4.000</span>
+            <span class="hero-pill">🌾 Bultos y Granel</span>
+        </div>
+    </div>
+</section>
+
 <main class="contenedor">
 
     <nav class="migas" aria-label="Ruta de navegación">
         <a th:href="@{/pedido}">Inicio</a><span>/</span><span class="migas__actual">Haz tu pedido</span>
     </nav>
 
-    <!-- ================= FORMULARIO ================= -->
+    <!-- ================= FORMULARIO Y CATÁLOGO ================= -->
     <section id="panelFormulario">
         <div class="titulo-pagina">
-            <h1>Haz tu pedido a domicilio</h1>
-            <p class="subtitulo">Selecciona tus bultos cerrados o productos a granel. Te los llevamos hoy mismo a la puerta de tu casa en Buga.</p>
+            <h1>Catálogo ilustrado y pedido en línea</h1>
+            <p class="subtitulo">Toca el botón "+ Agregar" en cualquier alimento o selecciona en el formulario. Llevamos todo en un solo domicilio.</p>
+        </div>
+
+        <!-- Barra de Categorías Visuales (Scrollable Chips) -->
+        <div class="categorias-scroll-container">
+            <div class="categorias-chips" role="tablist" aria-label="Filtrar por categoría">
+                <button type="button" class="chip-cat chip-cat--activo" data-categoria="TODOS">
+                    <span class="chip-cat__icono">🌟</span>
+                    <span>Todos</span>
+                </button>
+                <button type="button" class="chip-cat" data-categoria="Perros Adultos">
+                    <span class="chip-cat__icono">🐕</span>
+                    <span>Perros Adultos</span>
+                </button>
+                <button type="button" class="chip-cat" data-categoria="Cachorros">
+                    <span class="chip-cat__icono">🐾</span>
+                    <span>Cachorros</span>
+                </button>
+                <button type="button" class="chip-cat" data-categoria="Gatos Adultos">
+                    <span class="chip-cat__icono">🐈</span>
+                    <span>Gatos Adultos</span>
+                </button>
+                <button type="button" class="chip-cat" data-categoria="Gatitos">
+                    <span class="chip-cat__icono">🐱</span>
+                    <span>Gatitos</span>
+                </button>
+                <button type="button" class="chip-cat" data-categoria="Avicultura">
+                    <span class="chip-cat__icono">🐔</span>
+                    <span>Avicultura</span>
+                </button>
+                <button type="button" class="chip-cat" data-categoria="Porcicultura">
+                    <span class="chip-cat__icono">🐷</span>
+                    <span>Porcicultura</span>
+                </button>
+                <button type="button" class="chip-cat" data-categoria="Ganadería">
+                    <span class="chip-cat__icono">🐄</span>
+                    <span>Ganadería / Novillas</span>
+                </button>
+                <button type="button" class="chip-cat" data-categoria="Piscicultura">
+                    <span class="chip-cat__icono">🐟</span>
+                    <span>Piscicultura</span>
+                </button>
+                <button type="button" class="chip-cat" data-categoria="Granos">
+                    <span class="chip-cat__icono">🌾</span>
+                    <span>Granos y Granel</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ================= CATÁLOGO VISUAL ILUSTRADO ================= -->
+        <div class="catalogo-visual-seccion">
+            <div class="catalogo-visual-header">
+                <div>
+                    <h3 class="catalogo-visual-titulo">Productos disponibles en Buga</h3>
+                    <p class="catalogo-visual-sub">Toca <strong>"+ Agregar"</strong> en cualquier alimento para sumarlo directamente a tu lista de compra.</p>
+                </div>
+                <span class="badge badge--ruta" id="contadorProductosCatalogo">Mostrando todos</span>
+            </div>
+
+            <div class="catalogo-grid" id="catalogoGrid">
+                <!-- Tarjetas de Bultos Cerrados -->
+                <article th:each="p : ${catalogoBultos}"
+                         class="prod-card"
+                         th:data-nombre="${p.nombre}"
+                         th:data-precio="${p.precio}"
+                         th:data-formato="${p.precioFormateado}"
+                         th:data-categoria="${p.categoria}"
+                         th:data-tipo="BULTO">
+                    <div class="prod-card__imagen-box">
+                        <img th:src="${p.imagenUrl}" th:alt="${p.nombre}" loading="lazy" onerror="this.src='/img/icon.svg'; this.style.padding='24px';">
+                        <span class="prod-card__badge" th:text="${p.etiqueta}">Más vendido</span>
+                        <span class="prod-card__peso" th:text="${p.unidad}">25 kg</span>
+                    </div>
+                    <div class="prod-card__cuerpo">
+                        <span class="prod-card__categoria" th:text="${p.categoria}">Perros</span>
+                        <h4 class="prod-card__nombre" th:text="${p.nombre}">Nombre</h4>
+                        <div class="prod-card__footer">
+                            <div class="prod-card__precio-box">
+                                <span class="prod-card__precio-label">Precio</span>
+                                <strong class="prod-card__precio" th:text="${p.precioFormateado}">$148.000</strong>
+                            </div>
+                            <button type="button" class="btn-card-agregar" th:data-nombre="${p.nombre}" th:data-precio="${p.precio}" title="Agregar 1 bulto al pedido">
+                                <svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
+                                <span>Agregar</span>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Tarjetas de Productos a Granel -->
+                <article th:each="g : ${catalogoGranel}"
+                         class="prod-card prod-card--granel"
+                         th:data-nombre="${g.nombre}"
+                         th:data-precio="${g.precio}"
+                         th:data-formato="${g.precioFormateado}"
+                         th:data-categoria="${g.categoria}"
+                         th:data-tipo="GRANEL">
+                    <div class="prod-card__imagen-box">
+                        <img th:src="${g.imagenUrl}" th:alt="${g.nombre}" loading="lazy" onerror="this.src='/img/icon.svg'; this.style.padding='24px';">
+                        <span class="prod-card__badge prod-card__badge--granel" th:text="${g.etiqueta}">Granel</span>
+                        <span class="prod-card__peso">Por Libra / Kilo</span>
+                    </div>
+                    <div class="prod-card__cuerpo">
+                        <span class="prod-card__categoria" th:text="${g.categoria}">Granos</span>
+                        <h4 class="prod-card__nombre" th:text="${g.nombre}">Nombre</h4>
+                        <div class="prod-card__footer">
+                            <div class="prod-card__precio-box">
+                                <span class="prod-card__precio-label">Precio x libra</span>
+                                <strong class="prod-card__precio" th:text="${g.precioFormateado}">$2.500 / lb</strong>
+                            </div>
+                            <button type="button" class="btn-card-agregar btn-card-agregar--granel" th:data-nombre="${g.nombre}" th:data-precio="${g.precio}" title="Comprar a granel">
+                                <span>Elegir libras</span>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Aviso cuando no hay coincidencias en la búsqueda -->
+            <div class="catalogo-vacio-busqueda" id="catalogoVacioBusqueda" hidden>
+                <p>No encontramos ningún producto que coincida con "<strong id="terminoNoEncontrado"></strong>".</p>
+                <button type="button" class="btn btn--outline-sm" id="btnRestablecerFiltros" style="margin-top: 8px;">Ver todos los productos</button>
+            </div>
         </div>
 
         <div class="cifras" aria-hidden="true">
@@ -350,6 +498,67 @@
     </section>
 </main>
 
+<!-- ================= FOOTER DE CONFIANZA Y POLÍTICAS DE SEGURIDAD (BUGA) ================= -->
+<footer class="footer-seguridad">
+    <div class="contenedor footer-seguridad__grid">
+        <div class="footer-col">
+            <div class="footer-brand">
+                <span class="footer-brand__icono">
+                    <svg class="icono" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+                </span>
+                <strong>MoniDeal Buga</strong>
+            </div>
+            <p class="footer-texto">Distribución y logística de concentrados animales, alimentos balanceados y granos seleccionados con despacho directo a domicilio en Guadalajara de Buga, Valle del Cauca.</p>
+            <div class="footer-horarios">
+                <svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <span><strong>Horarios:</strong> Lun a Sáb 7:30 a.m. - 6:00 p.m. · Dom 8:00 a.m. - 1:00 p.m.</span>
+            </div>
+        </div>
+
+        <div class="footer-col">
+            <h4>Cobertura de Entrega</h4>
+            <ul class="footer-lista">
+                <li>📍 Toda el área urbana de Guadalajara de Buga</li>
+                <li>📍 El Molino, Albores, Montellano, Paloblanco</li>
+                <li>📍 El Albergue, Santa Rita, La Honda, Sucre</li>
+                <li>📍 Corregimientos y fincas cercanas (previa consulta)</li>
+                <li>🛵 <strong>Tarifa plana de domicilio:</strong> $4.000 COP</li>
+            </ul>
+        </div>
+
+        <div class="footer-col">
+            <h4>Políticas y Pagos Seguros</h4>
+            <div class="footer-certificados">
+                <div class="footer-badge-seguro">
+                    <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    <div>
+                        <strong>Pagos 100% Seguros</strong>
+                        <small>Efectivo contra entrega en mano o transferencias Nequi / Bancolombia verificadas.</small>
+                    </div>
+                </div>
+                <div class="footer-badge-seguro">
+                    <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    <div>
+                        <strong>Protección de Datos (Ley 1581)</strong>
+                        <small>Cumplimiento Habeas Data Colombia. Tus datos solo se utilizan para coordinar la entrega de tu pedido.</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-col">
+            <h4>Atención & WhatsApp</h4>
+            <p class="footer-texto">¿Dudas con tu bulto o necesitas cotizar por mayor?</p>
+            <a href="https://wa.me/573177727181?text=Hola%20MoniDeal,%20tengo%20una%20consulta%20sobre%20un%20pedido%20de%20concentrados"
+               target="_blank" rel="noopener" class="btn btn--wp btn--bloque" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px;">
+                <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                <span>WhatsApp Oficial: 317 772 7181</span>
+            </a>
+            <p style="margin-top: 10px; font-size: 0.76rem; color: #8F9E95;">Guadalajara de Buga, Valle del Cauca, Colombia &copy; 2026 MoniDeal.</p>
+        </div>
+    </div>
+</footer>
+
 <!-- ================= BARRA FLOTANTE "STICKY" INFERIOR (MÓVIL) ================= -->
 <div class="barra-confirmar-sticky" id="barraSticky" hidden>
     <div class="barra-confirmar-sticky__info">
@@ -431,6 +640,133 @@
         document.getElementById("toasts").appendChild(el);
         setTimeout(() => el.remove(), 4000);
     }
+
+    // ================= FILTRADO VISUAL DE CATEGORÍAS Y BUSCADOR =================
+    const chipsCat = document.querySelectorAll(".chip-cat");
+    const gridCards = Array.from(document.querySelectorAll(".prod-card"));
+    const buscadorCat = document.getElementById("buscadorCatalogo");
+    const btnLimpiarBuscador = document.getElementById("btnLimpiarBuscador");
+    const contadorCat = document.getElementById("contadorProductosCatalogo");
+    const vacioBusqueda = document.getElementById("catalogoVacioBusqueda");
+    const terminoNoEncontrado = document.getElementById("terminoNoEncontrado");
+    const btnRestablecer = document.getElementById("btnRestablecerFiltros");
+
+    let categoriaFiltroActual = "TODOS";
+
+    function aplicarFiltrosCatalogo() {
+        const busqueda = (buscadorCat?.value || "").trim().toLowerCase();
+        let visibles = 0;
+
+        if (btnLimpiarBuscador) {
+            btnLimpiarBuscador.hidden = !busqueda;
+        }
+
+        gridCards.forEach(card => {
+            const nombre = (card.dataset.nombre || "").toLowerCase();
+            const cat = (card.dataset.categoria || "").toLowerCase();
+            const tipo = (card.dataset.tipo || "").toLowerCase();
+
+            const coincideBusqueda = !busqueda || nombre.includes(busqueda) || cat.includes(busqueda) || tipo.includes(busqueda);
+            
+            let coincideCategoria = true;
+            if (categoriaFiltroActual !== "TODOS") {
+                const catSel = categoriaFiltroActual.toLowerCase();
+                coincideCategoria = cat.includes(catSel) || (catSel === "granos" && card.dataset.tipo === "GRANEL");
+            }
+
+            const mostrar = coincideBusqueda && coincideCategoria;
+            card.hidden = !mostrar;
+            if (mostrar) visibles++;
+        });
+
+        if (contadorCat) {
+            contadorCat.textContent = visibles === gridCards.length
+                ? `Mostrando todos (${visibles})`
+                : `${visibles} disponible${visibles === 1 ? '' : 's'}`;
+        }
+
+        if (vacioBusqueda) {
+            vacioBusqueda.hidden = visibles > 0;
+            if (terminoNoEncontrado) {
+                terminoNoEncontrado.textContent = busqueda || categoriaFiltroActual;
+            }
+        }
+    }
+
+    chipsCat.forEach(chip => {
+        chip.addEventListener("click", () => {
+            chipsCat.forEach(c => c.classList.remove("chip-cat--activo"));
+            chip.classList.add("chip-cat--activo");
+            categoriaFiltroActual = chip.dataset.categoria;
+            aplicarFiltrosCatalogo();
+        });
+    });
+
+    if (buscadorCat) {
+        buscadorCat.addEventListener("input", aplicarFiltrosCatalogo);
+    }
+
+    if (btnLimpiarBuscador) {
+        btnLimpiarBuscador.addEventListener("click", () => {
+            buscadorCat.value = "";
+            aplicarFiltrosCatalogo();
+            buscadorCat.focus();
+        });
+    }
+
+    if (btnRestablecer) {
+        btnRestablecer.addEventListener("click", () => {
+            if (buscadorCat) buscadorCat.value = "";
+            chipsCat.forEach(c => c.classList.remove("chip-cat--activo"));
+            const primerChip = document.querySelector('.chip-cat[data-categoria="TODOS"]');
+            if (primerChip) primerChip.classList.add("chip-cat--activo");
+            categoriaFiltroActual = "TODOS";
+            aplicarFiltrosCatalogo();
+        });
+    }
+
+    // Acciones directas al hacer clic en las tarjetas del catálogo
+    document.getElementById("catalogoGrid")?.addEventListener("click", e => {
+        const btnBulto = e.target.closest(".btn-card-agregar:not(.btn-card-agregar--granel)");
+        if (btnBulto) {
+            const nombre = btnBulto.dataset.nombre;
+            const precio = parseFloat(btnBulto.dataset.precio) || 128000;
+            
+            carrito.push({
+                producto: nombre,
+                tipoUnidad: "BULTO",
+                cantidad: 1,
+                valorDinero: null,
+                precioUnitario: precio,
+                subtotal: precio,
+                detalle: `1 bulto(s) de ${nombre}`
+            });
+
+            renderizarCarrito();
+            toast(`✓ "${nombre}" agregado al pedido`, "exito");
+
+            // Feedback visual en el botón
+            btnBulto.innerHTML = '✓ Agregado';
+            setTimeout(() => {
+                btnBulto.innerHTML = '<svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg> <span>Agregar</span>';
+            }, 1200);
+            return;
+        }
+
+        const btnGranel = e.target.closest(".btn-card-agregar--granel");
+        if (btnGranel) {
+            const nombre = btnGranel.dataset.nombre;
+            tabGranel.click();
+            if (selectGranel) {
+                selectGranel.value = nombre;
+                selectGranel.dispatchEvent(new Event("change"));
+            }
+            seccionGranel.scrollIntoView({ behavior: "smooth", block: "center" });
+            const inputTarget = document.getElementById("cantGranel");
+            if (inputTarget) inputTarget.focus();
+            toast(`Elige las libras o valor para "${nombre}"`, "info");
+        }
+    });
 
     // Alternar tabs con estilo Segmented Control
     tabBultos.addEventListener("click", () => {

@@ -13,6 +13,25 @@
 </head>
 <body class="vista-historial">
 
+<!-- Modal de Seguridad / PIN para Historial y Cierre -->
+<div class="modal-seguridad" id="modalPin" hidden>
+    <div class="modal-seguridad__caja card">
+        <span class="modal-seguridad__icono">
+            <svg class="icono" width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width:32px;height:32px;"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </span>
+        <h2>Acceso a Historial y Cierre</h2>
+        <p>Esta pantalla contiene métricas financieras y cierre de caja. Ingresa el PIN de seguridad.</p>
+        <form id="formPin">
+            <div class="campo">
+                <input class="input" type="password" id="inputPin" maxlength="6" inputmode="numeric"
+                       placeholder="Digita el PIN" autofocus required>
+                <p class="campo__error" id="errorPin" style="display:none;">PIN incorrecto. Intenta de nuevo.</p>
+            </div>
+            <button type="submit" class="btn btn--primario btn--bloque">Desbloquear Historial</button>
+        </form>
+    </div>
+</div>
+
 <header class="ml-header">
     <div class="ml-header__contenido">
         <a class="ml-logo" th:href="@{/caja}">
@@ -245,6 +264,41 @@
 <script>
 (() => {
     "use strict";
+
+    const PIN_CORRECTO = "0690";
+    const modalPin = document.getElementById("modalPin");
+    const formPin = document.getElementById("formPin");
+    const inputPin = document.getElementById("inputPin");
+    const errorPin = document.getElementById("errorPin");
+
+    function verificarAutenticacion() {
+        if (sessionStorage.getItem("monideal_caja_autenticada") === "true") {
+            if (modalPin) modalPin.hidden = true;
+            return true;
+        }
+        if (modalPin) {
+            modalPin.hidden = false;
+            setTimeout(() => inputPin?.focus(), 150);
+        }
+        return false;
+    }
+
+    if (formPin) {
+        formPin.addEventListener("submit", e => {
+            e.preventDefault();
+            if (inputPin.value.trim() === PIN_CORRECTO) {
+                sessionStorage.setItem("monideal_caja_autenticada", "true");
+                modalPin.hidden = true;
+                if (errorPin) errorPin.style.display = "none";
+            } else {
+                if (errorPin) errorPin.style.display = "block";
+                inputPin.value = "";
+                inputPin.focus();
+            }
+        });
+    }
+
+    verificarAutenticacion();
 
     const buscador = document.getElementById("buscadorHistorial");
     const cards = Array.from(document.querySelectorAll(".card-historial"));
