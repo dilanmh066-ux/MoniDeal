@@ -26,7 +26,19 @@
             </span>
             Monideal
         </a>
-        <span class="ml-header__ayuda">Concentrados & Granos a Domicilio</span>
+        <div class="ml-header__derecha">
+            <span class="ml-header__ayuda">Concentrados & Granos a Domicilio</span>
+            <button type="button" class="btn-carrito-header" id="btnAbrirCarritoHeader" aria-label="Ver productos en mi pedido" title="Ver lista de productos en tu pedido">
+                <span class="btn-carrito-header__icono-box">
+                    <svg class="icono" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+                    </svg>
+                    <span class="puntito-rojo-alerta" id="puntitoRojoHeader" hidden></span>
+                </span>
+                <span class="btn-carrito-header__texto">Mi pedido</span>
+                <span class="badge-carrito-header" id="badgeHeaderCarrito">0</span>
+            </button>
+        </div>
     </div>
 </header>
 
@@ -48,10 +60,10 @@
         </div>
 
         <div class="hero-comercio__pills">
-            <span class="hero-pill">⚡ Entrega hoy en Buga</span>
-            <span class="hero-pill">💵 Efectivo o Nequi al recibir</span>
-            <span class="hero-pill">🛵 Domicilio $4.000</span>
-            <span class="hero-pill">🌾 Bultos y Granel</span>
+            <span class="hero-pill"><svg class="icono icono--sm" width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Entrega hoy en Buga</span>
+            <span class="hero-pill"><svg class="icono icono--sm" width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/></svg> Efectivo o Nequi al recibir</span>
+            <span class="hero-pill"><svg class="icono icono--sm" width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/></svg> Domicilio $4.000</span>
+            <span class="hero-pill"><svg class="icono icono--sm" width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/></svg> Bultos y Granel</span>
         </div>
     </div>
 </section>
@@ -69,47 +81,67 @@
             <p class="subtitulo">Toca el botón "+ Agregar" en cualquier alimento o selecciona en el formulario. Llevamos todo en un solo domicilio.</p>
         </div>
 
-        <!-- Barra de Categorías Visuales (Scrollable Chips) -->
+        <!-- Barra de Categorías Visuales (Scrollable Chips con Iconos SVG Limpios) -->
         <div class="categorias-scroll-container">
             <div class="categorias-chips" role="tablist" aria-label="Filtrar por categoría">
                 <button type="button" class="chip-cat chip-cat--activo" data-categoria="TODOS">
-                    <span class="chip-cat__icono">🌟</span>
+                    <span class="chip-cat__icono">
+                        <svg class="icono icono--sm" width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+                    </span>
                     <span>Todos</span>
                 </button>
                 <button type="button" class="chip-cat" data-categoria="Perros Adultos">
-                    <span class="chip-cat__icono">🐕</span>
+                    <span class="chip-cat__icono">
+                        <svg class="icono icono--sm" width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 10c.7-.7 1.6-1 2.5-1a3.5 3.5 0 0 1 0 7c-.9 0-1.8-.3-2.5-1l-10 1c-.7.7-1.6 1-2.5 1a3.5 3.5 0 0 1 0-7c.9 0 1.8.3 2.5 1l10-1z"/></svg>
+                    </span>
                     <span>Perros Adultos</span>
                 </button>
                 <button type="button" class="chip-cat" data-categoria="Cachorros">
-                    <span class="chip-cat__icono">🐾</span>
+                    <span class="chip-cat__icono">
+                        <svg class="icono icono--sm" width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="4" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="20" cy="16" r="2"/><path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z"/></svg>
+                    </span>
                     <span>Cachorros</span>
                 </button>
                 <button type="button" class="chip-cat" data-categoria="Gatos Adultos">
-                    <span class="chip-cat__icono">🐈</span>
+                    <span class="chip-cat__icono">
+                        <svg class="icono icono--sm" width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 5c-4 0-7.5 2.8-7.5 6.5 0 2.2 1.3 4.2 3.3 5.4L7 20l3.8-1.3c.4.2.8.3 1.2.3 4 0 7.5-2.8 7.5-6.5S16 5 12 5z"/><path d="M4.5 8.5 2 3l6 2.5"/><path d="M19.5 8.5 22 3l-6 2.5"/></svg>
+                    </span>
                     <span>Gatos Adultos</span>
                 </button>
                 <button type="button" class="chip-cat" data-categoria="Gatitos">
-                    <span class="chip-cat__icono">🐱</span>
+                    <span class="chip-cat__icono">
+                        <svg class="icono icono--sm" width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="13" r="7"/><path d="M8 8.5 6 4l4.5 2"/><path d="M16 8.5 18 4l-4.5 2"/><circle cx="9.5" cy="12.5" r="1" fill="currentColor"/><circle cx="14.5" cy="12.5" r="1" fill="currentColor"/><path d="M11 15.5c.5.5 1.5.5 2 0"/></svg>
+                    </span>
                     <span>Gatitos</span>
                 </button>
                 <button type="button" class="chip-cat" data-categoria="Avicultura">
-                    <span class="chip-cat__icono">🐔</span>
+                    <span class="chip-cat__icono">
+                        <svg class="icono icono--sm" width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M16 7h.01"/><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 18z"/><path d="m20 7 2 .5-2 .5"/><path d="M10 18v3"/><path d="M14 18v3"/></svg>
+                    </span>
                     <span>Avicultura</span>
                 </button>
                 <button type="button" class="chip-cat" data-categoria="Porcicultura">
-                    <span class="chip-cat__icono">🐷</span>
+                    <span class="chip-cat__icono">
+                        <svg class="icono icono--sm" width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="13" rx="4.5" ry="3.5"/><circle cx="10.5" cy="13" r="1" fill="currentColor"/><circle cx="13.5" cy="13" r="1" fill="currentColor"/><path d="m6 6-2 3"/><path d="m18 6 2 3"/></svg>
+                    </span>
                     <span>Porcicultura</span>
                 </button>
                 <button type="button" class="chip-cat" data-categoria="Ganadería">
-                    <span class="chip-cat__icono">🐄</span>
+                    <span class="chip-cat__icono">
+                        <svg class="icono icono--sm" width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="m3 7 3 2c1.5-1 3.5-1.5 6-1.5s4.5.5 6 1.5l3-2"/><path d="M7 10v4c0 3 2.2 5 5 5s5-2 5-5v-4"/><circle cx="9.5" cy="13.5" r="1" fill="currentColor"/><circle cx="14.5" cy="13.5" r="1" fill="currentColor"/></svg>
+                    </span>
                     <span>Ganadería / Novillas</span>
                 </button>
                 <button type="button" class="chip-cat" data-categoria="Piscicultura">
-                    <span class="chip-cat__icono">🐟</span>
+                    <span class="chip-cat__icono">
+                        <svg class="icono icono--sm" width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6.5 12c.94-3.46 4.94-6 8.5-6 3.56 0 6.06 2.54 7 6-.94 3.46-3.44 6-7 6-3.56 0-7.56-2.54-8.5-6Z"/><path d="M18 12h.01"/><path d="M2 16l4.5-4L2 8"/></svg>
+                    </span>
                     <span>Piscicultura</span>
                 </button>
                 <button type="button" class="chip-cat" data-categoria="Granos">
-                    <span class="chip-cat__icono">🌾</span>
+                    <span class="chip-cat__icono">
+                        <svg class="icono icono--sm" width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M2 22 16 8"/><path d="M3.47 12.53 5 11l1.53 1.53a3.5 3.5 0 0 1 0 4.94L5 19l-1.53-1.53a3.5 3.5 0 0 1 0-4.94Z"/><path d="M7.47 8.53 9 7l1.53 1.53a3.5 3.5 0 0 1 0 4.94L9 15l-1.53-1.53a3.5 3.5 0 0 1 0-4.94Z"/><path d="M11.47 4.53 13 3l1.53 1.53a3.5 3.5 0 0 1 0 4.94L13 11l-1.53-1.53a3.5 3.5 0 0 1 0-4.94Z"/></svg>
+                    </span>
                     <span>Granos y Granel</span>
                 </button>
             </div>
@@ -143,14 +175,23 @@
                         <span class="prod-card__categoria" th:text="${p.categoria}">Perros</span>
                         <h4 class="prod-card__nombre" th:text="${p.nombre}">Nombre</h4>
                         <div class="prod-card__footer">
-                            <div class="prod-card__precio-box">
-                                <span class="prod-card__precio-label">Precio</span>
-                                <strong class="prod-card__precio" th:text="${p.precioFormateado}">$148.000</strong>
+                            <div class="prod-card__footer-fila">
+                                <div class="prod-card__precio-box">
+                                    <span class="prod-card__precio-label">Precio</span>
+                                    <strong class="prod-card__precio" th:text="${p.precioFormateado}">$148.000</strong>
+                                </div>
                             </div>
-                            <button type="button" class="btn-card-agregar" th:data-nombre="${p.nombre}" th:data-precio="${p.precio}" title="Agregar 1 bulto al pedido">
-                                <svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
-                                <span>Agregar</span>
-                            </button>
+                            <div class="prod-card__acciones">
+                                <div class="prod-card__stepper" title="Selecciona la cantidad de bultos">
+                                    <button type="button" class="btn-stepper btn-stepper--menos" aria-label="Restar uno">−</button>
+                                    <input type="number" class="input-stepper" value="1" min="1" max="50" inputmode="numeric" readonly aria-label="Cantidad">
+                                    <button type="button" class="btn-stepper btn-stepper--mas" aria-label="Sumar uno">+</button>
+                                </div>
+                                <button type="button" class="btn-card-agregar" th:data-nombre="${p.nombre}" th:data-precio="${p.precio}" title="Agregar al pedido">
+                                    <svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
+                                    <span>Agregar</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </article>
@@ -172,13 +213,18 @@
                         <span class="prod-card__categoria" th:text="${g.categoria}">Granos</span>
                         <h4 class="prod-card__nombre" th:text="${g.nombre}">Nombre</h4>
                         <div class="prod-card__footer">
-                            <div class="prod-card__precio-box">
-                                <span class="prod-card__precio-label">Precio x libra</span>
-                                <strong class="prod-card__precio" th:text="${g.precioFormateado}">$2.500 / lb</strong>
+                            <div class="prod-card__footer-fila">
+                                <div class="prod-card__precio-box">
+                                    <span class="prod-card__precio-label">Precio x libra</span>
+                                    <strong class="prod-card__precio" th:text="${g.precioFormateado}">$2.500 / lb</strong>
+                                </div>
                             </div>
-                            <button type="button" class="btn-card-agregar btn-card-agregar--granel" th:data-nombre="${g.nombre}" th:data-precio="${g.precio}" title="Comprar a granel">
-                                <span>Elegir libras</span>
-                            </button>
+                            <div class="prod-card__acciones">
+                                <button type="button" class="btn-card-agregar btn-card-agregar--granel" th:data-nombre="${g.nombre}" th:data-precio="${g.precio}" title="Elegir libras o dinero en pesos">
+                                    <svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg>
+                                    <span>Pedir a granel</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </article>
@@ -214,110 +260,85 @@
 
         <form id="formPedido" class="layout-pedido" novalidate>
 
-            <!-- Paso 1: Selección de productos y carrito -->
+            <!-- Paso 1: Carrito de compras y opción a granel -->
             <div class="card zona-producto">
                 <span class="card__etiqueta">Paso 1</span>
-                <h2 class="card__titulo">Tus productos</h2>
+                <h2 class="card__titulo">Tu lista de compras</h2>
+                <p class="zona-producto__guia">Selecciona la cantidad en cualquier bulto de las tarjetas arriba y toca <strong>"+ Agregar"</strong>. Si deseas comprar por libras, despliega la opción de granel.</p>
 
-                <!-- Selector de modalidad: Segmented Control iOS / Shopify -->
-                <div class="selector-tipo-producto" role="tablist">
-                    <button type="button" class="tab-tipo activo" id="tabBultos" data-tipo="bultos">
-                        <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
-                        <span>Bultos cerrados</span>
-                    </button>
-                    <button type="button" class="tab-tipo" id="tabGranel" data-tipo="granel">
-                        <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg>
-                        <span>A granel (Libras / Dinero)</span>
-                    </button>
-                </div>
-
-                <!-- Formulario agregar Bulto -->
-                <div id="seccionBultos" class="seccion-agregar-prod">
-                    <div class="campo">
-                        <label for="selectBulto">Selecciona el concentrado</label>
-                        <select class="input" id="selectBulto">
-                            <option value="" selected disabled>Elige un bulto...</option>
-                            <option th:each="c : ${catalogoBultos}" 
-                                    th:value="${c.nombre}"
-                                    th:data-precio="${c.precio}"
-                                    th:text="${c.nombre + ' · ' + c.precioFormateado}">Concentrado</option>
-                        </select>
-                        <span class="precio-preview" id="previewPrecioBulto"></span>
-                    </div>
-
-                    <div class="fila-agregar">
-                        <div class="campo">
-                            <label for="cantBultos">Cantidad</label>
-                            <div class="cantidad">
-                                <button type="button" data-paso-bulto="-1" aria-label="Restar">−</button>
-                                <input type="number" id="cantBultos" value="1" min="1" max="50" inputmode="numeric">
-                                <button type="button" data-paso-bulto="1" aria-label="Sumar">+</button>
+                <!-- Desplegable / Acordeón para A Granel (Libras / Dinero) -->
+                <div class="desplegable-granel-contenedor" id="contenedorDesplegableGranel">
+                    <button type="button" class="btn-toggle-granel" id="btnToggleGranel" aria-expanded="false" aria-controls="panelGranelDesplegable">
+                        <div class="btn-toggle-granel__info">
+                            <span class="btn-toggle-granel__icono" aria-hidden="true">
+                                <svg class="icono" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg>
+                            </span>
+                            <div>
+                                <strong id="tituloToggleGranel">Comprar a granel (Libras / Dinero)</strong>
+                                <small id="subtituloToggleGranel">Toca para desplegar y pedir por libras, kilos o valor en pesos ($)</small>
                             </div>
                         </div>
-                        <button type="button" class="btn btn--primario btn-agregar" id="btnAgregarBulto">
-                            <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
-                            Agregar al pedido
-                        </button>
-                    </div>
-                </div>
+                        <span class="flecha-desplegable" id="flechaToggleGranel" aria-hidden="true">▼</span>
+                    </button>
 
-                <!-- Formulario agregar Granel -->
-                <div id="seccionGranel" class="seccion-agregar-prod" hidden>
-                    <div class="campo">
-                        <label for="selectGranel">Producto a granel</label>
-                        <select class="input" id="selectGranel">
-                            <option value="" selected disabled>Elige grano o concentrado...</option>
-                            <option th:each="g : ${catalogoGranel}"
-                                    th:value="${g.nombre}"
-                                    th:data-precio="${g.precio}"
-                                    th:text="${g.nombre + ' · ' + g.precioFormateado}">Granel</option>
-                        </select>
-                        <span class="precio-preview" id="previewPrecioGranel"></span>
-                    </div>
-
-                    <div class="modalidad-granel">
-                        <label class="opcion-radio">
-                            <input type="radio" name="modoGranel" value="LIBRAS" checked>
-                            <span>Por Libras</span>
-                        </label>
-                        <label class="opcion-radio">
-                            <input type="radio" name="modoGranel" value="KILOS">
-                            <span>Por Kilos</span>
-                        </label>
-                        <label class="opcion-radio">
-                            <input type="radio" name="modoGranel" value="VALOR">
-                            <span>Por Dinero ($)</span>
-                        </label>
-                    </div>
-
-                    <div class="fila-agregar">
-                        <div class="campo" id="campoGranelCantidad">
-                            <label for="cantGranel" id="labelCantGranel">Cantidad (libras)</label>
-                            <input class="input" type="number" id="cantGranel" value="2" min="1" max="100" step="1">
+                    <!-- Formulario dentro del desplegable Granel -->
+                    <div id="panelGranelDesplegable" class="panel-granel-desplegable" hidden>
+                        <div class="campo" style="margin-bottom: 12px;">
+                            <label for="selectGranel">Producto a granel</label>
+                            <select class="input" id="selectGranel">
+                                <option value="" selected disabled>Elige grano o concentrado...</option>
+                                <option th:each="g : ${catalogoGranel}"
+                                        th:value="${g.nombre}"
+                                        th:data-precio="${g.precio}"
+                                        th:text="${g.nombre + ' · ' + g.precioFormateado}">Granel</option>
+                            </select>
+                            <span class="precio-preview" id="previewPrecioGranel"></span>
                         </div>
 
-                        <div class="campo" id="campoGranelDinero" hidden>
-                            <label for="dineroGranel">¿Cuánto dinero desea comprar? ($)</label>
-                            <input class="input" type="number" id="dineroGranel" placeholder="Ej: 10000" min="2000" step="1000">
+                        <div class="modalidad-granel" style="margin-bottom: 12px;">
+                            <label class="opcion-radio">
+                                <input type="radio" name="modoGranel" value="LIBRAS" checked>
+                                <span>Por Libras</span>
+                            </label>
+                            <label class="opcion-radio">
+                                <input type="radio" name="modoGranel" value="KILOS">
+                                <span>Por Kilos</span>
+                            </label>
+                            <label class="opcion-radio">
+                                <input type="radio" name="modoGranel" value="VALOR">
+                                <span>Por Dinero ($)</span>
+                            </label>
                         </div>
 
-                        <button type="button" class="btn btn--primario btn-agregar" id="btnAgregarGranel">
-                            <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
-                            Agregar al pedido
-                        </button>
+                        <div class="fila-agregar">
+                            <div class="campo" id="campoGranelCantidad">
+                                <label for="cantGranel" id="labelCantGranel">Cantidad (libras)</label>
+                                <input class="input" type="number" id="cantGranel" value="2" min="1" max="100" step="1">
+                            </div>
+
+                            <div class="campo" id="campoGranelDinero" hidden>
+                                <label for="dineroGranel">¿Cuánto dinero desea comprar? ($)</label>
+                                <input class="input" type="number" id="dineroGranel" placeholder="Ej: 10000" min="2000" step="1000">
+                            </div>
+
+                            <button type="button" class="btn btn--primario btn-agregar" id="btnAgregarGranel">
+                                <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
+                                Agregar al pedido
+                            </button>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Lista de productos agregados (Carrito) -->
                 <div class="carrito-contenedor">
                     <div class="carrito-header">
-                        <span>Tu lista de compras</span>
+                        <span>Productos en tu pedido</span>
                         <span class="badge badge--ruta"><span id="carritoContador">0</span> productos</span>
                     </div>
 
                     <ul class="carrito-lista" id="carritoLista">
                         <li class="carrito-vacio" id="carritoVacio">
-                            Aún no has agregado productos. Selecciona uno arriba y toca <strong>"Agregar al pedido"</strong>.
+                            Aún no has agregado productos. Selecciona la cantidad en las tarjetas del catálogo arriba y toca <strong>"+ Agregar"</strong>.
                         </li>
                     </ul>
 
@@ -549,10 +570,10 @@
         <div class="footer-col">
             <h4>Atención & WhatsApp</h4>
             <p class="footer-texto">¿Dudas con tu bulto o necesitas cotizar por mayor?</p>
-            <a href="https://wa.me/573177727181?text=Hola%20MoniDeal,%20tengo%20una%20consulta%20sobre%20un%20pedido%20de%20concentrados"
+            <a href="https://wa.me/573167718711?text=Hola%20MoniDeal,%20tengo%20una%20consulta%20sobre%20un%20pedido%20de%20concentrados"
                target="_blank" rel="noopener" class="btn btn--wp btn--bloque" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px;">
                 <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                <span>WhatsApp Oficial: 317 772 7181</span>
+                <span>WhatsApp Oficial: 316 771 8711</span>
             </a>
             <p style="margin-top: 10px; font-size: 0.76rem; color: #8F9E95;">Guadalajara de Buga, Valle del Cauca, Colombia &copy; 2026 MoniDeal.</p>
         </div>
@@ -561,13 +582,65 @@
 
 <!-- ================= BARRA FLOTANTE "STICKY" INFERIOR (MÓVIL) ================= -->
 <div class="barra-confirmar-sticky" id="barraSticky" hidden>
-    <div class="barra-confirmar-sticky__info">
-        <span class="barra-confirmar-sticky__label">Total a pagar</span>
-        <span class="barra-confirmar-sticky__total" id="stickyTotalTexto">$4.000</span>
+    <div class="barra-confirmar-sticky__info" id="zonaStickyInfo" title="Toca o desliza para ver los productos de tu pedido" role="button" tabindex="0">
+        <div style="display: flex; align-items: center; gap: 6px;">
+            <span class="barra-confirmar-sticky__label">Total a pagar</span>
+            <span class="barra-confirmar-sticky__ver-pedido">
+                Ver pedido
+                <svg class="icono icono--sm" width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6"/></svg>
+            </span>
+        </div>
+        <span class="barra-confirmar-sticky__total" id="stickyTotalTexto">$0</span>
     </div>
     <button type="button" class="btn btn--primario" id="btnStickyConfirmar">
-        Confirmar pedido
+        Continuar al pedido
     </button>
+</div>
+
+<!-- ================= MODAL DRAWER / BOTTOM SHEET DEL PEDIDO (ESTILO IMAGEN 2) ================= -->
+<div class="modal-drawer" id="modalDrawerPedido" hidden aria-hidden="true" role="dialog" aria-labelledby="drawerTitulo">
+    <div class="modal-drawer__backdrop" id="backdropDrawerPedido"></div>
+    <div class="modal-drawer__dialogo">
+        <div class="modal-drawer__tirador" aria-hidden="true"></div>
+
+        <div class="modal-drawer__header">
+            <div class="modal-drawer__titulo-box">
+                <h3 id="drawerTitulo">Productos en tu pedido</h3>
+                <span class="badge badge--ruta" id="drawerContadorItems">0 productos</span>
+            </div>
+            <button type="button" class="modal-drawer__cerrar" id="btnCerrarDrawerPedido" aria-label="Cerrar resumen del pedido">✕</button>
+        </div>
+
+        <div class="modal-drawer__cuerpo">
+            <ul class="drawer-lista-items" id="drawerListaItems">
+                <!-- Se inyecta dinámicamente con las tarjetas idénticas a la Imagen 2 -->
+            </ul>
+
+            <div class="drawer-totales-box" id="drawerTotalesBox">
+                <div class="drawer-totales-fila">
+                    <span>Subtotal productos:</span>
+                    <strong id="drawerSubtotalTexto">$0</strong>
+                </div>
+                <div class="drawer-totales-fila">
+                    <span>Domicilio en Guadalajara de Buga:</span>
+                    <strong id="drawerDomicilioTexto">$4.000</strong>
+                </div>
+                <div class="drawer-totales-fila drawer-totales-fila--total">
+                    <span>Total estimado a pagar:</span>
+                    <strong id="drawerTotalTexto">$0</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-drawer__footer">
+            <button type="button" class="btn btn--primario btn--bloque btn--grande" id="btnDrawerProcederPaso2">
+                Continuar con datos de entrega (Paso 2) →
+            </button>
+            <button type="button" class="btn btn--link btn--bloque" id="btnDrawerSeguirComprando" style="margin-top: 8px;">
+                Seguir agregando productos
+            </button>
+        </div>
+    </div>
 </div>
 
 <div class="toasts" id="toasts" aria-live="polite"></div>
@@ -579,7 +652,7 @@
     const API_URL = "/api/pedidos";
     const CLAVE_DATOS = "monideal.datosCliente";
     const CAMPOS_GUARDADOS = ["clienteNombre", "clienteTelefono", "direccion", "barrio"];
-    const WHATSAPP_TIENDA = "573177727181"; // Teléfono oficial Monideal / Santa Mónica Buga
+    const WHATSAPP_TIENDA = "573167718711"; // Teléfono oficial Monideal / Santa Mónica Buga
     const COSTO_DOMICILIO = 4000;
 
     // Estado del carrito local
@@ -590,16 +663,28 @@
     const panelFormulario = document.getElementById("panelFormulario");
     const panelExito = document.getElementById("panelExito");
 
-    // Pestañas Segmented Control Bultos vs Granel
-    const tabBultos = document.getElementById("tabBultos");
-    const tabGranel = document.getElementById("tabGranel");
-    const seccionBultos = document.getElementById("seccionBultos");
-    const seccionGranel = document.getElementById("seccionGranel");
+    // Header Carrito & Red Alert Dot
+    const btnAbrirCarritoHeader = document.getElementById("btnAbrirCarritoHeader");
+    const puntitoRojoHeader = document.getElementById("puntitoRojoHeader");
+    const badgeHeaderCarrito = document.getElementById("badgeHeaderCarrito");
 
-    // Elementos Bulto
-    const selectBulto = document.getElementById("selectBulto");
-    const cantBultos = document.getElementById("cantBultos");
-    const btnAgregarBulto = document.getElementById("btnAgregarBulto");
+    // Modal Drawer del Pedido
+    const modalDrawerPedido = document.getElementById("modalDrawerPedido");
+    const backdropDrawerPedido = document.getElementById("backdropDrawerPedido");
+    const btnCerrarDrawerPedido = document.getElementById("btnCerrarDrawerPedido");
+    const btnDrawerProcederPaso2 = document.getElementById("btnDrawerProcederPaso2");
+    const btnDrawerSeguirComprando = document.getElementById("btnDrawerSeguirComprando");
+    const drawerListaItems = document.getElementById("drawerListaItems");
+    const drawerContadorItems = document.getElementById("drawerContadorItems");
+    const drawerSubtotalTexto = document.getElementById("drawerSubtotalTexto");
+    const drawerDomicilioTexto = document.getElementById("drawerDomicilioTexto");
+    const drawerTotalTexto = document.getElementById("drawerTotalTexto");
+    const zonaStickyInfo = document.getElementById("zonaStickyInfo");
+
+    // Desplegable Granel
+    const contenedorDesplegableGranel = document.getElementById("contenedorDesplegableGranel");
+    const btnToggleGranel = document.getElementById("btnToggleGranel");
+    const panelGranelDesplegable = document.getElementById("panelGranelDesplegable");
 
     // Elementos Granel
     const selectGranel = document.getElementById("selectGranel");
@@ -725,71 +810,96 @@
         });
     }
 
+    // Control de apertura y cierre del Desplegable Granel
+    function abrirDesplegableGranel(nombreProducto) {
+        if (panelGranelDesplegable && contenedorDesplegableGranel) {
+            panelGranelDesplegable.hidden = false;
+            contenedorDesplegableGranel.classList.add("abierto");
+            btnToggleGranel?.setAttribute("aria-expanded", "true");
+        }
+
+        if (nombreProducto && selectGranel) {
+            selectGranel.value = nombreProducto;
+            selectGranel.dispatchEvent(new Event("change"));
+        }
+
+        contenedorDesplegableGranel?.scrollIntoView({ behavior: "smooth", block: "center" });
+        const inputTarget = document.getElementById("cantGranel");
+        setTimeout(() => inputTarget?.focus(), 250);
+        if (nombreProducto) {
+            toast(`Elige libras o valor para "${nombreProducto}"`, "info");
+        }
+    }
+
+    if (btnToggleGranel && panelGranelDesplegable && contenedorDesplegableGranel) {
+        btnToggleGranel.addEventListener("click", () => {
+            const estaAbierto = !panelGranelDesplegable.hidden;
+            panelGranelDesplegable.hidden = estaAbierto;
+            contenedorDesplegableGranel.classList.toggle("abierto", !estaAbierto);
+            btnToggleGranel.setAttribute("aria-expanded", String(!estaAbierto));
+        });
+    }
+
     // Acciones directas al hacer clic en las tarjetas del catálogo
     document.getElementById("catalogoGrid")?.addEventListener("click", e => {
+        // Stepper: Restar cantidad
+        const btnMenos = e.target.closest(".btn-stepper--menos");
+        if (btnMenos) {
+            const input = btnMenos.parentElement.querySelector(".input-stepper");
+            if (input) {
+                let v = parseInt(input.value, 10) || 1;
+                input.value = Math.max(1, v - 1);
+            }
+            return;
+        }
+
+        // Stepper: Sumar cantidad
+        const btnMas = e.target.closest(".btn-stepper--mas");
+        if (btnMas) {
+            const input = btnMas.parentElement.querySelector(".input-stepper");
+            if (input) {
+                let v = parseInt(input.value, 10) || 1;
+                input.value = Math.min(50, v + 1);
+            }
+            return;
+        }
+
+        // Agregar Bulto desde tarjeta con la cantidad seleccionada en el stepper
         const btnBulto = e.target.closest(".btn-card-agregar:not(.btn-card-agregar--granel)");
         if (btnBulto) {
+            const card = btnBulto.closest(".prod-card");
             const nombre = btnBulto.dataset.nombre;
             const precio = parseFloat(btnBulto.dataset.precio) || 128000;
+            const cant = parseInt(card?.querySelector(".input-stepper")?.value, 10) || 1;
+            const subtotal = precio * cant;
             
             carrito.push({
                 producto: nombre,
                 tipoUnidad: "BULTO",
-                cantidad: 1,
+                cantidad: cant,
                 valorDinero: null,
                 precioUnitario: precio,
-                subtotal: precio,
-                detalle: `1 bulto(s) de ${nombre}`
+                subtotal: subtotal,
+                detalle: `${cant} bulto(s) de ${nombre}`
             });
 
             renderizarCarrito();
-            toast(`✓ "${nombre}" agregado al pedido`, "exito");
+            toast(`✓ ${cant} bulto(s) de "${nombre}" agregados a tu pedido`, "exito");
 
             // Feedback visual en el botón
-            btnBulto.innerHTML = '✓ Agregado';
+            btnBulto.innerHTML = `✓ Agregado (${cant})`;
             setTimeout(() => {
                 btnBulto.innerHTML = '<svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg> <span>Agregar</span>';
             }, 1200);
             return;
         }
 
+        // Abrir desplegable al tocar "Pedir a granel" en la tarjeta
         const btnGranel = e.target.closest(".btn-card-agregar--granel");
         if (btnGranel) {
             const nombre = btnGranel.dataset.nombre;
-            tabGranel.click();
-            if (selectGranel) {
-                selectGranel.value = nombre;
-                selectGranel.dispatchEvent(new Event("change"));
-            }
-            seccionGranel.scrollIntoView({ behavior: "smooth", block: "center" });
-            const inputTarget = document.getElementById("cantGranel");
-            if (inputTarget) inputTarget.focus();
-            toast(`Elige las libras o valor para "${nombre}"`, "info");
+            abrirDesplegableGranel(nombre);
         }
-    });
-
-    // Alternar tabs con estilo Segmented Control
-    tabBultos.addEventListener("click", () => {
-        tabBultos.classList.add("activo");
-        tabGranel.classList.remove("activo");
-        seccionBultos.hidden = false;
-        seccionGranel.hidden = true;
-    });
-
-    tabGranel.addEventListener("click", () => {
-        tabGranel.classList.add("activo");
-        tabBultos.classList.remove("activo");
-        seccionGranel.hidden = false;
-        seccionBultos.hidden = true;
-    });
-
-    // Control de paso para cantidad de bultos
-    document.querySelectorAll("[data-paso-bulto]").forEach(b => {
-        b.addEventListener("click", () => {
-            const paso = parseInt(b.dataset.pasoBulto, 10);
-            const actual = parseInt(cantBultos.value, 10) || 1;
-            cantBultos.value = Math.max(1, Math.min(50, actual + paso));
-        });
     });
 
     // Modalidad Granel (Libras vs Kilos vs Dinero)
@@ -805,36 +915,6 @@
                 labelCantGranel.textContent = modo === "KILOS" ? "Cantidad (kilos)" : "Cantidad (libras)";
             }
         });
-    });
-
-    // ---------- Carrito: Agregar Bulto ----------
-    btnAgregarBulto.addEventListener("click", () => {
-        const prod = selectBulto.value;
-        const cant = parseInt(cantBultos.value, 10) || 1;
-        if (!prod) {
-            toast("Selecciona un concentrado de la lista.", "error");
-            selectBulto.focus();
-            return;
-        }
-
-        const opt = selectBulto.options[selectBulto.selectedIndex];
-        const precioUnit = parseFloat(opt?.dataset?.precio) || 128000;
-        const subtotal = precioUnit * cant;
-
-        carrito.push({
-            producto: prod,
-            tipoUnidad: "BULTO",
-            cantidad: cant,
-            valorDinero: null,
-            precioUnitario: precioUnit,
-            subtotal: subtotal,
-            detalle: `${cant} bulto(s) de ${prod}`
-        });
-
-        renderizarCarrito();
-        selectBulto.value = "";
-        cantBultos.value = 1;
-        toast(`Agregado: ${cant} bulto(s) al pedido`, "exito");
     });
 
     // ---------- Carrito: Agregar Granel ----------
@@ -896,15 +976,21 @@
     // ---------- Renderizar Carrito y Totales ----------
     function renderizarCarrito() {
         errorCarrito.style.display = "none";
-        carritoContador.textContent = carrito.length;
+        const cant = carrito.length;
+        carritoContador.textContent = cant;
+        if (badgeHeaderCarrito) badgeHeaderCarrito.textContent = cant;
 
-        if (carrito.length === 0) {
+        if (cant === 0) {
             carritoLista.innerHTML = "";
             carritoLista.appendChild(carritoVacio);
             carritoTotales.hidden = true;
             barraSticky.hidden = true;
+            if (puntitoRojoHeader) puntitoRojoHeader.hidden = true;
             return;
         }
+
+        // Activamos puntito rojo de alerta en el header y barra sticky inferior
+        if (puntitoRojoHeader) puntitoRojoHeader.hidden = false;
 
         let subtotalAcum = 0;
         carritoLista.innerHTML = "";
@@ -941,6 +1027,11 @@
         carritoTotales.hidden = false;
         barraSticky.hidden = false;
 
+        // Mantener actualizado el drawer si se encuentra abierto
+        if (modalDrawerPedido && modalDrawerPedido.classList.contains("abierto")) {
+            renderizarDrawer();
+        }
+
         // Eventos para quitar ítems
         carritoLista.querySelectorAll(".btn-eliminar-item").forEach(btn => {
             btn.addEventListener("click", () => {
@@ -950,6 +1041,135 @@
             });
         });
     }
+
+    // ---------- Control del Modal Drawer del Pedido (Estilo Imagen 2) ----------
+    function abrirDrawerPedido() {
+        if (!modalDrawerPedido) return;
+        renderizarDrawer();
+        modalDrawerPedido.hidden = false;
+        requestAnimationFrame(() => {
+            modalDrawerPedido.classList.add("abierto");
+        });
+        document.body.style.overflow = "hidden";
+        if (puntitoRojoHeader) puntitoRojoHeader.hidden = true;
+    }
+
+    function cerrarDrawerPedido() {
+        if (!modalDrawerPedido) return;
+        modalDrawerPedido.classList.remove("abierto");
+        document.body.style.overflow = "";
+        setTimeout(() => {
+            if (!modalDrawerPedido.classList.contains("abierto")) {
+                modalDrawerPedido.hidden = true;
+            }
+        }, 280);
+    }
+
+    function renderizarDrawer() {
+        if (!drawerListaItems) return;
+        drawerListaItems.innerHTML = "";
+        const cant = carrito.length;
+        if (drawerContadorItems) {
+            drawerContadorItems.textContent = `${cant} producto${cant === 1 ? '' : 's'}`;
+        }
+
+        if (cant === 0) {
+            drawerListaItems.innerHTML = `
+                <li style="text-align: center; padding: 28px 14px; color: var(--texto-secundario); font-size: 0.88rem;">
+                    Aún no has agregado productos a tu lista.<br>Selecciona tus bultos o granel en las tarjetas arriba.
+                </li>
+            `;
+            if (drawerSubtotalTexto) drawerSubtotalTexto.textContent = "$0";
+            if (drawerTotalTexto) drawerTotalTexto.textContent = "$0";
+            return;
+        }
+
+        let subtotalAcum = 0;
+        carrito.forEach((item, index) => {
+            subtotalAcum += (item.subtotal || 0);
+
+            const li = document.createElement("li");
+            li.className = "drawer-item-card";
+            li.innerHTML = `
+                <div class="drawer-item-card__izq">
+                    <span class="drawer-item-card__icono" aria-hidden="true">
+                        <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 21 16Z"/></svg>
+                    </span>
+                    <span class="drawer-item-card__detalle">${item.detalle}</span>
+                </div>
+                <div class="drawer-item-card__der">
+                    <span class="drawer-item-card__precio">${formatDinero(item.subtotal)}</span>
+                    <button type="button" class="drawer-item-card__btn-eliminar" data-drawer-index="${index}" aria-label="Quitar ${item.detalle}" title="Eliminar del pedido">
+                        <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
+                    </button>
+                </div>
+            `;
+            drawerListaItems.appendChild(li);
+        });
+
+        const totalConDomicilio = subtotalAcum + COSTO_DOMICILIO;
+        if (drawerSubtotalTexto) drawerSubtotalTexto.textContent = formatDinero(subtotalAcum);
+        if (drawerDomicilioTexto) drawerDomicilioTexto.textContent = formatDinero(COSTO_DOMICILIO);
+        if (drawerTotalTexto) drawerTotalTexto.textContent = formatDinero(totalConDomicilio);
+
+        drawerListaItems.querySelectorAll(".drawer-item-card__btn-eliminar").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const idx = parseInt(btn.dataset.drawerIndex, 10);
+                carrito.splice(idx, 1);
+                renderizarCarrito();
+                renderizarDrawer();
+                if (carrito.length === 0) {
+                    cerrarDrawerPedido();
+                }
+            });
+        });
+    }
+
+    // ---------- Eventos para el Carrito y Drawer Modal ----------
+    // 1. Tocar carrito en el Header
+    btnAbrirCarritoHeader?.addEventListener("click", () => {
+        if (carrito.length === 0) {
+            toast("Aún no tienes productos en tu pedido. Elige en las tarjetas del catálogo.", "info");
+            document.getElementById("catalogoGrid")?.scrollIntoView({ behavior: "smooth" });
+        } else {
+            abrirDrawerPedido();
+        }
+    });
+
+    // 2. Tocar zona total de la barra flotante móvil
+    zonaStickyInfo?.addEventListener("click", () => {
+        abrirDrawerPedido();
+    });
+
+    // 3. Deslizar hacia arriba (Swipe-Up) en la barra móvil para abrir el pedido
+    let touchInicioY = 0;
+    barraSticky?.addEventListener("touchstart", e => {
+        touchInicioY = e.touches[0].clientY;
+    }, { passive: true });
+
+    barraSticky?.addEventListener("touchend", e => {
+        const touchFinY = e.changedTouches[0].clientY;
+        if (touchInicioY - touchFinY > 30) {
+            abrirDrawerPedido();
+        }
+    }, { passive: true });
+
+    // 4. Botones de cerrar drawer
+    btnCerrarDrawerPedido?.addEventListener("click", cerrarDrawerPedido);
+    backdropDrawerPedido?.addEventListener("click", cerrarDrawerPedido);
+    btnDrawerSeguirComprando?.addEventListener("click", cerrarDrawerPedido);
+
+    // 5. Botón de proceder a entrega desde el drawer
+    btnDrawerProcederPaso2?.addEventListener("click", () => {
+        cerrarDrawerPedido();
+        const zonaEntrega = document.querySelector(".zona-entrega");
+        if (zonaEntrega) {
+            zonaEntrega.scrollIntoView({ behavior: "smooth", block: "start" });
+            setTimeout(() => {
+                document.getElementById("clienteNombre")?.focus();
+            }, 350);
+        }
+    });
 
     // Botón sticky inferior móvil confirma o lleva al formulario
     btnStickyConfirmar.addEventListener("click", () => {
@@ -1050,7 +1270,8 @@
         if (Object.keys(errores).length) {
             Object.entries(errores).forEach(([c, m]) => { if (c !== "carrito") mostrarError(c, m); });
             if (errores.carrito) {
-                tabBultos.scrollIntoView({ behavior: "smooth" });
+                document.getElementById("catalogoGrid")?.scrollIntoView({ behavior: "smooth" });
+                toast("Por favor agrega al menos un producto a tu lista desde las tarjetas.", "error");
             } else {
                 form.querySelector(".con-error .input")?.focus();
             }

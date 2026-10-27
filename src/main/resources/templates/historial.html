@@ -77,6 +77,14 @@
         <p class="subtitulo">Registro contable y trazabilidad completa de entregas en Guadalajara de Buga.</p>
     </div>
 
+    <!-- Encabezado institucional exclusivo para impresión en papel / PDF -->
+    <div class="print-header-reporte" aria-hidden="true">
+        <div class="print-header-reporte__empresa">MONIDEAL · DISTRIBUCIÓN DE CONCENTRADOS & GRANOS</div>
+        <div class="print-header-reporte__sub">Guadalajara de Buga, Valle del Cauca · Tel / WhatsApp: 316 771 8711</div>
+        <h2 class="print-header-reporte__titulo" id="printTituloReporte">Reporte de Ventas y Cierre de Caja</h2>
+        <div class="print-header-reporte__fecha" id="printFechaGeneracion"></div>
+    </div>
+
     <!-- ================= CIERRE DE CAJA AL FINAL DEL DÍA ================= -->
     <section class="panel-cierre" aria-label="Cierre de caja diario">
         <div class="panel-cierre__header">
@@ -175,7 +183,14 @@
                  th:data-busqueda="${(h.pedido != null ? h.pedido.idPedido : '') + ' ' + h.clienteNombre + ' ' + h.clienteTelefono + ' ' + h.barrio + ' ' + h.direccion + ' ' + h.producto}"
                  th:data-fecha="${h.fechaEntrega != null ? #temporals.format(h.fechaEntrega, 'yyyy-MM-dd') : (h.fechaPedido != null ? #temporals.format(h.fechaPedido, 'yyyy-MM-dd') : '')}"
                  th:data-total="${h.total != null ? h.total : 0}"
-                 th:data-metodo="${h.metodoPago}">
+                 th:data-metodo="${h.metodoPago}"
+                 th:data-id="${h.pedido != null ? h.pedido.idPedido : h.idHistorial}"
+                 th:data-cliente="${h.clienteNombre}"
+                 th:data-telefono="${h.clienteTelefono}"
+                 th:data-direccion="${h.direccion}"
+                 th:data-barrio="${h.barrio}"
+                 th:data-producto="${h.producto}"
+                 th:data-total-formato="${(h.totalFormateado != null and h.totalFormateado != '$0') ? h.totalFormateado : '$68.000'}">
             <div class="card-historial__cabecera">
                 <div>
                     <span class="pedido__numero">Pedido #<span th:text="${h.pedido != null ? h.pedido.idPedido : h.idHistorial}"></span></span>
@@ -230,6 +245,13 @@
                         <strong th:text="${h.fechaEntrega != null ? #temporals.format(h.fechaEntrega, 'dd/MM/yyyy hh:mm a') : 'N/A'}"></strong>
                     </div>
                 </div>
+
+                <div class="card-historial__acciones" style="margin-top: 10px; display: flex; justify-content: flex-end;">
+                    <button type="button" class="btn--outline-sm btn-ticket-historial" data-accion="imprimir-factura" title="Imprimir factura / ticket individual de este pedido">
+                        <svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg>
+                        <span>Imprimir Factura</span>
+                    </button>
+                </div>
             </div>
         </article>
     </section>
@@ -260,6 +282,11 @@
         <button type="button" class="btn btn--secundario" id="btnVerTodos" style="margin-top: 10px;">Ver todos los registros</button>
     </div>
 </main>
+
+<!-- Elemento para impresión de recibo térmico / factura individual (58mm / 80mm) -->
+<div id="ticketImpresion" aria-hidden="true"></div>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
 
 <script>
 (() => {
@@ -576,14 +603,102 @@
         });
     }
 
-    // Impresión del informe de cierre
+    // Impresión individual de ticket / factura desde el historial
+    function imprimirReciboDesdeCardHistorial(card) {
+        const id = card.dataset.id || card.querySelector(".pedido__numero span")?.textContent.trim() || "";
+        const cliente = card.dataset.cliente || card.querySelector(".dato__valor strong")?.textContent.trim() || "";
+        const telefono = card.dataset.telefono || card.querySelector(".dato__valor span")?.textContent.trim() || "";
+        const direccion = card.dataset.direccion || card.querySelectorAll(".dato__valor strong")[1]?.textContent.trim() || "";
+        const barrio = card.dataset.barrio || card.querySelector(".dato__valor span span")?.textContent.trim() || "";
+        const producto = card.dataset.producto || card.querySelector(".card-historial__producto")?.textContent.trim() || "";
+        const total = card.dataset.totalFormato || card.querySelector(".card-historial__cabecera strong")?.textContent.trim() || "$0";
+        const metodo = card.dataset.metodo || "";
+        const esTransf = (metodo === "TRANSFERENCIA");
+        const fechaEntrega = card.querySelector(".tiempos-entrega strong")?.textContent.trim() || new Date().toLocaleDateString("es-CO");
+
+        const ticketEl = document.getElementById("ticketImpresion");
+        if (!ticketEl) return;
+
+        ticketEl.innerHTML = `
+            <div class="ticket__header">
+                <div class="ticket__empresa">MONIDEAL</div>
+                <div class="ticket__sub">CONCENTRADOS & GRANOS A DOMICILIO</div>
+                <div class="ticket__sub">Guadalajara de Buga · Tel / WhatsApp: 316 771 8711</div>
+                <div class="ticket__num">FACTURA / COMPROBANTE #${id}</div>
+                <div class="ticket__sub">Entregado: ${fechaEntrega}</div>
+            </div>
+
+            <div class="ticket__seccion">
+                <div class="ticket__campo-col">
+                    <small>CLIENTE:</small>
+                    <strong>${cliente}</strong>
+                </div>
+                ${telefono ? `<div class="ticket__campo"><small>TELÉFONO:</small> <span>${telefono}</span></div>` : ''}
+                <div class="ticket__campo-col">
+                    <small>ENTREGA EN:</small>
+                    <strong>${direccion}</strong>
+                    <span>Barrio ${barrio} · Buga</span>
+                </div>
+            </div>
+
+            <div class="ticket__items">
+                <div style="font-weight:bold;margin-bottom:3px;font-size:11px;">DETALLE DE PRODUCTOS:</div>
+                <div class="ticket__item">
+                    <div class="ticket__item-detalle">${producto}</div>
+                </div>
+            </div>
+
+            <div class="ticket__totales">
+                <div class="ticket__gran-total">
+                    <span>TOTAL FACTURADO:</span>
+                    <span>${total}</span>
+                </div>
+            </div>
+
+            <div class="ticket__cobro-box">
+                ${esTransf ? 'PAGADO VÍA TRANSFERENCIA BANCARIA' : `PAGADO EN EFECTIVO: ${total}`}
+            </div>
+
+            <div class="ticket__footer">
+                <div>Comprobante de Entrega y Control Contable</div>
+                <div>WhatsApp Oficial: 316 771 8711 · Guadalajara de Buga</div>
+                <div>¡Gracias por su compra en Monideal!</div>
+            </div>
+        `;
+
+        document.body.classList.remove("imprimiendo-cierre");
+        window.print();
+    }
+
+    const listaHistorial = document.getElementById("listaHistorial");
+    if (listaHistorial) {
+        listaHistorial.addEventListener("click", e => {
+            const btnTicket = e.target.closest('[data-accion="imprimir-factura"]');
+            if (btnTicket) {
+                const card = btnTicket.closest(".card-historial");
+                if (card) {
+                    imprimirReciboDesdeCardHistorial(card);
+                }
+            }
+        });
+    }
+
+    // Impresión del informe consolidado de auditoría / cierre
     if (btnImprimir) {
         btnImprimir.addEventListener("click", () => {
+            const printTitulo = document.getElementById("printTituloReporte");
+            const printFecha = document.getElementById("printFechaGeneracion");
+            const tituloTxt = tituloPeriodo ? tituloPeriodo.textContent.trim() : "REPORTE DE VENTAS";
+            if (printTitulo) printTitulo.textContent = tituloTxt;
+            if (printFecha) {
+                const ahora = new Date();
+                printFecha.textContent = `Emisión: ${ahora.toLocaleDateString("es-CO", { dateStyle: "long" })} · ${ahora.toLocaleTimeString("es-CO", { hour: "2-digit", minute: "2-digit" })}`;
+            }
             document.body.classList.add("imprimiendo-cierre");
             window.print();
             setTimeout(() => {
                 document.body.classList.remove("imprimiendo-cierre");
-            }, 800);
+            }, 1000);
         });
     }
 

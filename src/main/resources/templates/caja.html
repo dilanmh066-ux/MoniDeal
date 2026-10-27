@@ -95,10 +95,6 @@
                 <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
                 <span id="textoSonido">Alertas activas</span>
             </button>
-            <button type="button" class="btn-audio-test" id="btnProbarTono" title="Probar tono de campana">
-                <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                <span>Probar tono</span>
-            </button>
         </div>
     </div>
 
@@ -348,10 +344,9 @@
     const estadoConexion = document.getElementById("estadoConexion");
     const tituloBase = document.title;
     
-    // Controles de audio modernos (Activar/Silenciar y Probar tono)
+    // Controles de audio modernos (Activar/Silenciar)
     let sonidoActivo = localStorage.getItem("monideal_sonido_activo") !== "false";
     const btnToggleSonido = document.getElementById("btnToggleSonido");
-    const btnProbarTono = document.getElementById("btnProbarTono");
     const textoSonido = document.getElementById("textoSonido");
 
     function actualizarBotonSonido() {
@@ -445,11 +440,6 @@
         if (!sonidoActivo) return;
         sonarForzado();
     }
-
-    btnProbarTono.addEventListener("click", () => {
-        sonarForzado();
-        toast("Campana de alerta probada", "exito");
-    });
 
     // Control de filtros rápidos (Chips / Pills)
     let filtroChipActual = "todos";
@@ -700,7 +690,7 @@
             <div class="ticket__header">
                 <div class="ticket__empresa">MONIDEAL</div>
                 <div class="ticket__sub">CONCENTRADOS & GRANOS A DOMICILIO</div>
-                <div class="ticket__sub">Guadalajara de Buga, Valle del Cauca</div>
+                <div class="ticket__sub">Guadalajara de Buga · Tel / WhatsApp: 316 771 8711</div>
                 <div class="ticket__num">RECIBO DE VENTA #${id}</div>
                 <div class="ticket__sub">${fechaHora}</div>
             </div>
@@ -741,6 +731,7 @@
 
             <div class="ticket__footer">
                 <div>Comprobante de Entrega y Control de Bodega</div>
+                <div>WhatsApp Oficial: 316 771 8711 · Guadalajara de Buga</div>
                 <div>¡Gracias por su compra en Monideal!</div>
             </div>
         `;
