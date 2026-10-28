@@ -2932,6 +2932,26 @@ button.btn:disabled {
     margin-left: auto;
 }
 
+.ml-header__tel {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--verde-pino-suave);
+    border: 1px solid var(--verde-pino-borde);
+    color: var(--verde-pino);
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.18s ease;
+}
+
+.ml-header__tel:hover {
+    background: var(--verde-pino);
+    color: #FFFFFF;
+}
+
 .btn-carrito-header {
     display: inline-flex;
     align-items: center;
