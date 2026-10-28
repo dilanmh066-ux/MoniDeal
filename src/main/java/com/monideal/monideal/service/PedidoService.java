@@ -353,7 +353,10 @@ public class PedidoService {
             resumenTexto = resumenTexto.substring(0, 485) + "...";
         }
         p.setProducto(resumenTexto);
-        p.setCantidad(Math.max(1, itemsAGuardar.size()));
+        int totalUnidades = (int) Math.round(itemsAGuardar.stream()
+                .mapToDouble(i -> (i.getCantidad() != null && i.getCantidad() > 0) ? i.getCantidad() : 1.0)
+                .sum());
+        p.setCantidad(Math.max(1, totalUnidades));
         p.setEstado(EstadoPedido.PENDIENTE);
 
         return PedidoResponse.desde(pedidoRepository.save(p));

@@ -810,6 +810,156 @@
         });
     }
 
+    // ---------- Funciones de Gestión y Agrupación del Carrito ----------
+    function agregarAlCarrito(nuevoItem) {
+        // Buscar si ya existe un ítem idéntico (mismo nombre de producto y misma unidad)
+        const indexExistente = carrito.findIndex(it =>
+            it.producto === nuevoItem.producto && it.tipoUnidad === nuevoItem.tipoUnidad
+        );
+
+        let itemFinal;
+        if (indexExistente !== -1) {
+            // Ya existe en el pedido: se suma al que ya se había agregado
+            const existente = carrito[indexExistente];
+            if (existente.tipoUnidad === "VALOR") {
+                existente.valorDinero = (existente.valorDinero || 0) + (nuevoItem.valorDinero || 0);
+                existente.subtotal = existente.valorDinero;
+                existente.detalle = `${formatDinero(existente.valorDinero)} de ${existente.producto}`;
+            } else {
+                existente.cantidad = (existente.cantidad || 0) + (nuevoItem.cantidad || 1);
+                existente.subtotal = existente.cantidad * existente.precioUnitario;
+                if (existente.tipoUnidad === "BULTO") {
+                    existente.detalle = `${existente.cantidad} bulto(s) de ${existente.producto}`;
+                } else if (existente.tipoUnidad === "KILOS") {
+                    existente.detalle = `${existente.cantidad} kg de ${existente.producto}`;
+                } else if (existente.tipoUnidad === "LIBRAS") {
+                    existente.detalle = `${existente.cantidad} lb de ${existente.producto}`;
+                } else {
+                    existente.detalle = `${existente.cantidad} de ${existente.producto}`;
+                }
+            }
+            itemFinal = existente;
+            toast(`✓ Se sumó al pedido: ${existente.detalle}`, "exito");
+        } else {
+            // Producto nuevo en el carrito
+            if (nuevoItem.tipoUnidad === "VALOR") {
+                nuevoItem.cantidad = 1;
+                nuevoItem.subtotal = nuevoItem.valorDinero || 0;
+                nuevoItem.detalle = `${formatDinero(nuevoItem.valorDinero)} de ${nuevoItem.producto}`;
+            } else {
+                nuevoItem.cantidad = nuevoItem.cantidad || 1;
+                nuevoItem.subtotal = nuevoItem.cantidad * nuevoItem.precioUnitario;
+                if (nuevoItem.tipoUnidad === "BULTO") {
+                    nuevoItem.detalle = `${nuevoItem.cantidad} bulto(s) de ${nuevoItem.producto}`;
+                } else if (nuevoItem.tipoUnidad === "KILOS") {
+                    nuevoItem.detalle = `${nuevoItem.cantidad} kg de ${nuevoItem.producto}`;
+                } else if (nuevoItem.tipoUnidad === "LIBRAS") {
+                    nuevoItem.detalle = `${nuevoItem.cantidad} lb de ${nuevoItem.producto}`;
+                } else {
+                    nuevoItem.detalle = `${nuevoItem.cantidad} de ${nuevoItem.producto}`;
+                }
+            }
+            carrito.push(nuevoItem);
+            itemFinal = nuevoItem;
+            toast(`✓ Agregado: ${nuevoItem.detalle}`, "exito");
+        }
+
+        renderizarCarrito();
+        return itemFinal;
+    }
+
+    // Elimina completamente el producto del carrito (botón rojo con X)
+    function eliminarProductoCompleto(index) {
+        if (index < 0 || index >= carrito.length) return;
+        const item = carrito[index];
+        const nombreEliminado = item.producto;
+        carrito.splice(index, 1);
+        toast(`Se eliminó "${nombreEliminado}" de tu pedido`, "info");
+        renderizarCarrito();
+        if (carrito.length === 0 && modalDrawerPedido && modalDrawerPedido.classList.contains("abierto")) {
+            cerrarDrawerPedido();
+        }
+    }
+
+    // Actualiza manualmente la cantidad cuando el usuario escribe el número
+    function actualizarCantidadManual(index, nuevaCant) {
+        if (index < 0 || index >= carrito.length) return;
+        const item = carrito[index];
+        if (item.tipoUnidad === "VALOR") return;
+
+        let cant = parseInt(nuevaCant, 10);
+        if (isNaN(cant) || cant <= 0) {
+            eliminarProductoCompleto(index);
+            return;
+        }
+        if (cant > 99) cant = 99;
+
+        item.cantidad = cant;
+        item.subtotal = item.cantidad * item.precioUnitario;
+        if (item.tipoUnidad === "BULTO") {
+            item.detalle = `${item.cantidad} bulto(s) de ${item.producto}`;
+        } else if (item.tipoUnidad === "KILOS") {
+            item.detalle = `${item.cantidad} kg de ${item.producto}`;
+        } else if (item.tipoUnidad === "LIBRAS") {
+            item.detalle = `${item.cantidad} lb de ${item.producto}`;
+        } else {
+            item.detalle = `${item.cantidad} de ${item.producto}`;
+        }
+        renderizarCarrito();
+        toast(`✓ Cantidad actualizada: ${item.detalle}`, "exito");
+    }
+
+    // Disminuye de a 1 unidad. Si solo queda 1 (o es por valor), se elimina del carrito.
+    function restarOQuitarUno(index) {
+        if (index < 0 || index >= carrito.length) return;
+        const item = carrito[index];
+
+        if (item.tipoUnidad === "VALOR" || !item.cantidad || item.cantidad <= 1) {
+            const nombreEliminado = item.producto;
+            carrito.splice(index, 1);
+            toast(`Se eliminó "${nombreEliminado}" de tu pedido`, "info");
+        } else {
+            item.cantidad -= 1;
+            item.subtotal = item.cantidad * item.precioUnitario;
+            if (item.tipoUnidad === "BULTO") {
+                item.detalle = `${item.cantidad} bulto(s) de ${item.producto}`;
+            } else if (item.tipoUnidad === "KILOS") {
+                item.detalle = `${item.cantidad} kg de ${item.producto}`;
+            } else if (item.tipoUnidad === "LIBRAS") {
+                item.detalle = `${item.cantidad} lb de ${item.producto}`;
+            } else {
+                item.detalle = `${item.cantidad} de ${item.producto}`;
+            }
+            toast(`Se quitó 1 de "${item.producto}". Quedan ${item.cantidad}.`, "info");
+        }
+
+        renderizarCarrito();
+        if (carrito.length === 0 && modalDrawerPedido && modalDrawerPedido.classList.contains("abierto")) {
+            cerrarDrawerPedido();
+        }
+    }
+
+    // Incrementa en 1 unidad el producto en el carrito
+    function sumarUno(index) {
+        if (index < 0 || index >= carrito.length) return;
+        const item = carrito[index];
+        if (item.tipoUnidad === "VALOR") return;
+
+        item.cantidad = (item.cantidad || 1) + 1;
+        item.subtotal = item.cantidad * item.precioUnitario;
+        if (item.tipoUnidad === "BULTO") {
+            item.detalle = `${item.cantidad} bulto(s) de ${item.producto}`;
+        } else if (item.tipoUnidad === "KILOS") {
+            item.detalle = `${item.cantidad} kg de ${item.producto}`;
+        } else if (item.tipoUnidad === "LIBRAS") {
+            item.detalle = `${item.cantidad} lb de ${item.producto}`;
+        } else {
+            item.detalle = `${item.cantidad} de ${item.producto}`;
+        }
+        renderizarCarrito();
+        toast(`✓ Se sumó 1 a "${item.producto}" (Total: ${item.cantidad})`, "exito");
+    }
+
     // Control de apertura y cierre del Desplegable Granel
     function abrirDesplegableGranel(nombreProducto) {
         if (panelGranelDesplegable && contenedorDesplegableGranel) {
@@ -870,24 +1020,26 @@
             const card = btnBulto.closest(".prod-card");
             const nombre = btnBulto.dataset.nombre;
             const precio = parseFloat(btnBulto.dataset.precio) || 128000;
-            const cant = parseInt(card?.querySelector(".input-stepper")?.value, 10) || 1;
-            const subtotal = precio * cant;
+            const stepperInput = card?.querySelector(".input-stepper");
+            const cant = parseInt(stepperInput?.value, 10) || 1;
             
-            carrito.push({
+            const itemAgregado = agregarAlCarrito({
                 producto: nombre,
                 tipoUnidad: "BULTO",
                 cantidad: cant,
                 valorDinero: null,
-                precioUnitario: precio,
-                subtotal: subtotal,
-                detalle: `${cant} bulto(s) de ${nombre}`
+                precioUnitario: precio
             });
 
-            renderizarCarrito();
-            toast(`✓ ${cant} bulto(s) de "${nombre}" agregados a tu pedido`, "exito");
+            // Feedback visual en el botón con el total acumulado de ese producto en el pedido
+            const totalEnPedido = itemAgregado ? itemAgregado.cantidad : cant;
+            btnBulto.innerHTML = `✓ Agregado (${totalEnPedido} en pedido)`;
+            
+            // Restablecer el stepper de la tarjeta a 1
+            if (stepperInput) {
+                stepperInput.value = "1";
+            }
 
-            // Feedback visual en el botón
-            btnBulto.innerHTML = `✓ Agregado (${cant})`;
             setTimeout(() => {
                 btnBulto.innerHTML = '<svg class="icono icono--sm" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg> <span>Agregar</span>';
             }, 1200);
@@ -929,7 +1081,6 @@
         const opt = selectGranel.options[selectGranel.selectedIndex];
         const precioLibra = parseFloat(opt?.dataset?.precio) || 3500;
         const modo = document.querySelector('input[name="modoGranel"]:checked').value;
-        let item = null;
 
         if (modo === "VALOR") {
             const dinero = parseFloat(dineroGranel.value);
@@ -938,54 +1089,54 @@
                 dineroGranel.focus();
                 return;
             }
-            item = {
+            agregarAlCarrito({
                 producto: prod,
                 tipoUnidad: "VALOR",
                 cantidad: 1,
                 valorDinero: dinero,
-                precioUnitario: precioLibra,
-                subtotal: dinero,
-                detalle: `${formatDinero(dinero)} de ${prod}`
-            };
+                precioUnitario: precioLibra
+            });
             dineroGranel.value = "";
         } else {
             const cant = parseFloat(cantGranel.value) || 1;
             const esKilo = modo === "KILOS";
-            const unidad = esKilo ? "kg" : "lb";
             const precioUnit = esKilo ? precioLibra * 2 : precioLibra;
-            const subtotal = precioUnit * cant;
 
-            item = {
+            agregarAlCarrito({
                 producto: prod,
                 tipoUnidad: modo,
                 cantidad: cant,
                 valorDinero: null,
-                precioUnitario: precioUnit,
-                subtotal: subtotal,
-                detalle: `${cant} ${unidad} de ${prod}`
-            };
+                precioUnitario: precioUnit
+            });
             cantGranel.value = "2";
         }
 
-        carrito.push(item);
-        renderizarCarrito();
         selectGranel.value = "";
-        toast(`Agregado al pedido: ${item.detalle}`, "exito");
     });
 
     // ---------- Renderizar Carrito y Totales ----------
     function renderizarCarrito() {
         errorCarrito.style.display = "none";
-        const cant = carrito.length;
-        carritoContador.textContent = cant;
-        if (badgeHeaderCarrito) badgeHeaderCarrito.textContent = cant;
+        
+        // Contar el total de unidades reales del pedido (ej. 2 bultos + 1 bulto = 3 productos)
+        const totalUnidades = carrito.reduce((acc, it) => {
+            if (it.tipoUnidad === "VALOR") return acc + 1;
+            return acc + (it.cantidad ? Math.round(it.cantidad) : 1);
+        }, 0);
 
-        if (cant === 0) {
+        carritoContador.textContent = totalUnidades;
+        if (badgeHeaderCarrito) badgeHeaderCarrito.textContent = totalUnidades;
+
+        if (carrito.length === 0) {
             carritoLista.innerHTML = "";
             carritoLista.appendChild(carritoVacio);
             carritoTotales.hidden = true;
             barraSticky.hidden = true;
             if (puntitoRojoHeader) puntitoRojoHeader.hidden = true;
+            if (modalDrawerPedido && modalDrawerPedido.classList.contains("abierto")) {
+                renderizarDrawer();
+            }
             return;
         }
 
@@ -1009,9 +1160,19 @@
                         <strong>${item.detalle}</strong>
                     </div>
                 </div>
-                <div style="display: flex; align-items: center; gap: 10px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    ${item.tipoUnidad !== 'VALOR' ? `
+                    <div class="cart-item-stepper" title="Ajustar cantidad">
+                        <button type="button" class="cart-item-stepper__btn cart-item-stepper__btn--menos btn-item-restar" data-index="${index}" aria-label="Quitar una unidad" title="Quitar 1 unidad">
+                            <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        </button>
+                        <input type="number" class="cart-item-stepper__input input-item-cant" data-index="${index}" min="1" max="99" value="${item.cantidad || 1}" aria-label="Cantidad" title="Escribe la cantidad">
+                        <button type="button" class="cart-item-stepper__btn cart-item-stepper__btn--mas btn-item-sumar" data-index="${index}" aria-label="Sumar una unidad" title="Sumar 1 unidad">
+                            <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        </button>
+                    </div>` : ''}
                     <span class="carrito-item__precio">${formatDinero(item.subtotal)}</span>
-                    <button type="button" class="btn-eliminar-item" data-index="${index}" title="Quitar producto">
+                    <button type="button" class="btn-eliminar-item" data-index="${index}" aria-label="Eliminar ${item.producto}" title="Eliminar este producto del pedido">
                         <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
                     </button>
                 </div>
@@ -1032,12 +1193,42 @@
             renderizarDrawer();
         }
 
-        // Eventos para quitar ítems
+        // Botón rojo con X: elimina completamente el producto
         carritoLista.querySelectorAll(".btn-eliminar-item").forEach(btn => {
             btn.addEventListener("click", () => {
                 const idx = parseInt(btn.dataset.index, 10);
-                carrito.splice(idx, 1);
-                renderizarCarrito();
+                eliminarProductoCompleto(idx);
+            });
+        });
+
+        // Stepper: restar 1 unidad
+        carritoLista.querySelectorAll(".btn-item-restar").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const idx = parseInt(btn.dataset.index, 10);
+                restarOQuitarUno(idx);
+            });
+        });
+
+        // Stepper: sumar 1 unidad
+        carritoLista.querySelectorAll(".btn-item-sumar").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const idx = parseInt(btn.dataset.index, 10);
+                sumarUno(idx);
+            });
+        });
+
+        // Stepper: escribir cantidad numérica directamente
+        carritoLista.querySelectorAll(".input-item-cant").forEach(input => {
+            input.addEventListener("click", e => e.stopPropagation());
+            input.addEventListener("change", () => {
+                const idx = parseInt(input.dataset.index, 10);
+                actualizarCantidadManual(idx, input.value);
+            });
+            input.addEventListener("keydown", e => {
+                if (e.key === "Enter") {
+                    e.preventDefault();
+                    input.blur();
+                }
             });
         });
     }
@@ -1068,12 +1259,17 @@
     function renderizarDrawer() {
         if (!drawerListaItems) return;
         drawerListaItems.innerHTML = "";
-        const cant = carrito.length;
+        
+        const totalUnidades = carrito.reduce((acc, it) => {
+            if (it.tipoUnidad === "VALOR") return acc + 1;
+            return acc + (it.cantidad ? Math.round(it.cantidad) : 1);
+        }, 0);
+
         if (drawerContadorItems) {
-            drawerContadorItems.textContent = `${cant} producto${cant === 1 ? '' : 's'}`;
+            drawerContadorItems.textContent = `${totalUnidades} producto${totalUnidades === 1 ? '' : 's'}`;
         }
 
-        if (cant === 0) {
+        if (carrito.length === 0) {
             drawerListaItems.innerHTML = `
                 <li style="text-align: center; padding: 28px 14px; color: var(--texto-secundario); font-size: 0.88rem;">
                     Aún no has agregado productos a tu lista.<br>Selecciona tus bultos o granel en las tarjetas arriba.
@@ -1093,13 +1289,23 @@
             li.innerHTML = `
                 <div class="drawer-item-card__izq">
                     <span class="drawer-item-card__icono" aria-hidden="true">
-                        <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 21 16Z"/></svg>
+                        <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/></svg>
                     </span>
                     <span class="drawer-item-card__detalle">${item.detalle}</span>
                 </div>
                 <div class="drawer-item-card__der">
+                    ${item.tipoUnidad !== 'VALOR' ? `
+                    <div class="cart-item-stepper" title="Ajustar cantidad">
+                        <button type="button" class="cart-item-stepper__btn cart-item-stepper__btn--menos btn-drawer-restar" data-drawer-index="${index}" aria-label="Quitar una unidad" title="Quitar 1 unidad">
+                            <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        </button>
+                        <input type="number" class="cart-item-stepper__input input-drawer-cant" data-drawer-index="${index}" min="1" max="99" value="${item.cantidad || 1}" aria-label="Cantidad" title="Escribe la cantidad">
+                        <button type="button" class="cart-item-stepper__btn cart-item-stepper__btn--mas btn-drawer-sumar" data-drawer-index="${index}" aria-label="Sumar una unidad" title="Sumar 1 unidad">
+                            <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        </button>
+                    </div>` : ''}
                     <span class="drawer-item-card__precio">${formatDinero(item.subtotal)}</span>
-                    <button type="button" class="drawer-item-card__btn-eliminar" data-drawer-index="${index}" aria-label="Quitar ${item.detalle}" title="Eliminar del pedido">
+                    <button type="button" class="drawer-item-card__btn-eliminar" data-drawer-index="${index}" aria-label="Eliminar ${item.producto}" title="Eliminar este producto del pedido">
                         <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
                     </button>
                 </div>
@@ -1112,14 +1318,41 @@
         if (drawerDomicilioTexto) drawerDomicilioTexto.textContent = formatDinero(COSTO_DOMICILIO);
         if (drawerTotalTexto) drawerTotalTexto.textContent = formatDinero(totalConDomicilio);
 
+        // Botón rojo con X: elimina completamente el producto desde el drawer
         drawerListaItems.querySelectorAll(".drawer-item-card__btn-eliminar").forEach(btn => {
             btn.addEventListener("click", () => {
                 const idx = parseInt(btn.dataset.drawerIndex, 10);
-                carrito.splice(idx, 1);
-                renderizarCarrito();
-                renderizarDrawer();
-                if (carrito.length === 0) {
-                    cerrarDrawerPedido();
+                eliminarProductoCompleto(idx);
+            });
+        });
+
+        // Stepper: restar 1 unidad desde el drawer
+        drawerListaItems.querySelectorAll(".btn-drawer-restar").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const idx = parseInt(btn.dataset.drawerIndex, 10);
+                restarOQuitarUno(idx);
+            });
+        });
+
+        // Stepper: sumar 1 unidad desde el drawer
+        drawerListaItems.querySelectorAll(".btn-drawer-sumar").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const idx = parseInt(btn.dataset.drawerIndex, 10);
+                sumarUno(idx);
+            });
+        });
+
+        // Stepper: escribir cantidad numérica directamente desde el drawer
+        drawerListaItems.querySelectorAll(".input-drawer-cant").forEach(input => {
+            input.addEventListener("click", e => e.stopPropagation());
+            input.addEventListener("change", () => {
+                const idx = parseInt(input.dataset.drawerIndex, 10);
+                actualizarCantidadManual(idx, input.value);
+            });
+            input.addEventListener("keydown", e => {
+                if (e.key === "Enter") {
+                    e.preventDefault();
+                    input.blur();
                 }
             });
         });

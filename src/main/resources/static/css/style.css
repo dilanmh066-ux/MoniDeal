@@ -1435,6 +1435,80 @@ textarea.input {
 
 .btn-eliminar-item:hover { background: var(--rojo-suave); }
 
+/* Mini stepper en ítems del carrito y drawer */
+.cart-item-stepper {
+    display: inline-flex;
+    align-items: center;
+    background: var(--superficie-muted);
+    border: 1px solid var(--borde);
+    border-radius: var(--radio-sm);
+    overflow: hidden;
+    height: 28px;
+    flex-shrink: 0;
+}
+
+.cart-item-stepper__btn {
+    background: transparent;
+    border: none;
+    width: 26px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--texto);
+    cursor: pointer;
+    transition: background 0.12s ease, color 0.12s ease;
+    padding: 0;
+}
+
+.cart-item-stepper__btn:hover {
+    background: var(--borde);
+}
+
+.cart-item-stepper__btn--menos:hover {
+    color: #DC2626;
+}
+
+.cart-item-stepper__btn--mas:hover {
+    color: var(--verde-pino);
+}
+
+.cart-item-stepper__cant {
+    min-width: 24px;
+    text-align: center;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--texto);
+    padding: 0 4px;
+    user-select: none;
+}
+
+.cart-item-stepper__input {
+    width: 34px;
+    height: 100%;
+    border: none;
+    background: transparent;
+    text-align: center;
+    font-size: 0.86rem;
+    font-weight: 700;
+    color: var(--texto);
+    padding: 0;
+    margin: 0;
+    outline: none;
+    -moz-appearance: textfield;
+}
+
+.cart-item-stepper__input::-webkit-outer-spin-button,
+.cart-item-stepper__input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.cart-item-stepper__input:focus {
+    background: var(--blanco);
+    box-shadow: inset 0 0 0 1px var(--verde-pino-borde);
+}
+
 .carrito-vacio {
     font-size: .84rem;
     color: var(--texto-secundario);
