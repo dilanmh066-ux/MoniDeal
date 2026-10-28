@@ -1268,21 +1268,13 @@ textarea.input {
 .vacio h2 { font-size: 1.15rem; font-weight: 700; color: var(--verde-pino); margin-bottom: 4px; }
 .vacio p { font-size: .88rem; }
 
-/* ---------- 16. Pantalla del Cliente: Segmented Control & Carrito ---------- */
+/* ---------- 16. Pantalla del Cliente: Formulario de Entrega y Pago ---------- */
 .layout-pedido {
-    display: grid;
-    gap: 14px;
-    grid-template-areas:
-        "producto"
-        "entrega"
-        "pago"
-        "accion";
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 20px;
 }
-
-.zona-producto { grid-area: producto; }
-.zona-entrega { grid-area: entrega; }
-.zona-pago { grid-area: pago; }
-.zona-accion { grid-area: accion; }
 
 .zona-accion .nota-pago {
     margin-top: 12px;
@@ -1922,12 +1914,9 @@ textarea.input {
 
 @media (min-width: 960px) {
     .layout-pedido {
-        grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
-        grid-template-areas:
-            "producto entrega"
-            "producto pago"
-            "producto accion";
-        align-items: start;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
     }
 }
 
@@ -3310,5 +3299,101 @@ button.btn:disabled {
     .modal-drawer__tirador {
         display: none;
     }
+}
+
+/* ==========================================================================
+   31. LAYOUT PRINCIPAL: CATÁLOGO Y SIDEBAR FIJO DEL PEDIDO (DESKTOP)
+   ========================================================================== */
+.pedido-grid-principal {
+    display: block;
+    margin-top: 16px;
+}
+
+@media (min-width: 992px) {
+    .pedido-grid-principal {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 390px;
+        gap: 28px;
+        align-items: start;
+    }
+
+    .pedido-col-catalogo {
+        min-width: 0;
+    }
+
+    .pedido-col-sidebar {
+        display: block !important;
+        position: sticky;
+        top: 86px;
+        z-index: 20;
+    }
+
+    /* En desktop, la barra móvil y el drawer emergente no se usan porque el pedido está a la derecha */
+    .modal-drawer {
+        display: none !important;
+    }
+    .barra-confirmar-sticky {
+        display: none !important;
+    }
+}
+
+@media (max-width: 991px) {
+    .pedido-col-sidebar {
+        display: none !important;
+    }
+}
+
+/* Tarjeta Sidebar Desktop (Idéntica a la vista solicitada por el usuario) */
+.card-sidebar-pedido {
+    background: var(--blanco);
+    border: 1px solid var(--borde);
+    border-radius: var(--radio-lg);
+    box-shadow: 0 4px 20px rgba(18, 38, 28, 0.08);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-sidebar-pedido__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 20px 14px;
+    border-bottom: 1px solid var(--borde);
+    background: var(--superficie-muted);
+}
+
+.card-sidebar-pedido__titulo {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--texto);
+    margin: 0;
+}
+
+.card-sidebar-pedido__cuerpo {
+    padding: 16px 18px;
+    max-height: calc(100vh - 310px);
+    overflow-y: auto;
+}
+
+.card-sidebar-pedido__footer {
+    padding: 16px 18px 20px;
+    border-top: 1px solid var(--borde);
+    background: var(--blanco);
+}
+
+.sidebar-vacio {
+    text-align: center;
+    padding: 32px 14px;
+    color: var(--texto-secundario);
+    font-size: 0.88rem;
+    line-height: 1.45;
+}
+
+.sidebar-vacio__icono {
+    color: var(--texto-muted);
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
 }
 

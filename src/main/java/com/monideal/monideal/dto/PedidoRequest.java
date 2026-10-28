@@ -18,7 +18,6 @@ public record PedidoRequest(
         @Size(max = 200, message = "La dirección es muy larga")
         String direccion,
 
-        @NotBlank(message = "El barrio es obligatorio")
         @Size(max = 100, message = "El barrio es muy largo")
         String barrio,
 

@@ -147,7 +147,11 @@
             </div>
         </div>
 
-        <!-- ================= CATÁLOGO VISUAL ILUSTRADO ================= -->
+        <!-- ================= GRID PRINCIPAL DEL PEDIDO: CATÁLOGO + SIDEBAR FIJO ================= -->
+        <div class="pedido-grid-principal">
+            <div class="pedido-col-catalogo">
+
+                <!-- ================= CATÁLOGO VISUAL ILUSTRADO ================= -->
         <div class="catalogo-visual-seccion">
             <div class="catalogo-visual-header">
                 <div>
@@ -237,35 +241,6 @@
             </div>
         </div>
 
-        <div class="cifras" aria-hidden="true">
-            <div class="cifra">
-                <span class="cifra__icono">
-                    <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/></svg>
-                </span>
-                <div><div class="cifra__valor">Hoy mismo</div><div class="cifra__texto">entrega local en Buga</div></div>
-            </div>
-            <div class="cifra">
-                <span class="cifra__icono">
-                    <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/></svg>
-                </span>
-                <div><div class="cifra__valor">Efectivo / Nequi</div><div class="cifra__texto">tú eliges cómo pagar</div></div>
-            </div>
-            <div class="cifra">
-                <span class="cifra__icono">
-                    <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/></svg>
-                </span>
-                <div><div class="cifra__valor">Varios productos</div><div class="cifra__texto">en un solo domicilio</div></div>
-            </div>
-        </div>
-
-        <form id="formPedido" class="layout-pedido" novalidate>
-
-            <!-- Paso 1: Carrito de compras y opción a granel -->
-            <div class="card zona-producto">
-                <span class="card__etiqueta">Paso 1</span>
-                <h2 class="card__titulo">Tu lista de compras</h2>
-                <p class="zona-producto__guia">Selecciona la cantidad en cualquier bulto de las tarjetas arriba y toca <strong>"+ Agregar"</strong>. Si deseas comprar por libras, despliega la opción de granel.</p>
-
                 <!-- Desplegable / Acordeón para A Granel (Libras / Dinero) -->
                 <div class="desplegable-granel-contenedor" id="contenedorDesplegableGranel">
                     <button type="button" class="btn-toggle-granel" id="btnToggleGranel" aria-expanded="false" aria-controls="panelGranelDesplegable">
@@ -329,42 +304,34 @@
                     </div>
                 </div>
 
-                <!-- Lista de productos agregados (Carrito) -->
-                <div class="carrito-contenedor">
-                    <div class="carrito-header">
-                        <span>Productos en tu pedido</span>
-                        <span class="badge badge--ruta"><span id="carritoContador">0</span> productos</span>
-                    </div>
 
-                    <ul class="carrito-lista" id="carritoLista">
-                        <li class="carrito-vacio" id="carritoVacio">
-                            Aún no has agregado productos. Selecciona la cantidad en las tarjetas del catálogo arriba y toca <strong>"+ Agregar"</strong>.
-                        </li>
-                    </ul>
 
-                    <!-- Desglose de totales transparente -->
-                    <div class="carrito-totales" id="carritoTotales" hidden>
-                        <div class="carrito-totales__fila">
-                            <span>Subtotal productos:</span>
-                            <span id="subtotalTexto">$0</span>
-                        </div>
-                        <div class="carrito-totales__fila">
-                            <span>Domicilio en Guadalajara de Buga:</span>
-                            <span id="domicilioTexto">$4.000</span>
-                        </div>
-                        <div class="carrito-totales__fila carrito-totales__fila--final">
-                            <span>Total estimado a pagar:</span>
-                            <span id="totalTexto">$0</span>
-                        </div>
-                    </div>
-
-                    <p class="campo__error" id="errorCarrito" style="display:none;"></p>
-                </div>
+        <div class="cifras" aria-hidden="true">
+            <div class="cifra">
+                <span class="cifra__icono">
+                    <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/></svg>
+                </span>
+                <div><div class="cifra__valor">Hoy mismo</div><div class="cifra__texto">entrega local en Buga</div></div>
             </div>
+            <div class="cifra">
+                <span class="cifra__icono">
+                    <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/></svg>
+                </span>
+                <div><div class="cifra__valor">Efectivo / Nequi</div><div class="cifra__texto">tú eliges cómo pagar</div></div>
+            </div>
+            <div class="cifra">
+                <span class="cifra__icono">
+                    <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/></svg>
+                </span>
+                <div><div class="cifra__valor">Varios productos</div><div class="cifra__texto">en un solo domicilio</div></div>
+            </div>
+        </div>
 
-            <!-- Paso 2: Datos del cliente -->
-            <div class="card zona-entrega">
-                <span class="card__etiqueta">Paso 2</span>
+        <form id="formPedido" class="layout-pedido" novalidate>
+
+            <!-- Paso 1: Datos del cliente -->
+            <div class="card zona-entrega" id="zonaEntrega">
+                <span class="card__etiqueta">Paso 1</span>
                 <h2 class="card__titulo">Datos de entrega (Buga)</h2>
 
                 <div class="fila-campos">
@@ -390,38 +357,6 @@
                     <p class="campo__error"></p>
                 </div>
 
-                <!-- Input de Barrio con Autocompletado nativo de barrios de Buga -->
-                <div class="campo" data-campo="barrio">
-                    <label for="barrio">Barrio en Guadalajara de Buga</label>
-                    <input class="input" type="text" id="barrio" name="barrio" list="barriosBugaList" maxlength="100"
-                           placeholder="Escribe o selecciona tu barrio..." required>
-                    <datalist id="barriosBugaList">
-                        <option value="Montellano">
-                        <option value="Albores">
-                        <option value="El Molino">
-                        <option value="Paloblanco">
-                        <option value="El Albergue">
-                        <option value="Santa Rita">
-                        <option value="La Honda">
-                        <option value="San José de las Palmas">
-                        <option value="Sucre">
-                        <option value="Estambul">
-                        <option value="Balboa">
-                        <option value="La Ventura">
-                        <option value="Bello Horizonte">
-                        <option value="Popular">
-                        <option value="Prados del Sur">
-                        <option value="Ricaurte">
-                        <option value="Jorge Eliécer Gaitán">
-                        <option value="Alto Bonito">
-                        <option value="El Jardín">
-                        <option value="La Merced">
-                        <option value="Aures">
-                        <option value="Chambimbal">
-                    </datalist>
-                    <p class="campo__error"></p>
-                </div>
-
                 <div class="campo" data-campo="indicaciones">
                     <label for="indicaciones">Indicaciones para el domiciliario <span class="opcional">(opcional)</span></label>
                     <textarea class="input" id="indicaciones" name="indicaciones" maxlength="300"
@@ -430,9 +365,9 @@
                 </div>
             </div>
 
-            <!-- Paso 3: Método de pago con Logos Vectoriales -->
+            <!-- Paso 2: Método de pago con Logos Vectoriales -->
             <div class="card zona-pago">
-                <span class="card__etiqueta">Paso 3</span>
+                <span class="card__etiqueta">Paso 2</span>
                 <h2 class="card__titulo">Método de pago</h2>
 
                 <div class="selector-pago">
@@ -481,6 +416,47 @@
                 <p class="nota-pago" id="notaPiePago">Pagas cuando recibas tus productos en Buga.</p>
             </div>
         </form>
+            </div> <!-- /.pedido-col-catalogo -->
+
+            <!-- Sidebar Lateral Fijo del Pedido (Desktop) -->
+            <aside class="pedido-col-sidebar" aria-label="Resumen de tu pedido">
+                <div class="card-sidebar-pedido">
+                    <div class="card-sidebar-pedido__header">
+                        <div class="modal-drawer__titulo-box">
+                            <h3 class="card-sidebar-pedido__titulo">Productos en tu pedido</h3>
+                            <span class="badge badge--ruta" id="sidebarContadorItems">0 productos</span>
+                        </div>
+                    </div>
+
+                    <div class="card-sidebar-pedido__cuerpo">
+                        <ul class="drawer-lista-items" id="sidebarListaItems">
+                            <!-- Inyectado dinámicamente con las mismas tarjetas estéticas -->
+                        </ul>
+
+                        <div class="drawer-totales-box" id="sidebarTotalesBox" hidden>
+                            <div class="drawer-totales-fila">
+                                <span>Subtotal productos:</span>
+                                <span id="sidebarSubtotalTexto">$0</span>
+                            </div>
+                            <div class="drawer-totales-fila">
+                                <span>Domicilio en Guadalajara de Buga:</span>
+                                <span id="sidebarDomicilioTexto">$4.000</span>
+                            </div>
+                            <div class="drawer-totales-fila drawer-totales-fila--total">
+                                <span>Total estimado a pagar:</span>
+                                <span id="sidebarTotalTexto">$0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-sidebar-pedido__footer">
+                        <button type="button" class="btn btn--primario btn--bloque btn--grande" id="btnSidebarIrEntrega" disabled>
+                            Continuar con datos de entrega (Paso 1) &rarr;
+                        </button>
+                    </div>
+                </div>
+            </aside>
+        </div> <!-- /.pedido-grid-principal -->
     </section>
 
     <!-- ================= CONFIRMACIÓN ================= -->
@@ -651,7 +627,7 @@
 
     const API_URL = "/api/pedidos";
     const CLAVE_DATOS = "monideal.datosCliente";
-    const CAMPOS_GUARDADOS = ["clienteNombre", "clienteTelefono", "direccion", "barrio"];
+    const CAMPOS_GUARDADOS = ["clienteNombre", "clienteTelefono", "direccion"];
     const WHATSAPP_TIENDA = "573167718711"; // Teléfono oficial Monideal / Santa Mónica Buga
     const COSTO_DOMICILIO = 4000;
 
@@ -680,6 +656,15 @@
     const drawerDomicilioTexto = document.getElementById("drawerDomicilioTexto");
     const drawerTotalTexto = document.getElementById("drawerTotalTexto");
     const zonaStickyInfo = document.getElementById("zonaStickyInfo");
+
+    // Sidebar Desktop del Pedido
+    const sidebarListaItems = document.getElementById("sidebarListaItems");
+    const sidebarContadorItems = document.getElementById("sidebarContadorItems");
+    const sidebarTotalesBox = document.getElementById("sidebarTotalesBox");
+    const sidebarSubtotalTexto = document.getElementById("sidebarSubtotalTexto");
+    const sidebarDomicilioTexto = document.getElementById("sidebarDomicilioTexto");
+    const sidebarTotalTexto = document.getElementById("sidebarTotalTexto");
+    const btnSidebarIrEntrega = document.getElementById("btnSidebarIrEntrega");
 
     // Desplegable Granel
     const contenedorDesplegableGranel = document.getElementById("contenedorDesplegableGranel");
@@ -839,7 +824,7 @@
                 }
             }
             itemFinal = existente;
-            toast(`✓ Se sumó al pedido: ${existente.detalle}`, "exito");
+            // Se actualiza en sidebar sin toast redundante
         } else {
             // Producto nuevo en el carrito
             if (nuevoItem.tipoUnidad === "VALOR") {
@@ -861,7 +846,7 @@
             }
             carrito.push(nuevoItem);
             itemFinal = nuevoItem;
-            toast(`✓ Agregado: ${nuevoItem.detalle}`, "exito");
+            // Se actualiza en sidebar sin toast redundante
         }
 
         renderizarCarrito();
@@ -874,7 +859,7 @@
         const item = carrito[index];
         const nombreEliminado = item.producto;
         carrito.splice(index, 1);
-        toast(`Se eliminó "${nombreEliminado}" de tu pedido`, "info");
+        // Eliminado del pedido
         renderizarCarrito();
         if (carrito.length === 0 && modalDrawerPedido && modalDrawerPedido.classList.contains("abierto")) {
             cerrarDrawerPedido();
@@ -906,7 +891,7 @@
             item.detalle = `${item.cantidad} de ${item.producto}`;
         }
         renderizarCarrito();
-        toast(`✓ Cantidad actualizada: ${item.detalle}`, "exito");
+        // Cantidad actualizada
     }
 
     // Disminuye de a 1 unidad. Si solo queda 1 (o es por valor), se elimina del carrito.
@@ -917,7 +902,7 @@
         if (item.tipoUnidad === "VALOR" || !item.cantidad || item.cantidad <= 1) {
             const nombreEliminado = item.producto;
             carrito.splice(index, 1);
-            toast(`Se eliminó "${nombreEliminado}" de tu pedido`, "info");
+            // Eliminado del pedido
         } else {
             item.cantidad -= 1;
             item.subtotal = item.cantidad * item.precioUnitario;
@@ -930,7 +915,7 @@
             } else {
                 item.detalle = `${item.cantidad} de ${item.producto}`;
             }
-            toast(`Se quitó 1 de "${item.producto}". Quedan ${item.cantidad}.`, "info");
+            // Restado 1
         }
 
         renderizarCarrito();
@@ -957,7 +942,7 @@
             item.detalle = `${item.cantidad} de ${item.producto}`;
         }
         renderizarCarrito();
-        toast(`✓ Se sumó 1 a "${item.producto}" (Total: ${item.cantidad})`, "exito");
+        // Sumado 1
     }
 
     // Control de apertura y cierre del Desplegable Granel
@@ -1116,109 +1101,61 @@
     });
 
     // ---------- Renderizar Carrito y Totales ----------
-    function renderizarCarrito() {
-        errorCarrito.style.display = "none";
-        
-        // Contar el total de unidades reales del pedido (ej. 2 bultos + 1 bulto = 3 productos)
-        const totalUnidades = carrito.reduce((acc, it) => {
-            if (it.tipoUnidad === "VALOR") return acc + 1;
-            return acc + (it.cantidad ? Math.round(it.cantidad) : 1);
-        }, 0);
-
-        carritoContador.textContent = totalUnidades;
-        if (badgeHeaderCarrito) badgeHeaderCarrito.textContent = totalUnidades;
-
-        if (carrito.length === 0) {
-            carritoLista.innerHTML = "";
-            carritoLista.appendChild(carritoVacio);
-            carritoTotales.hidden = true;
-            barraSticky.hidden = true;
-            if (puntitoRojoHeader) puntitoRojoHeader.hidden = true;
-            if (modalDrawerPedido && modalDrawerPedido.classList.contains("abierto")) {
-                renderizarDrawer();
-            }
-            return;
-        }
-
-        // Activamos puntito rojo de alerta en el header y barra sticky inferior
-        if (puntitoRojoHeader) puntitoRojoHeader.hidden = false;
-
-        let subtotalAcum = 0;
-        carritoLista.innerHTML = "";
-
-        carrito.forEach((item, index) => {
-            subtotalAcum += (item.subtotal || 0);
-
-            const li = document.createElement("li");
-            li.className = "carrito-item";
-            li.innerHTML = `
-                <div class="carrito-item__info">
-                    <span class="carrito-item__icono">
+    // ---------- Construcción y renderizado de ítems del pedido (Sidebar Desktop y Drawer Móvil) ----------
+    function construirItemCardHtml(item, index, prefijo) {
+        return `
+            <li class="drawer-item-card">
+                <div class="drawer-item-card__izq">
+                    <span class="drawer-item-card__icono" aria-hidden="true">
                         <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/></svg>
                     </span>
-                    <div>
-                        <strong>${item.detalle}</strong>
-                    </div>
+                    <span class="drawer-item-card__detalle">${item.detalle}</span>
                 </div>
-                <div style="display: flex; align-items: center; gap: 8px;">
+                <div class="drawer-item-card__der">
                     ${item.tipoUnidad !== 'VALOR' ? `
                     <div class="cart-item-stepper" title="Ajustar cantidad">
-                        <button type="button" class="cart-item-stepper__btn cart-item-stepper__btn--menos btn-item-restar" data-index="${index}" aria-label="Quitar una unidad" title="Quitar 1 unidad">
+                        <button type="button" class="cart-item-stepper__btn cart-item-stepper__btn--menos btn-${prefijo}-restar" data-index="${index}" aria-label="Quitar una unidad" title="Quitar 1 unidad">
                             <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg>
                         </button>
-                        <input type="number" class="cart-item-stepper__input input-item-cant" data-index="${index}" min="1" max="99" value="${item.cantidad || 1}" aria-label="Cantidad" title="Escribe la cantidad">
-                        <button type="button" class="cart-item-stepper__btn cart-item-stepper__btn--mas btn-item-sumar" data-index="${index}" aria-label="Sumar una unidad" title="Sumar 1 unidad">
+                        <input type="number" class="cart-item-stepper__input input-${prefijo}-cant" data-index="${index}" min="1" max="99" value="${item.cantidad || 1}" aria-label="Cantidad" title="Escribe la cantidad">
+                        <button type="button" class="cart-item-stepper__btn cart-item-stepper__btn--mas btn-${prefijo}-sumar" data-index="${index}" aria-label="Sumar una unidad" title="Sumar 1 unidad">
                             <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                         </button>
                     </div>` : ''}
-                    <span class="carrito-item__precio">${formatDinero(item.subtotal)}</span>
-                    <button type="button" class="btn-eliminar-item" data-index="${index}" aria-label="Eliminar ${item.producto}" title="Eliminar este producto del pedido">
+                    <span class="drawer-item-card__precio">${formatDinero(item.subtotal)}</span>
+                    <button type="button" class="drawer-item-card__btn-eliminar btn-${prefijo}-eliminar" data-index="${index}" aria-label="Eliminar ${item.producto}" title="Eliminar este producto del pedido">
                         <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
                     </button>
                 </div>
-            `;
-            carritoLista.appendChild(li);
-        });
+            </li>
+        `;
+    }
 
-        const totalConDomicilio = subtotalAcum + COSTO_DOMICILIO;
-        subtotalTexto.textContent = formatDinero(subtotalAcum);
-        totalTexto.textContent = formatDinero(totalConDomicilio);
-        stickyTotalTexto.textContent = formatDinero(totalConDomicilio);
+    function enlazarEventosLista(contenedor, prefijo) {
+        if (!contenedor) return;
 
-        carritoTotales.hidden = false;
-        barraSticky.hidden = false;
-
-        // Mantener actualizado el drawer si se encuentra abierto
-        if (modalDrawerPedido && modalDrawerPedido.classList.contains("abierto")) {
-            renderizarDrawer();
-        }
-
-        // Botón rojo con X: elimina completamente el producto
-        carritoLista.querySelectorAll(".btn-eliminar-item").forEach(btn => {
+        contenedor.querySelectorAll(`.btn-${prefijo}-eliminar`).forEach(btn => {
             btn.addEventListener("click", () => {
                 const idx = parseInt(btn.dataset.index, 10);
                 eliminarProductoCompleto(idx);
             });
         });
 
-        // Stepper: restar 1 unidad
-        carritoLista.querySelectorAll(".btn-item-restar").forEach(btn => {
+        contenedor.querySelectorAll(`.btn-${prefijo}-restar`).forEach(btn => {
             btn.addEventListener("click", () => {
                 const idx = parseInt(btn.dataset.index, 10);
                 restarOQuitarUno(idx);
             });
         });
 
-        // Stepper: sumar 1 unidad
-        carritoLista.querySelectorAll(".btn-item-sumar").forEach(btn => {
+        contenedor.querySelectorAll(`.btn-${prefijo}-sumar`).forEach(btn => {
             btn.addEventListener("click", () => {
                 const idx = parseInt(btn.dataset.index, 10);
                 sumarUno(idx);
             });
         });
 
-        // Stepper: escribir cantidad numérica directamente
-        carritoLista.querySelectorAll(".input-item-cant").forEach(input => {
+        contenedor.querySelectorAll(`.input-${prefijo}-cant`).forEach(input => {
             input.addEventListener("click", e => e.stopPropagation());
             input.addEventListener("change", () => {
                 const idx = parseInt(input.dataset.index, 10);
@@ -1233,137 +1170,122 @@
         });
     }
 
-    // ---------- Control del Modal Drawer del Pedido (Estilo Imagen 2) ----------
-    function abrirDrawerPedido() {
-        if (!modalDrawerPedido) return;
-        renderizarDrawer();
-        modalDrawerPedido.hidden = false;
-        requestAnimationFrame(() => {
-            modalDrawerPedido.classList.add("abierto");
-        });
-        document.body.style.overflow = "hidden";
-        if (puntitoRojoHeader) puntitoRojoHeader.hidden = true;
-    }
-
-    function cerrarDrawerPedido() {
-        if (!modalDrawerPedido) return;
-        modalDrawerPedido.classList.remove("abierto");
-        document.body.style.overflow = "";
-        setTimeout(() => {
-            if (!modalDrawerPedido.classList.contains("abierto")) {
-                modalDrawerPedido.hidden = true;
-            }
-        }, 280);
-    }
-
-    function renderizarDrawer() {
-        if (!drawerListaItems) return;
-        drawerListaItems.innerHTML = "";
-        
+    function renderizarCarrito() {
         const totalUnidades = carrito.reduce((acc, it) => {
             if (it.tipoUnidad === "VALOR") return acc + 1;
             return acc + (it.cantidad ? Math.round(it.cantidad) : 1);
         }, 0);
 
-        if (drawerContadorItems) {
-            drawerContadorItems.textContent = `${totalUnidades} producto${totalUnidades === 1 ? '' : 's'}`;
-        }
+        if (badgeHeaderCarrito) badgeHeaderCarrito.textContent = totalUnidades;
 
+        // Estado vacío
         if (carrito.length === 0) {
-            drawerListaItems.innerHTML = `
-                <li style="text-align: center; padding: 28px 14px; color: var(--texto-secundario); font-size: 0.88rem;">
-                    Aún no has agregado productos a tu lista.<br>Selecciona tus bultos o granel en las tarjetas arriba.
-                </li>
-            `;
+            if (barraSticky) barraSticky.hidden = true;
+            if (puntitoRojoHeader) puntitoRojoHeader.hidden = true;
+
+            // Sidebar desktop vacío
+            if (sidebarListaItems) {
+                sidebarListaItems.innerHTML = `
+                    <li class="sidebar-vacio">
+                        <div class="sidebar-vacio__icono">
+                            <svg class="icono" width="40" height="40" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--borde-input);"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+                        </div>
+                        <strong style="display:block; color: var(--texto); margin-bottom: 4px;">Tu pedido está vacío</strong>
+                        <span>Selecciona la cantidad en cualquier producto de las tarjetas y agrégalo.</span>
+                    </li>
+                `;
+            }
+            if (sidebarTotalesBox) sidebarTotalesBox.hidden = true;
+            if (sidebarContadorItems) sidebarContadorItems.textContent = "0 productos";
+            if (btnSidebarIrEntrega) btnSidebarIrEntrega.disabled = true;
+
+            // Drawer móvil vacío
+            if (drawerListaItems) {
+                drawerListaItems.innerHTML = `
+                    <li style="text-align: center; padding: 28px 14px; color: var(--texto-secundario); font-size: 0.88rem;">
+                        Aún no has agregado productos a tu lista.<br>Selecciona tus bultos o granel en las tarjetas arriba.
+                    </li>
+                `;
+            }
+            if (drawerContadorItems) drawerContadorItems.textContent = "0 productos";
             if (drawerSubtotalTexto) drawerSubtotalTexto.textContent = "$0";
             if (drawerTotalTexto) drawerTotalTexto.textContent = "$0";
             return;
         }
 
+        // Carrito con productos
+        if (puntitoRojoHeader) puntitoRojoHeader.hidden = false;
+        if (barraSticky) barraSticky.hidden = false;
+
         let subtotalAcum = 0;
+        let htmlSidebar = "";
+        let htmlDrawer = "";
+
         carrito.forEach((item, index) => {
             subtotalAcum += (item.subtotal || 0);
-
-            const li = document.createElement("li");
-            li.className = "drawer-item-card";
-            li.innerHTML = `
-                <div class="drawer-item-card__izq">
-                    <span class="drawer-item-card__icono" aria-hidden="true">
-                        <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/></svg>
-                    </span>
-                    <span class="drawer-item-card__detalle">${item.detalle}</span>
-                </div>
-                <div class="drawer-item-card__der">
-                    ${item.tipoUnidad !== 'VALOR' ? `
-                    <div class="cart-item-stepper" title="Ajustar cantidad">
-                        <button type="button" class="cart-item-stepper__btn cart-item-stepper__btn--menos btn-drawer-restar" data-drawer-index="${index}" aria-label="Quitar una unidad" title="Quitar 1 unidad">
-                            <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                        </button>
-                        <input type="number" class="cart-item-stepper__input input-drawer-cant" data-drawer-index="${index}" min="1" max="99" value="${item.cantidad || 1}" aria-label="Cantidad" title="Escribe la cantidad">
-                        <button type="button" class="cart-item-stepper__btn cart-item-stepper__btn--mas btn-drawer-sumar" data-drawer-index="${index}" aria-label="Sumar una unidad" title="Sumar 1 unidad">
-                            <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                        </button>
-                    </div>` : ''}
-                    <span class="drawer-item-card__precio">${formatDinero(item.subtotal)}</span>
-                    <button type="button" class="drawer-item-card__btn-eliminar" data-drawer-index="${index}" aria-label="Eliminar ${item.producto}" title="Eliminar este producto del pedido">
-                        <svg class="icono icono--sm" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
-                    </button>
-                </div>
-            `;
-            drawerListaItems.appendChild(li);
+            htmlSidebar += construirItemCardHtml(item, index, "sidebar");
+            htmlDrawer += construirItemCardHtml(item, index, "drawer");
         });
 
         const totalConDomicilio = subtotalAcum + COSTO_DOMICILIO;
+        const textoItems = `${totalUnidades} producto${totalUnidades === 1 ? '' : 's'}`;
+
+        if (stickyTotalTexto) stickyTotalTexto.textContent = formatDinero(totalConDomicilio);
+
+        // Actualizar Sidebar Desktop
+        if (sidebarListaItems) {
+            sidebarListaItems.innerHTML = htmlSidebar;
+            enlazarEventosLista(sidebarListaItems, "sidebar");
+        }
+        if (sidebarContadorItems) sidebarContadorItems.textContent = textoItems;
+        if (sidebarSubtotalTexto) sidebarSubtotalTexto.textContent = formatDinero(subtotalAcum);
+        if (sidebarDomicilioTexto) sidebarDomicilioTexto.textContent = formatDinero(COSTO_DOMICILIO);
+        if (sidebarTotalTexto) sidebarTotalTexto.textContent = formatDinero(totalConDomicilio);
+        if (sidebarTotalesBox) sidebarTotalesBox.hidden = false;
+        if (btnSidebarIrEntrega) btnSidebarIrEntrega.disabled = false;
+
+        // Actualizar Drawer Móvil
+        if (drawerListaItems) {
+            drawerListaItems.innerHTML = htmlDrawer;
+            enlazarEventosLista(drawerListaItems, "drawer");
+        }
+        if (drawerContadorItems) drawerContadorItems.textContent = textoItems;
         if (drawerSubtotalTexto) drawerSubtotalTexto.textContent = formatDinero(subtotalAcum);
         if (drawerDomicilioTexto) drawerDomicilioTexto.textContent = formatDinero(COSTO_DOMICILIO);
         if (drawerTotalTexto) drawerTotalTexto.textContent = formatDinero(totalConDomicilio);
+    }
 
-        // Botón rojo con X: elimina completamente el producto desde el drawer
-        drawerListaItems.querySelectorAll(".drawer-item-card__btn-eliminar").forEach(btn => {
-            btn.addEventListener("click", () => {
-                const idx = parseInt(btn.dataset.drawerIndex, 10);
-                eliminarProductoCompleto(idx);
-            });
-        });
-
-        // Stepper: restar 1 unidad desde el drawer
-        drawerListaItems.querySelectorAll(".btn-drawer-restar").forEach(btn => {
-            btn.addEventListener("click", () => {
-                const idx = parseInt(btn.dataset.drawerIndex, 10);
-                restarOQuitarUno(idx);
-            });
-        });
-
-        // Stepper: sumar 1 unidad desde el drawer
-        drawerListaItems.querySelectorAll(".btn-drawer-sumar").forEach(btn => {
-            btn.addEventListener("click", () => {
-                const idx = parseInt(btn.dataset.drawerIndex, 10);
-                sumarUno(idx);
-            });
-        });
-
-        // Stepper: escribir cantidad numérica directamente desde el drawer
-        drawerListaItems.querySelectorAll(".input-drawer-cant").forEach(input => {
-            input.addEventListener("click", e => e.stopPropagation());
-            input.addEventListener("change", () => {
-                const idx = parseInt(input.dataset.drawerIndex, 10);
-                actualizarCantidadManual(idx, input.value);
-            });
-            input.addEventListener("keydown", e => {
-                if (e.key === "Enter") {
-                    e.preventDefault();
-                    input.blur();
-                }
-            });
-        });
+    function renderizarDrawer() {
+        renderizarCarrito();
     }
 
     // ---------- Eventos para el Carrito y Drawer Modal ----------
     // 1. Tocar carrito en el Header
     btnAbrirCarritoHeader?.addEventListener("click", () => {
         if (carrito.length === 0) {
-            toast("Aún no tienes productos en tu pedido. Elige en las tarjetas del catálogo.", "info");
             document.getElementById("catalogoGrid")?.scrollIntoView({ behavior: "smooth" });
+            return;
+        }
+        if (window.innerWidth >= 992) {
+            const sidebar = document.querySelector(".pedido-col-sidebar");
+            if (sidebar) {
+                sidebar.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+        } else {
+            abrirDrawerPedido();
+        }
+    });
+    // Botón continuar a entrega desde Sidebar Desktop
+    btnSidebarIrEntrega?.addEventListener("click", () => {
+        const zonaEntrega = document.getElementById("zonaEntrega");
+        if (zonaEntrega) {
+            zonaEntrega.scrollIntoView({ behavior: "smooth", block: "start" });
+            setTimeout(() => {
+                document.getElementById("clienteNombre")?.focus();
+            }, 350);
+        }
+    });
+
         } else {
             abrirDrawerPedido();
         }
@@ -1464,7 +1386,7 @@
         if (!pedido.clienteNombre) errores.clienteNombre = "Escribe tu nombre";
         if (!/^[0-9]{7,15}$/.test(pedido.clienteTelefono)) errores.clienteTelefono = "Escribe un teléfono válido (solo números)";
         if (!pedido.direccion) errores.direccion = "Escribe la dirección exacta en Buga";
-        if (!pedido.barrio) errores.barrio = "Escribe o selecciona tu barrio en Buga";
+        // barrio predefinido a Buga
         return errores;
     }
 
@@ -1489,7 +1411,7 @@
             clienteNombre: form.elements.clienteNombre.value.trim(),
             clienteTelefono: form.elements.clienteTelefono.value.replace(/\D/g, ""),
             direccion: form.elements.direccion.value.trim(),
-            barrio: form.elements.barrio.value.trim(),
+            barrio: "Buga",
             indicaciones: (form.elements.indicaciones.value || "").trim() || null,
             metodoPago: metodoPago,
             pagaCon: metodoPago === "EFECTIVO" ? (form.elements.pagaCon.value.trim() || null) : null,
@@ -1538,7 +1460,7 @@
     function mostrarExito(p, pedidoOriginal) {
         document.getElementById("resNumero").textContent = `#${p.idPedido}`;
         document.getElementById("resProductos").textContent = p.producto;
-        document.getElementById("resDireccion").textContent = `${p.direccion}, Barrio ${p.barrio} (Buga)`;
+        document.getElementById("resDireccion").textContent = `${p.direccion} (Buga)`;
         document.getElementById("resTotal").textContent = p.totalFormateado || formatDinero(p.total);
 
         const esTransf = p.metodoPago === "TRANSFERENCIA";
@@ -1558,7 +1480,7 @@
                 `Hola Monideal Buga, acabo de registrar el Pedido #${p.idPedido} a nombre de ${p.clienteNombre}.\n` +
                 `Total a transferir: ${p.totalFormateado || formatDinero(p.total)}\n` +
                 `Productos: ${p.producto}\n` +
-                `Dirección: ${p.direccion}, ${p.barrio}\n` +
+                `Dirección: ${p.direccion} (Buga)\n` +
                 `Aquí adjunto el comprobante de mi transferencia.`
             );
             btnWp.href = `https://wa.me/${WHATSAPP_TIENDA}?text=${textoWp}`;

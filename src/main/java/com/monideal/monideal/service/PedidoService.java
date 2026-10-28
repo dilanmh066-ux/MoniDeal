@@ -264,7 +264,7 @@ public class PedidoService {
         p.setClienteNombre(req.clienteNombre().trim());
         p.setClienteTelefono(req.clienteTelefono().trim());
         p.setDireccion(req.direccion().trim());
-        p.setBarrio(req.barrio().trim());
+        p.setBarrio((req.barrio() != null && !req.barrio().isBlank()) ? req.barrio().trim() : "Buga");
         p.setIndicaciones(limpiarOpcional(req.indicaciones()));
 
         // Método de pago

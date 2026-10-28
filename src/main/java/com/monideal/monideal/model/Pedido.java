@@ -39,10 +39,9 @@ public class Pedido {
     @Column(name = "direccion", nullable = false, length = 200)
     private String direccion;
 
-    @NotBlank(message = "El barrio es obligatorio")
     @Size(max = 100)
     @Column(name = "barrio", nullable = false, length = 100)
-    private String barrio;
+    private String barrio = "Buga";
 
     @Size(max = 300)
     @Column(name = "indicaciones", length = 300)
