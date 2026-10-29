@@ -564,7 +564,7 @@
         <span class="barra-confirmar-sticky__total" id="stickyTotalTexto">$0</span>
     </div>
     <button type="button" class="btn btn--primario" id="btnStickyConfirmar">
-        Continuar al pedido
+        Continuar compra
     </button>
 </div>
 
@@ -605,7 +605,7 @@
 
         <div class="modal-drawer__footer">
             <button type="button" class="btn btn--primario btn--bloque btn--grande" id="btnDrawerProcederPaso2">
-                Continuar con datos de entrega (Paso 2) →
+                Continuar con datos de entrega (Paso 1) →
             </button>
             <button type="button" class="btn btn--link btn--bloque" id="btnDrawerSeguirComprando" style="margin-top: 8px;">
                 Seguir agregando productos
@@ -1240,6 +1240,28 @@
         renderizarCarrito();
     }
 
+    // ---------- Control del Modal Drawer del Pedido (Estilo Móvil) ----------
+    function abrirDrawerPedido() {
+        if (!modalDrawerPedido) return;
+        renderizarCarrito();
+        modalDrawerPedido.hidden = false;
+        requestAnimationFrame(() => {
+            modalDrawerPedido.classList.add("abierto");
+        });
+        document.body.style.overflow = "hidden";
+    }
+
+    function cerrarDrawerPedido() {
+        if (!modalDrawerPedido) return;
+        modalDrawerPedido.classList.remove("abierto");
+        document.body.style.overflow = "";
+        setTimeout(() => {
+            if (!modalDrawerPedido.classList.contains("abierto")) {
+                modalDrawerPedido.hidden = true;
+            }
+        }, 280);
+    }
+
     // ---------- Eventos para el Sidebar y Drawer Modal ----------
     // Botón continuar a entrega desde Sidebar Desktop
     btnSidebarIrEntrega?.addEventListener("click", () => {
@@ -1278,7 +1300,7 @@
     // 5. Botón de proceder a entrega desde el drawer
     btnDrawerProcederPaso2?.addEventListener("click", () => {
         cerrarDrawerPedido();
-        const zonaEntrega = document.querySelector(".zona-entrega");
+        const zonaEntrega = document.getElementById("zonaEntrega");
         if (zonaEntrega) {
             zonaEntrega.scrollIntoView({ behavior: "smooth", block: "start" });
             setTimeout(() => {
@@ -1287,8 +1309,31 @@
         }
     });
 
-    // Botón sticky inferior móvil confirma o lleva al formulario
-    btnStickyConfirmar.addEventListener("click", () => {
+    // Botón sticky inferior móvil ("Continuar compra")
+    btnStickyConfirmar?.addEventListener("click", () => {
+        if (carrito.length === 0) {
+            document.getElementById("catalogoGrid")?.scrollIntoView({ behavior: "smooth" });
+            toast("Agrega primero al menos un producto a tu pedido desde las tarjetas.", "info");
+            return;
+        }
+
+        const zonaEntrega = document.getElementById("zonaEntrega");
+        const nombreVal = document.getElementById("clienteNombre")?.value.trim();
+        const telVal = document.getElementById("clienteTelefono")?.value.trim();
+        const dirVal = document.getElementById("direccion")?.value.trim();
+
+        // Si faltan datos en el formulario de entrega, desplazarse directamente hacia allí y enfocar el primer campo vacío
+        if (!nombreVal || !telVal || !dirVal) {
+            zonaEntrega?.scrollIntoView({ behavior: "smooth", block: "start" });
+            setTimeout(() => {
+                if (!nombreVal) document.getElementById("clienteNombre")?.focus();
+                else if (!telVal) document.getElementById("clienteTelefono")?.focus();
+                else document.getElementById("direccion")?.focus();
+            }, 350);
+            return;
+        }
+
+        // Si los datos ya están completos, disparar la validación/envío del pedido
         form.requestSubmit();
     });
 
